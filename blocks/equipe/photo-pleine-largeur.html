@@ -1,0 +1,48 @@
+<section id="wt-photo-full">
+  <style>
+    #wt-photo-full { margin: 0; box-sizing: border-box; }
+    #wt-photo-full *, #wt-photo-full *::before, #wt-photo-full *::after { box-sizing: border-box; }
+
+    /* Photo plein écran juste avant le footer. Sur le bloc natif du site, c'est
+       une simple balise <img> posée à même le <body> (pas de conteneur), avec
+       un attribut sizes="(max-width: 767px) 100vw, 802px" : sur desktop, le
+       navigateur choisit donc une image source pensée pour 802px de large tout
+       en l'affichant réellement bien plus large — c'est ce qui la rend
+       bug/pas nette en pleine largeur. Corrigé ici avec sizes="100vw" partout
+       (l'image est toujours affichée pleine largeur, jamais seulement 802px),
+       et la technique de bande pleine largeur déjà validée sur les autres blocs
+       (marge négative, PAS clip-path ni box-shadow géant — voir design-system.md,
+       ces deux propriétés ont déjà cassé un élément position:fixed ailleurs sur
+       la page). aspect-ratio réservé à l'avance pour ne pas avoir de saut de
+       mise en page avant le chargement (l'image d'origine n'a ni width ni
+       height, donc une hauteur de 0 tant qu'elle n'est pas chargée). */
+    #wt-photo-full .wt-full-photo {
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      width: 100vw;
+      aspect-ratio: 802 / 291; /* ratio réel de la photo (802×291px) */
+      overflow: hidden;
+    }
+    #wt-photo-full .wt-full-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+
+  <div class="wt-full-photo">
+    <img
+      src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/659bfd283ed39bb587c3e1b0_%C3%A9quipe-wefiit%20(1).avif"
+      srcset="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/659bfd283ed39bb587c3e1b0_%C3%A9quipe-wefiit%20(1)-p-500.avif 500w, https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/659bfd283ed39bb587c3e1b0_%C3%A9quipe-wefiit%20(1)-p-800.avif 800w, https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/659bfd283ed39bb587c3e1b0_%C3%A9quipe-wefiit%20(1)-p-1080.avif 1080w, https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/659bfd283ed39bb587c3e1b0_%C3%A9quipe-wefiit%20(1).avif 1878w"
+      sizes="100vw"
+      loading="lazy"
+      alt="L’équipe WeFiiT"
+    >
+  </div>
+</section>

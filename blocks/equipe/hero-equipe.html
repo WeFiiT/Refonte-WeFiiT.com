@@ -1,0 +1,115 @@
+<section class="wt-hero" id="wt-hero" aria-labelledby="wt-hero-title">
+  <style>
+    #wt-hero {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-ghost: #f2f4ff;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      margin: 3rem 0 5rem;
+      box-sizing: border-box;
+    }
+    #wt-hero *, #wt-hero *::before, #wt-hero *::after { box-sizing: border-box; }
+    #wt-hero .wt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+
+    /* Titre H1 (pas H2 comme les autres blocs — c'est le titre principal de la
+       page) : même dégradé bleu horizontal + point orange que partout ailleurs,
+       vérifié directement sur ce H1 (`-webkit-background-clip:text` déjà présent
+       dans le code source, avec `color` orange en repli si jamais le dégradé ne
+       s'affiche pas sur un moteur qui ne le supporte pas). */
+    #wt-hero .wt-hero-title {
+      font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 4rem;
+      line-height: 4rem;
+      font-weight: 400;
+      letter-spacing: -0.08rem;
+      text-align: center;
+      margin: 0;
+      color: var(--wt-orange-2); /* repli si le dégradé ne s'affiche pas */
+      background: linear-gradient(270deg, var(--wt-blue-2), var(--wt-blue-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-hero .wt-hero-dot {
+      background: linear-gradient(var(--wt-orange-2), var(--wt-orange));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-hero .wt-hero-intro {
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 1.38rem;
+      color: var(--wt-blue-2);
+      text-align: center;
+      max-width: 46rem;
+      margin: 1.25rem auto 0;
+    }
+    /* Les deux passages mis en avant dans le texte source ne sont qu'en poids 500
+       (pas un vrai gras) et quasiment la même couleur que le reste — reproduit
+       à l'identique plutôt qu'inventé plus appuyé. */
+    #wt-hero .wt-hero-intro span { font-weight: 500; color: var(--wt-blue); }
+
+    @media screen and (max-width: 767px) {
+      #wt-hero { margin-top: 0; } /* premier bloc de la page sur mobile : pas d'espace avant, demande explicite de Paul */
+      #wt-hero .wt-hero-title { font-size: 2.8125rem; line-height: 2.8125rem; letter-spacing: -0.05rem; }
+      #wt-hero .wt-hero-intro { font-size: 1.125rem; line-height: 1.35rem; }
+    }
+    /* Desktop : Paul trouve l'écart avec le bloc suivant ("WeFiiT en 2025") trop
+       collé malgré la marge standard de 5rem — remonté à 7rem, mobile inchangé. */
+    @media screen and (min-width: 768px) {
+      #wt-hero { margin-bottom: 7rem; }
+    }
+
+    /* Photo qui déborde sur une bande dégradée : la bande est positionnée par
+       rapport à la photo elle-même (25% de sa hauteur, jusqu'à 3rem sous elle),
+       pas par rapport à la page — donc ça reste juste quelle que soit la hauteur
+       du titre/texte au-dessus, sans JS ni mesure. Même dégradé bleu que le
+       titre (vérifié : même `linear-gradient(270deg, ...)` exact sur le site). */
+    #wt-hero .wt-hero-photo-frame {
+      position: relative;
+      margin: 1.5rem 0 3rem;
+    }
+    #wt-hero .wt-hero-band {
+      position: absolute;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      width: 100vw;
+      top: 25%;
+      bottom: -3rem;
+      background: linear-gradient(270deg, var(--wt-blue-2), var(--wt-blue-3));
+    }
+    #wt-hero .wt-hero-photo {
+      position: relative;
+      width: 100%;
+      height: 25rem; /* même logique que le site : hauteur fixe par palier plutôt qu'un ratio, cf. media query mobile */
+      overflow: hidden;
+      background: var(--wt-ghost);
+    }
+    #wt-hero .wt-hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    @media screen and (max-width: 767px) {
+      #wt-hero .wt-hero-photo-frame { margin: 1.25rem 0 2rem; }
+      #wt-hero .wt-hero-photo { height: 11.25rem; }
+      /* Sur mobile, le site aligne la bande exactement sur la photo (pas de
+         débord ni au-dessus ni en dessous) — vérifié directement à 375px. */
+      #wt-hero .wt-hero-band { top: 0; bottom: 0; }
+    }
+  </style>
+
+  <div class="wt-inner">
+    <h1 class="wt-hero-title" id="wt-hero-title">Faire partie de l’équipe WeFiiT<span class="wt-hero-dot">.</span></h1>
+    <p class="wt-hero-intro">WeFiiT, c’est d’abord et avant tout une histoire de FiiT entre <span>passionné·e·s de Product</span>, ayant <span>envie de grandir ensemble</span> tout en participant à la création du WeFiiT de demain !</p>
+    <div class="wt-hero-photo-frame">
+      <div class="wt-hero-band"></div>
+      <div class="wt-hero-photo">
+        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63f8dbd439128e5ba28c3b2d_PUBLIC-77-%20BD.webp" alt="L’équipe WeFiiT réunie" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>

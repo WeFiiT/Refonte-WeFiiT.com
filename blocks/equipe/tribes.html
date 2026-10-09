@@ -1,0 +1,501 @@
+<section class="wt-tribes" id="wt-tribes" aria-labelledby="wt-title-heading">
+  <style>
+    #wt-tribes {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-label: #858fd6;
+      --wt-ghost: #f2f4ff;
+      --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      max-width: 71.25rem;
+      margin: 0 auto 5rem; /* espace après le bloc uniquement, voir design-system.md — pas de margin-top pour éviter le doublement de marge entre blocs Embed */
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+    #wt-tribes .wt-sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    #wt-tribes *, #wt-tribes *::before, #wt-tribes *::after { box-sizing: border-box; }
+
+    /* Titre + intro, même traitement que sur le bloc "S'épanouir grâce au collectif" :
+       dégradé bleu horizontal sur le texte, point final en dégradé orange vertical
+       séparé (vérifié sur les titres de rubrique réels du site, ex. "Paroles de
+       WeFiiTers."). */
+    #wt-tribes .wt-title {
+      font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 3.2rem;
+      line-height: 3.84rem;
+      font-weight: 400;
+      letter-spacing: -0.128rem;
+      text-align: center;
+      margin: 0;
+      background: linear-gradient(270deg, var(--wt-blue-2), var(--wt-blue-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-tribes .wt-title-dot {
+      background: linear-gradient(var(--wt-orange-2), var(--wt-orange));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-tribes .wt-intro {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.3rem;
+      color: var(--wt-blue);
+      text-align: center;
+      max-width: 46rem;
+      margin: 1.125rem auto 3rem;
+    }
+    #wt-tribes .wt-intro strong { font-weight: 600; }
+
+    @media screen and (max-width: 767px) {
+      #wt-tribes .wt-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
+    }
+
+    /* Tabs wrapper: hugs the pill's own size/position (like .wt-tabs used to) and hosts
+       the edge-fade scroll cue as a sibling overlay so it isn't clipped by the pill's
+       own overflow-x:auto. */
+    #wt-tribes .wt-tabs-wrap {
+      position: relative;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto 3rem;
+    }
+    /* Tabs */
+    #wt-tribes .wt-tabs {
+      display: flex;
+      flex-wrap: nowrap; /* never wrap: wrapping is what created the uneven margins/corner gaps */
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(to right, var(--wt-orange), var(--wt-orange-2));
+      border-radius: 312.5rem;
+      padding: 0.5rem; /* matches the site's real nav pill (.navigation-container-2) exactly */
+      width: 100%;
+      overflow-x: auto; /* if it doesn't fit, it slides instead of wrapping onto a new line */
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    #wt-tribes .wt-tabs::-webkit-scrollbar { display: none; }
+    /* No overlay/fade needed: the next tab is intentionally left partially visible at the
+       edge (the row never wraps and isn't centered to hide the cut-off word), which reads
+       as "there's more" on its own, without a halo or gradient sitting on top. */
+    #wt-tribes .wt-tab {
+      appearance: none;
+      border: 0.0625rem solid transparent;
+      cursor: pointer;
+      background-color: transparent;
+      color: #fff;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.875rem;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      padding: 0.25rem 1rem; /* matches the site's real nav link (.navigation-link-2) exactly */
+      line-height: 1.5rem;
+      border-radius: 0.375rem;
+      transition: 0.35s;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+    #wt-tribes .wt-tab:hover { background-color: rgba(255,255,255,0.18); border-radius: 312.5rem; }
+    #wt-tribes .wt-tab.is-active { background-color: #fff; color: var(--wt-blue); border-radius: 312.5rem; }
+    #wt-tribes .wt-tab:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+    /* Card / panels */
+    #wt-tribes .wt-panel { display: none; }
+    #wt-tribes .wt-panel.is-active {
+      display: block;
+      animation: wt-fade 0.25s ease;
+    }
+    @keyframes wt-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    #wt-tribes .wt-card {
+      display: flex;
+      align-items: stretch;
+      gap: 2.75rem;
+    }
+    #wt-tribes .wt-text {
+      flex: 0 0 45%;
+      max-width: 45%;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.25rem;
+      background: #fff;
+      border: 1px solid var(--wt-border);
+      border-radius: 0; /* design system: this block stays a plain rectangle, no rounded corners */
+      box-shadow: 0 0.5rem 1.5rem rgba(20,20,43,0.06);
+    }
+    /* Font-family/weight/size/color below match the live site's own tribe title +
+       paragraph exactly (Work Sans v2, not a display font) — kept as they already are
+       on wefiit.com rather than restyled. */
+    #wt-tribes .wt-label {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-family: inherit;
+      color: var(--wt-blue-3);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    #wt-tribes .wt-label .wt-line { width: 1.5rem; height: 2px; background: var(--wt-blue-3); display: inline-block; }
+    #wt-tribes .wt-objective {
+      font-family: inherit;
+      color: var(--wt-blue-2);
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.4;
+      margin: 0;
+    }
+    #wt-tribes .wt-ki-title {
+      color: var(--wt-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+    #wt-tribes .wt-ki-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+    #wt-tribes .wt-ki-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--wt-blue);
+      font-size: 0.9375rem;
+      line-height: 1.4;
+    }
+    /* Matches the color of the real check/plus icons used elsewhere on wefiit.com
+       (stroke #001D84 = --wt-blue), not the brighter --wt-blue-3. */
+    #wt-tribes .wt-ki-list svg { flex: none; color: var(--wt-blue); }
+
+    #wt-tribes .wt-photo-frame {
+      flex: 0 0 calc(55% - 1rem);
+      max-width: calc(55% - 1rem);
+      position: relative;
+    }
+    #wt-tribes .wt-photo-frame::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--wt-blue-2);
+      transform: translate(1rem, 1rem);
+      z-index: 0;
+    }
+    #wt-tribes .wt-photo {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      width: 100%;
+      background: var(--wt-ghost);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #wt-tribes .wt-photo-placeholder {
+      color: var(--wt-label);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 1rem;
+    }
+    #wt-tribes .wt-photo-placeholder .wt-cam { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+    /* Desktop only: fixed height so the card/photo never resizes when switching tabs */
+    @media screen and (min-width: 992px) {
+      #wt-tribes .wt-photo-frame { height: 26rem; }
+    }
+
+    /* Tablet & mobile: same treatment as the rest of the site — a gradient block behind
+       the photo, with the photo itself overlapping on top (not a thin offset border) */
+    @media screen and (max-width: 991px) {
+      /* Tabs: always full-width and flush-left, never "fit-content" — this is what
+         was causing the odd gaps/cropped edges when the bar had to scroll */
+      #wt-tribes .wt-tabs-wrap { width: 100%; margin-bottom: 0.75rem; }
+      #wt-tribes .wt-tabs { justify-content: flex-start; }
+      #wt-tribes .wt-card { flex-direction: column; gap: 0; }
+      #wt-tribes .wt-text { flex: 1 1 auto; max-width: 100%; padding: 2rem; }
+
+      /* Glued directly under the text card, no gap — matches the real site's treatment */
+      #wt-tribes .wt-photo-frame {
+        flex: 1 1 auto;
+        max-width: 100%;
+        height: 21.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0;
+      }
+      /* Same treatment as the live site: the blue backdrop breaks out to the full
+         viewport width while the photo stays the same width as the text block above
+         it, so the visible blue border is the same thickness on the left, right and
+         bottom. On top of that, the backdrop is nudged down slightly (not resized) so
+         it reads as a distinct, offset layer behind the photo rather than a flush mat. */
+      #wt-tribes .wt-photo-frame::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 1.25rem;
+        bottom: -0.25rem;
+        right: auto;
+        transform: translateX(-50%);
+        width: 100vw;
+        height: auto;
+        background: linear-gradient(to right, var(--wt-blue), var(--wt-blue-3));
+      }
+      #wt-tribes .wt-photo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 1rem;
+        transform: none;
+        width: auto;
+        height: auto;
+        z-index: 1;
+      }
+    }
+    /* Mobile landscape: tab bar padding/size only — sliding behaviour is already universal.
+       Vertical padding on .wt-tab stays untouched here so the pill keeps the same ~48px
+       height as the real site's nav at every breakpoint; only the horizontal padding and
+       font-size shrink a little to fit more comfortably. */
+    @media screen and (max-width: 767px) {
+      #wt-tribes .wt-tabs { gap: 0.375rem; padding: 0.375rem; margin-bottom: 0; }
+      #wt-tribes .wt-tab { padding: 0.25rem 0.875rem; font-size: 0.8125rem; }
+      #wt-tribes .wt-text { padding: 1.5rem; gap: 1rem; }
+    }
+    /* Mobile portrait */
+    @media screen and (max-width: 479px) {
+      #wt-tribes .wt-tabs { padding: 0.3rem; gap: 0.3rem; }
+      #wt-tribes .wt-tab { padding: 0.25rem 0.75rem; font-size: 0.75rem; }
+      #wt-tribes .wt-photo-frame { height: 15rem; margin-top: 0; }
+      #wt-tribes .wt-text { padding: 1.25rem; }
+    }
+
+    /* Témoignage : même pattern que sur le bloc "S'épanouir grâce au collectif",
+       lui-même repris du bloc de témoignage de la page "Acteur de ta mission"
+       (quote-div) — photo qui déborde en haut de la carte (débord réservé en
+       padding-top réel, pas en marge négative, pour ne jamais empiéter sur ce qui
+       précède/suit), guillemets en icônes SVG réelles du site dans les coins
+       opposés, carte blanche à coins droits, ombre reprise du bloc de référence. */
+    #wt-tribes .wt-testimonial { position: relative; margin: 3.75rem auto 0; padding-top: 4.21875rem; padding-bottom: 1rem; max-width: 40rem; }
+    #wt-tribes .wt-testi-card {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--wt-border);
+      border-radius: 0;
+      padding: 5rem 1.75rem 2rem;
+      text-align: center;
+      box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px;
+    }
+    #wt-tribes .wt-testi-photo {
+      position: absolute;
+      top: -4.21875rem; /* moitié de la hauteur de la photo (8.4375rem / 2) : centrée exactement sur la ligne du haut de la carte, voir library.md */
+      left: 50%;
+      transform: translateX(-50%);
+      /* Cadre au ratio réel de la photo de Guillaume (160×180px). */
+      width: 7.5rem;
+      height: 8.4375rem;
+      /* Transparent, jamais une couleur pleine : les coins de la photo sont
+         transparents (cadrage diagonal), un fond fixe y dessinerait un cadre
+         visible dès que ce qu'il y a derrière change de couleur. Voir library.md. */
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 1;
+    }
+    #wt-tribes .wt-testi-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    #wt-tribes .wt-quote-icon { position: absolute; width: 2.5rem; }
+    #wt-tribes .wt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+    #wt-tribes .wt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+    #wt-tribes .wt-testi-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+    #wt-tribes .wt-testi-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 500; text-align: center; margin: 0; }
+    #wt-tribes .wt-testi-name { font-weight: 600; }
+
+    @media screen and (max-width: 767px) {
+      #wt-tribes .wt-testi-card { padding: 5rem 1.25rem 1.5rem; }
+    }
+
+    #wt-tribes .wt-photo[data-tribe="experience"] { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/65830dbb97aa2a27f503a401_Equipe%20-%20Tribe%20RH.webp'); }
+    #wt-tribes .wt-photo[data-tribe="excellence"] { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63ef9682a3c580c78d8a6490_Equipe%20-%20Tribe%20recrutement.webp'); }
+    #wt-tribes .wt-photo[data-tribe="expertises"] { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63ef963fdb660241a22aa549_Equipe%20-%20Tribe%20notori%C3%A9t%C3%A9.webp'); }
+    #wt-tribes .wt-photo[data-tribe="business"]   { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/65830d5972bf95697c4af2be_Equipe%20-%20Tribe%20Business.webp'); }
+    #wt-tribes .wt-photo[data-tribe="notoriete"]  { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/65830d592f789caac7e57bdf_Equipe%20-%20Tribe%20Notori%C3%A9t%C3%A9.webp'); }
+  </style>
+
+  <h2 class="wt-title" id="wt-title-heading">Construire ensemble le WeFiiT de demain<span class="wt-title-dot">.</span></h2>
+  <p class="wt-intro">
+    WeFiiT est une entreprise <strong>co‑construite par ses collaborateur·rice·s</strong>, où l’esprit d’initiative est pleinement encouragé.<br><br>
+    Chaque WeFiiTer peut s’investir et contribuer concrètement à l’évolution de WeFiiT au sein de l’une de nos 5 tribes : <strong>Expérience collaborateurs, Excellence, Expertises, Business et Notoriété.</strong><br><br>
+    L’université WeFiiT, la structuration de notre cadre de management, la création de nos contenus vidéos, l’organisation de nos événements ou encore la rédaction des articles de notre blog sont autant d’initiatives portées par des WeFiiTers.
+  </p>
+
+  <div class="wt-tabs-wrap">
+    <span class="wt-sr-only">Faites glisser pour voir tous les tribes</span>
+    <div class="wt-tabs" role="tablist">
+      <button type="button" id="wt-tab-0" class="wt-tab is-active" role="tab" aria-selected="true" aria-controls="wt-panel-0" data-tab="0">Expérience collaborateurs</button>
+      <button type="button" id="wt-tab-1" class="wt-tab" role="tab" aria-selected="false" aria-controls="wt-panel-1" data-tab="1">Excellence</button>
+      <button type="button" id="wt-tab-2" class="wt-tab" role="tab" aria-selected="false" aria-controls="wt-panel-2" data-tab="2">Expertises</button>
+      <button type="button" id="wt-tab-3" class="wt-tab" role="tab" aria-selected="false" aria-controls="wt-panel-3" data-tab="3">Business</button>
+      <button type="button" id="wt-tab-4" class="wt-tab" role="tab" aria-selected="false" aria-controls="wt-panel-4" data-tab="4">Notoriété</button>
+    </div>
+  </div>
+
+  <div class="wt-panels">
+
+    <div class="wt-panel is-active" id="wt-panel-0" role="tabpanel" aria-labelledby="wt-tab-0" data-panel="0">
+      <div class="wt-card">
+        <div class="wt-text">
+          <div class="wt-label"><span class="wt-line"></span>Tribe Expérience collaborateurs</div>
+          <p class="wt-objective">Devenir la référence du conseil Product en faisant de l'expérience collaborateur l'un des moteurs de sa réussite et sa différenciation.</p>
+          <div class="wt-ki-title">Key Initiatives</div>
+          <ul class="wt-ki-list">
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Mise en place d'un programme d'engagement solidaire avec Komeet</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Déploiement de notre nouveau parcours de carrière : WeHorizon</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 8v8M8 12h8"></path></svg>Une de tes brillantes idées</li>
+          </ul>
+        </div>
+        <div class="wt-photo-frame">
+          <div class="wt-photo" data-tribe="experience">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wt-panel" id="wt-panel-1" role="tabpanel" aria-labelledby="wt-tab-1" data-panel="1">
+      <div class="wt-card">
+        <div class="wt-text">
+          <div class="wt-label"><span class="wt-line"></span>Tribe Excellence</div>
+          <p class="wt-objective">Enrichir un écosystème d'Excellence de pointe où chaque WeFiiTer apprend, transmet et rayonne.</p>
+          <div class="wt-ki-title">Key Initiatives</div>
+          <ul class="wt-ki-list">
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Elaboration du nouveau catalogue de formation</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Mettre l'IA au service de nos clients &amp; des WeFiiTers</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 8v8M8 12h8"></path></svg>Et toi, tu ferais quoi ?</li>
+          </ul>
+        </div>
+        <div class="wt-photo-frame">
+          <div class="wt-photo" data-tribe="excellence">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wt-panel" id="wt-panel-2" role="tabpanel" aria-labelledby="wt-tab-2" data-panel="2">
+      <div class="wt-card">
+        <div class="wt-text">
+          <div class="wt-label"><span class="wt-line"></span>Tribe Expertises</div>
+          <p class="wt-objective">Devenir LA référence en France sur nos expertises Produit.</p>
+          <div class="wt-ki-title">Key Initiatives</div>
+          <ul class="wt-ki-list">
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Veille trimestrielle sur les tendances et évolutions de nos métiers</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Création d'offres d'expertise premium, prêtes à vendre et à délivrer</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 8v8M8 12h8"></path></svg>Ton initiative pourrait être ici</li>
+          </ul>
+        </div>
+        <div class="wt-photo-frame">
+          <div class="wt-photo" data-tribe="expertises">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wt-panel" id="wt-panel-3" role="tabpanel" aria-labelledby="wt-tab-3" data-panel="3">
+      <div class="wt-card">
+        <div class="wt-text">
+          <div class="wt-label"><span class="wt-line"></span>Tribe Business</div>
+          <p class="wt-objective">Ancrer WeFiiT comme le partenaire stratégique des directions produit, Data business et tech.</p>
+          <div class="wt-ki-title">Key Initiatives</div>
+          <ul class="wt-ki-list">
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Déploiement d'outils IA au service du développement business</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Organisation de temps forts clients hors mission (offsites équipes &amp; produits)</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 8v8M8 12h8"></path></svg>Comment aimerais-tu contribuer ?</li>
+          </ul>
+        </div>
+        <div class="wt-photo-frame">
+          <div class="wt-photo" data-tribe="business">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wt-panel" id="wt-panel-4" role="tabpanel" aria-labelledby="wt-tab-4" data-panel="4">
+      <div class="wt-card">
+        <div class="wt-text">
+          <div class="wt-label"><span class="wt-line"></span>Tribe Notoriété</div>
+          <p class="wt-objective">Faire de la notoriété un modèle Expertise-Led-Growth.</p>
+          <div class="wt-ki-title">Key Initiatives</div>
+          <ul class="wt-ki-list">
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Création de nouveaux formats vidéos pour notre compte LinkedIn</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Organisation de nos prochains évènements We.Talk</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><path d="M8 12.3l2.5 2.5L16 9"></path></svg>Refonte en vibe-coding de notre site WeFiiT.com</li>
+          </ul>
+        </div>
+        <div class="wt-photo-frame">
+          <div class="wt-photo" data-tribe="notoriete">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="wt-testimonial">
+    <div class="wt-testi-card">
+      <div class="wt-testi-photo" data-person="guillaume">
+        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/64118ccd9e750a2969c2eb5b_Mission%20-%20T%C3%A9moignages%20WeFiiTers%20-%20Consultant%20Product%20Guillaume.webp" alt="Guillaume, Consultant Product Leader" loading="lazy">
+      </div>
+      <img class="wt-quote-icon wt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
+      <img class="wt-quote-icon wt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
+      <p class="wt-testi-text">J'ai tout de suite accroché à la vision des co-fondateurs pour WeFiiT, à savoir la construction d'un collectif d'experts bienveillants (...) où chacun peut apporter sa pierre à l'édifice pour construire un WeFiiT qui nous ressemble</p>
+      <p class="wt-testi-author"><strong class="wt-testi-name">Guillaume</strong> | Consultant Product Leader</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('wt-tribes');
+      if (!root || root.getAttribute('data-wt-init') === '1') return;
+      root.setAttribute('data-wt-init', '1');
+      var tabs = root.querySelectorAll('.wt-tab');
+      var panels = root.querySelectorAll('.wt-panel');
+      var tabsBar = root.querySelector('.wt-tabs');
+      // Guard against the browser auto-scrolling the tab strip by a few px on load
+      // (observed on some mobile browsers), which ate into the left padding and
+      // created a visible gap/crescent next to the first pill's rounded corner.
+      if (tabsBar) { tabsBar.scrollLeft = 0; }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var index = tab.getAttribute('data-tab');
+          tabs.forEach(function (t) {
+            var active = t === tab;
+            t.classList.toggle('is-active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          panels.forEach(function (p) {
+            p.classList.toggle('is-active', p.getAttribute('data-panel') === index);
+          });
+        });
+      });
+    })();
+  </script>
+</section>
