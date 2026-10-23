@@ -1,0 +1,2 @@
+# Les scripts doivent garder des fins de ligne Unix, même sur un poste Windows (sinon bash ne les exécute pas).
+*.sh text eol=lf
