@@ -1,0 +1,40 @@
+<section class="wt-raison-etre" id="wt-raison-etre" aria-label="Bande de texte">
+  <style>
+    #wt-raison-etre {
+      --wt-blue: #001d84; --wt-blue-2: #002882; --wt-blue-3: #2a4cff; --wt-ghost: #f2f4ff;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      margin: 0 0 3rem; /* bloc avec bande de fond pleine largeur : margin-bottom seul (la bande a sa propre respiration interne) */
+      box-sizing: border-box;
+    }
+    #wt-raison-etre *, #wt-raison-etre *::before, #wt-raison-etre *::after { box-sizing: border-box; }
+    #wt-raison-etre .wth-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; }
+
+    /* Bande "Notre raison d'être" : pattern bande pleine largeur standard
+       (marge négative, jamais clip-path/box-shadow géant — voir design-system.md). */
+    #wt-raison-etre .wth-band {
+      position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
+      width: 100vw; background: var(--wt-ghost); padding: 2.5rem 0;
+    }
+    #wt-raison-etre .wth-band-inner {
+      max-width: 71.25rem; margin: 0 auto; padding: 0 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+    }
+    #wt-raison-etre .wth-band-eyebrow {
+      display: flex; align-items: center; gap: 0.625rem;
+      font-size: 1rem; line-height: 1.2rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.03em; color: var(--wt-blue-3);
+    }
+    #wt-raison-etre .wth-band-text { margin: 0; max-width: 46rem; font-size: 1.125rem; font-weight: 600; line-height: 1.5; text-align: center; color: var(--wt-blue-2); }
+  </style>
+
+  <div class="wth-band">
+    <div class="wth-band-inner">
+      <div class="wth-band-eyebrow"><span class="wth-eyebrow-line"></span>Lorem ipsum dolor</div>
+      <!-- Un seul texte centré (les 3 colonnes avec leurs "…" étaient déséquilibrées) :
+           uniquement la raison d'être. L'histoire de sa naissance ("née d'un atelier
+           collaboratif...") est dans la carte 2022. -->
+      <p class="wth-band-text">Sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea.</p>
+    </div>
+  </div>
+
+</section>

@@ -55,7 +55,7 @@
     #wt-paroles .wt-intro em { font-style: italic; }
 
     @media screen and (max-width: 767px) {
-      #wt-paroles .wt-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
+      #wt-paroles .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
     }
 
     /* Grille desktop : reprise telle quelle du bloc natif du site (3 colonnes,
@@ -138,11 +138,20 @@
       color: #fff;
       font-family: inherit;
       font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.25rem;
       font-size: 1rem;
       text-decoration: none;
       text-align: center;
       padding: 1.0625rem 2.5rem;
       border-radius: 500px;
+    }
+    /* Mobile : bouton pleine largeur et texte centré, comme le bouton du site (design-system.md §6). */
+    @media screen and (max-width: 767px) {
+      #wt-paroles .wt-cta { width: 100%; }
+    }
+    @media screen and (max-width: 479px) {
+      #wt-paroles .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
     }
   </style>
 

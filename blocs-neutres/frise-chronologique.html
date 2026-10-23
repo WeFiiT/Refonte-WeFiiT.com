@@ -1,0 +1,431 @@
+<section class="wt-histoire" id="wt-histoire" aria-labelledby="wth-title-heading">
+  <style>
+    #wt-histoire {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-label: #858fd6;
+      --wt-ghost: #f2f4ff;
+      --wt-border: #eff0f6;
+      --wt-line: #d9dcea; /* ligne/points à venir + flèches désactivées, plus marqué que --wt-border */
+      font-family: "Work Sans v2", Arial, sans-serif;
+      /* Bloc posé sous le hero de la page (01-hero.html) : l'espace sous le hero est le padding haut de .wth-inner.
+         Se termine par une bande colorée (margin-bottom seul, la bande a déjà sa propre respiration
+         interne) : voir design-system.md, section Espacements. */
+      margin: 0 0 3rem;
+      box-sizing: border-box;
+    }
+    #wt-histoire *, #wt-histoire *::before, #wt-histoire *::after { box-sizing: border-box; }
+
+    /* Espace sous le hero avant la frise : 3rem desktop, 2rem mobile. */
+    #wt-histoire .wth-inner { max-width: 71.25rem; margin: 0 auto; padding: 3rem 1rem 3rem; }
+    @media screen and (max-width: 767px) {
+      #wt-histoire .wth-inner { padding-top: 2rem; }
+    }
+
+    #wt-histoire .wth-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; }
+    /* Frise mer + bateau. Deux SVG superposés (viewBox 400x12, preserveAspectRatio
+       "none" pour s'étirer sur toute la largeur sans déformer verticalement) :
+       la version pointillée sert de fond sur toute la longueur, la version
+       pleine est rognée via clip-path (inset depuis la droite) jusqu'à l'année
+       active — jamais un clip-path posé sur un ancêtre du bloc (piège connu :
+       ça casserait un position:fixed plus bas sur la page), seulement sur le
+       SVG lui-même. La zone vague+bateau est centrée du milieu de la 1re année
+       au milieu de la 7e (inset de 100%/14 = une demi-colonne de chaque côté,
+       sur les 7 colonnes de la grille d'années juste en dessous). */
+    #wt-histoire .wth-timeline { position: relative; margin: 0 0 1.375rem; padding: 2.25rem 0.375rem 0; }
+    #wt-histoire .wth-wave-zone { position: absolute; left: 7.14286%; right: 7.14286%; top: 0; height: 3rem; }
+    #wt-histoire .wth-wave { position: absolute; left: 0; top: 2.25rem; width: 100%; height: 0.75rem; overflow: visible; }
+    #wt-histoire .wth-wave-dashed path { stroke: var(--wt-label); stroke-width: 2; stroke-dasharray: 6 5; fill: none; }
+    #wt-histoire .wth-wave-solid { transition: clip-path 0.5s ease; }
+    #wt-histoire .wth-wave-solid path { stroke: var(--wt-blue-3); stroke-width: 2.5; fill: none; }
+    @media (prefers-reduced-motion: reduce) {
+      #wt-histoire .wth-wave-solid { transition: none; }
+    }
+    /* Bateau : pictogramme provisoire (simple voilier stylisé aux couleurs du
+       site). L'icône définitive (fournie en SVG par le client) viendra remplacer le
+       contenu de .wth-boat svg — ne pas reconstruire le reste autour. */
+    #wt-histoire .wth-boat {
+      position: absolute; top: 0.375rem; left: 0%; transform: translateX(-50%);
+      transition: left 0.5s ease; display: flex; align-items: center; justify-content: center;
+    }
+    @media (prefers-reduced-motion: reduce) { #wt-histoire .wth-boat { transition: none; } }
+    #wt-histoire .wth-boat svg { width: 2rem; height: 1.75rem; }
+
+    #wt-histoire .wth-years { position: relative; display: grid; grid-template-columns: repeat(7, 1fr); }
+    #wt-histoire .wth-year {
+      appearance: none; border: 0; background: none; cursor: pointer; font-family: inherit;
+      display: flex; flex-direction: column; align-items: center; gap: 0.375rem;
+      padding: 0.5rem 0.125rem; margin: 0;
+    }
+    /* Taille fixe (même quand le point grossit/rétrécit dedans) : sans ça, le
+       point qui grandit d'un côté et rétrécit de l'autre en même temps (mais
+       pas au même rythme exact, `ease` n'est pas symétrique) fait
+       transitoirement baisser la hauteur la plus grande de toute la ligne
+       pendant l'animation, ce qui décale tout ce qui suit (cartes, flèches)
+       de 1-2px le temps de la transition — c'est ce micro-sautillement des
+       cartes remonté par le client. Le point lui-même continue d'animer sa taille
+       normalement, mais dans une boîte dont la hauteur ne bouge jamais. */
+    #wt-histoire .wth-year-dot-wrap { width: 1rem; height: 1rem; display: flex; align-items: center; justify-content: center; }
+    #wt-histoire .wth-year-dot {
+      width: 0.625rem; height: 0.625rem; border-radius: 50%;
+      background: #fff; border: 2px solid var(--wt-line); box-sizing: border-box;
+      transition: width 0.4s ease, height 0.4s ease, background 0.4s ease, border-color 0.4s ease;
+    }
+    #wt-histoire .wth-year.is-past .wth-year-dot,
+    #wt-histoire .wth-year.is-active .wth-year-dot { background: var(--wt-blue-3); border-color: var(--wt-blue-3); }
+    #wt-histoire .wth-year.is-active .wth-year-dot { width: 1rem; height: 1rem; }
+    #wt-histoire .wth-year-label { font-size: 0.8125rem; font-weight: 400; color: var(--wt-label); transition: color 0.3s ease, font-weight 0.3s ease; }
+    #wt-histoire .wth-year.is-past .wth-year-label { color: var(--wt-blue-3); }
+    #wt-histoire .wth-year.is-active .wth-year-label { color: var(--wt-blue); font-weight: 600; }
+    @media (prefers-reduced-motion: reduce) {
+      #wt-histoire .wth-year-dot, #wt-histoire .wth-year-label { transition: none; }
+    }
+    @media screen and (max-width: 479px) {
+      #wt-histoire .wth-year { padding: 0.75rem 0.0625rem; min-height: 2.75rem; } /* zone tactile >= 44px */
+      #wt-histoire .wth-year-label { font-size: 0.6875rem; }
+      #wt-histoire .wth-boat svg { width: 1.75rem; height: 1.5rem; }
+    }
+
+    /* Rail de cartes : translation bornée en JS (jamais de scroll natif non
+       borné), même logique que les galeries vidéo du bloc collectif mais via
+       transform plutôt que scrollLeft (mécanique demandée par le maquette :
+       le rail s'arrête dès que les dernières cartes sont visibles, sans
+       "3+3+1"). align-items:stretch : aucune troncature de texte, les cartes
+       prennent la hauteur du texte le plus long (2019/2020/2026). */
+    /* Padding bas/gauche = exactement le décalage de l'ombre au survol/actif
+       (1.125rem), pour que l'ombre ait la place de s'afficher sans être
+       coupée par cet overflow:hidden (nécessaire pour la translation bornée
+       du rail). L'écart entre cartes (1.25rem) reste supérieur à ce décalage,
+       donc l'ombre d'une carte ne recouvre jamais la carte précédente. */
+    #wt-histoire .wth-rail-wrap { overflow: hidden; padding: 0 0 1.125rem 1.125rem; }
+    /* Écart nettement supérieur au décalage de l'ombre au survol (1.125rem,
+       voir .wth-card) : sinon l'ombre d'une carte touche quasiment la carte
+       voisine, l'effet "carte qui se détache" ne se voit plus. */
+    #wt-histoire .wth-track { display: flex; align-items: stretch; gap: 2.25rem; transition: transform 0.4s ease; }
+    @media (prefers-reduced-motion: reduce) { #wt-histoire .wth-track { transition: none; } }
+    /* Carte + ombre décalée au survol : pattern repris tel quel du site réel
+       (.article__item/.card__item, ex. section "Nos belles histoires Produit"
+       et cartes "Pourquoi devenir WeFiiTer" de la home) — pas de bordure,
+       juste une ombre fine au repos (`.shadow-type-1`) qui bascule au survol
+       sur une ombre plate décalée en bas-à-gauche, sans flou ni étalement.
+       La carte active reprend cette même ombre en permanence (comme si elle
+       était "survolée"), ce qui la distingue des autres sans avoir besoin
+       d'une bordure de couleur en plus. Voir design-system.md.
+       ⚠️ `box-shadow` n'est volontairement PAS dans la transition : les deux
+       ombres (fine au repos / plate décalée) n'ont pas le même flou (3px vs 0)
+       ni la même couleur (gris quasi transparent vs bleu plein) — les animer
+       donne un rendu qui "saute"/clignote au lieu de glisser proprement,
+       surtout perceptible quand la carte active change sans survol (flèches,
+       frise, clavier) et que deux cartes changent d'ombre en même temps.
+       Seule `opacity` est animée ; l'ombre bascule instantanément. Vécu sur la
+       dernière étape (2026) → précédente (2025), remonté par le client. */
+    #wt-histoire .wth-card {
+      flex: 0 0 18.75rem; /* 300px desktop */
+      display: flex; flex-direction: column; cursor: pointer;
+      background: #fff; box-shadow: rgba(0, 0, 0, 0.08) 1px 0 3px; opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+    #wt-histoire .wth-card:hover,
+    #wt-histoire .wth-card.is-active { opacity: 1; box-shadow: -1.125rem 1.125rem 0 0 var(--wt-blue-2); }
+    @media (prefers-reduced-motion: reduce) { #wt-histoire .wth-card { transition: none; } }
+    /* Format paysage classique (4:3, même ratio que la photo du bloc "Un cadre
+       pour t'engager") plutôt qu'un 16:9 très plat, sur demande du client. */
+    #wt-histoire .wth-card-photo {
+      aspect-ratio: 4 / 3; background: var(--wt-ghost); border-bottom: 1px dashed var(--wt-line);
+      display: flex; align-items: center; justify-content: center; flex: none;
+    }
+    #wt-histoire .wth-card-photo-placeholder { color: var(--wt-label); font-size: 0.75rem; font-weight: 600; text-align: center; padding: 0.5rem; }
+    #wt-histoire .wth-card-photo-placeholder .wth-cam { display: block; font-size: 1.5rem; margin-bottom: 0.25rem; }
+    #wt-histoire .wth-card-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    #wt-histoire .wth-card-year { font-family: Allroundgothic, Arial, sans-serif; font-size: 1.375rem; font-weight: 400; color: var(--wt-orange-2); }
+    #wt-histoire .wth-card-title { font-size: 0.9375rem; font-weight: 600; color: var(--wt-blue-2); margin: 0; }
+    #wt-histoire .wth-card-text { font-size: 0.875rem; line-height: 1.4; color: var(--wt-blue); margin: 0; }
+    #wt-histoire .wth-card-text a { color: var(--wt-blue-3); font-weight: 600; }
+    @media screen and (max-width: 767px) {
+      #wt-histoire .wth-card { flex-basis: 17.5rem; } /* 280px mobile */
+      /* Rail en pleine largeur (déborde jusqu'au bord de l'écran) : reprend la
+         gouttière de 1rem à gauche mais laisse le débord filer à droite, pour
+         qu'un bout de la carte suivante reste visible (demande explicite). */
+      #wt-histoire .wth-rail-wrap { margin: 0 -1rem; padding-left: 1.125rem; }
+    }
+
+    #wt-histoire .wth-arrows { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
+    #wt-histoire .wth-arrow {
+      appearance: none; width: 2rem; height: 2rem; padding: 0; margin: 0;
+      background: #fff; border: 1px solid var(--wt-blue-3); color: var(--wt-blue-3);
+      font-size: 0.8125rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    #wt-histoire .wth-arrow:disabled { border-color: var(--wt-line); color: var(--wt-line); cursor: default; }
+    @media screen and (max-width: 767px) {
+      #wt-histoire .wth-arrow { width: 2.75rem; height: 2.75rem; } /* zone tactile >= 44px */
+    }
+
+  </style>
+
+  <div class="wth-inner">
+
+    <div class="wth-timeline">
+      <div class="wth-wave-zone">
+        <svg class="wth-wave wth-wave-dashed" viewBox="0 0 400 12" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 6 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0"></path>
+        </svg>
+        <svg class="wth-wave wth-wave-solid" viewBox="0 0 400 12" preserveAspectRatio="none" aria-hidden="true" style="clip-path: inset(-0.25rem 100% -0.25rem 0);">
+          <path d="M0 6 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0"></path>
+        </svg>
+        <!-- Bateau provisoire — l'icône définitive (SVG fourni par le client) remplacera
+             le contenu de ce <svg> uniquement. -->
+        <div class="wth-boat" style="left: 0%;">
+          <svg viewBox="0 0 32 28" aria-hidden="true">
+            <path d="M16 2 L16 19 L6 19 Z" fill="#2a4cff"></path>
+            <path d="M18 6 L18 19 L26 19 Z" fill="#e95400"></path>
+            <path d="M3 21 H29 L25 27 H7 Z" fill="#001d84"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="wth-years">
+        <button type="button" class="wth-year is-active" data-step="0" aria-current="step" aria-label="Aller à l'année 2019">
+          <span class="wth-year-dot-wrap"><span class="wth-year-dot"></span></span><span class="wth-year-label">2019</span>
+        </button>
+        <button type="button" class="wth-year" data-step="1" aria-label="Aller à l'année 2020">
+          <span class="wth-year-dot-wrap"><span class="wth-year-dot"></span></span><span class="wth-year-label">2020</span>
+        </button>
+        <!-- Deux étapes en 2022 (une étape, puis le autre étape) :
+             deux points consécutifs avec la même année, d'où des libellés
+             d'accessibilité distincts. -->
+        <button type="button" class="wth-year" data-step="2" aria-label="Aller à l'étape 2022 : Titre de l'étape">
+          <span class="wth-year-dot-wrap"><span class="wth-year-dot"></span></span><span class="wth-year-label">2022</span>
+        </button>
+        <button type="button" class="wth-year" data-step="3" aria-label="Aller à l'étape 2022 : Titre de l'étape">
+          <span class="wth-year-dot-wrap"><span class="wth-year-dot"></span></span><span class="wth-year-label">2022</span>
+        </button>
+        <button type="button" class="wth-year" data-step="4" aria-label="Aller à l'année 2023">
+          <span class="wth-year-dot-wrap"><span class="wth-year-dot"></span></span><span class="wth-year-label">2023</span>
+        </button>
+        <button type="button" class="wth-year" data-step="5" aria-label="Aller à l'année 2025">
+          <span class="wth-year-dot-wrap"><span class="wth-year-dot"></span></span><span class="wth-year-label">2025</span>
+        </button>
+        <button type="button" class="wth-year" data-step="6" aria-label="Aller à l'année 2026">
+          <span class="wth-year-dot-wrap"><span class="wth-year-dot"></span></span><span class="wth-year-label">2026</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="wth-rail-wrap">
+      <div class="wth-track">
+
+        <div class="wth-card is-active" data-step="0">
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">lorem</span>Ipsum dolor sit</div></div>
+          <div class="wth-card-body">
+            <div class="wth-card-year">2019</div>
+            <div class="wth-card-title">Amet consectetur</div>
+            <p class="wth-card-text">Adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur.</p>
+          </div>
+        </div>
+
+        <div class="wth-card" data-step="1">
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">adipiscing</span>Elit sed do</div></div>
+          <div class="wth-card-body">
+            <div class="wth-card-year">2020</div>
+            <div class="wth-card-title">Eiusmod tempor incididunt ut labore</div>
+            <p class="wth-card-text">Et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore.</p>
+          </div>
+        </div>
+
+        <div class="wth-card" data-step="2">
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">magna</span>Aliqua enim ad</div></div>
+          <div class="wth-card-body">
+            <div class="wth-card-year">2022</div>
+            <div class="wth-card-title">Minim veniam quis nostrud exercitation</div>
+            <!-- Le texte de la page place la raison d'être juste après cette étape :
+                 elle naît en 2022. Reprise ici en entier, et répétée seule dans la
+                 bande en dessous du rail (demande du client). -->
+            <p class="wth-card-text">Ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur.<br><br>Sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco.</p>
+          </div>
+        </div>
+
+        <div class="wth-card" data-step="3">
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">laboris</span>Nisi aliquip ex</div></div>
+          <div class="wth-card-body">
+            <div class="wth-card-year">2022</div>
+            <div class="wth-card-title">Ea commodo consequat duis aute irure in</div>
+            <!-- une étape : 2022 confirmé par le client. Placé après "Titre de l'étape"
+                 (aussi 2022) et avant les bureaux (2023) pour garder la frise dans
+                 l'ordre chronologique ; le texte de la page le plaçait après 2023. -->
+            <p class="wth-card-text">Reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit.</p>
+          </div>
+        </div>
+
+        <div class="wth-card" data-step="4">
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">voluptate</span>Velit esse cillum</div></div>
+          <div class="wth-card-body">
+            <div class="wth-card-year">2023</div>
+            <div class="wth-card-title">Fugiat nulla pariatur excepteur sint occaecat cupidatat</div>
+            <!-- Ancre vers la section Bureaux (bloc 6b, 08-bureaux.html) : le lien pointe vers #nos-bureaux,
+                 l'id de la section de ce bloc, à vérifier une
+                 fois ce bloc assemblé sur la page. Titre corrigé par rapport au
+                 texte de la page ("Des nouveaux" → "De nouveaux", "coeur" → "cœur"). -->
+            <p class="wth-card-text">Non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim. <a href="#">Ad minim veniam quis</a></p>
+          </div>
+        </div>
+
+        <div class="wth-card" data-step="5">
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">nostrud</span>Exercitation ullamco laboris</div></div>
+          <div class="wth-card-body">
+            <div class="wth-card-year">2025</div>
+            <div class="wth-card-title">Nisi aliquip ex ea</div>
+            <p class="wth-card-text">Commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui.</p>
+          </div>
+        </div>
+
+        <div class="wth-card" data-step="6">
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">officia</span>Deserunt mollit anim</div></div>
+          <div class="wth-card-body">
+            <div class="wth-card-year">2026</div>
+            <div class="wth-card-title">Id est laborum lorem ipsum</div>
+            <p class="wth-card-text">Dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi.<br><br>Aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="wth-arrows">
+      <button type="button" class="wth-arrow wth-arrow-left" aria-label="Étape précédente" disabled aria-disabled="true">anim</button>
+      <button type="button" class="wth-arrow wth-arrow-right" aria-label="Étape suivante">id</button>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('wt-histoire');
+      if (!root || root.getAttribute('data-wth-init') === '1') return;
+      root.setAttribute('data-wth-init', '1');
+
+      var years = Array.prototype.slice.call(root.querySelectorAll('.wth-year'));
+      var cards = Array.prototype.slice.call(root.querySelectorAll('.wth-card'));
+      var track = root.querySelector('.wth-track');
+      var railWrap = root.querySelector('.wth-rail-wrap');
+      var waveSolid = root.querySelector('.wth-wave-solid');
+      var boat = root.querySelector('.wth-boat');
+      var prevBtn = root.querySelector('.wth-arrow-left');
+      var nextBtn = root.querySelector('.wth-arrow-right');
+      var n = years.length;
+      var activeIndex = 0;
+
+      // .wth-rail-wrap a un padding gauche/bas (place pour l'ombre des cartes
+      // au survol, voir CSS) : clientWidth l'inclut, donc la largeur réellement
+      // disponible pour le défilement du rail est plus étroite que clientWidth
+      // d'exactement ce padding. Sans ce correctif, le rail ne va pas assez
+      // loin et la dernière carte se retrouve rognée par l'overflow:hidden.
+      function railVisibleWidth() {
+        var cs = getComputedStyle(railWrap);
+        return railWrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      }
+
+      function render() {
+        var pct = (activeIndex / (n - 1)) * 100;
+        waveSolid.style.clipPath = 'inset(-0.25rem ' + (100 - pct) + '% -0.25rem 0)';
+        boat.style.left = pct + '%';
+
+        years.forEach(function (y, i) {
+          y.classList.toggle('is-active', i === activeIndex);
+          y.classList.toggle('is-past', i < activeIndex);
+          if (i === activeIndex) { y.setAttribute('aria-current', 'step'); }
+          else { y.removeAttribute('aria-current'); }
+        });
+        cards.forEach(function (c, i) { c.classList.toggle('is-active', i === activeIndex); });
+
+        // Rail borné : jamais au-delà de scrollWidth - largeur visible (les
+        // dernières cartes s'activent alors sans que le rail bouge, pas
+        // d'effet "3+3+1").
+        var firstCard = cards[0];
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        var step = firstCard.getBoundingClientRect().width + gap;
+        var maxShift = Math.max(0, track.scrollWidth - railVisibleWidth());
+        var shift = Math.min(activeIndex * step, maxShift);
+        track.style.transform = 'translateX(-' + shift + 'px)';
+
+        prevBtn.disabled = activeIndex === 0;
+        nextBtn.disabled = activeIndex === n - 1;
+      }
+
+      function setActive(i) {
+        activeIndex = Math.max(0, Math.min(n - 1, i));
+        render();
+      }
+
+      years.forEach(function (y, i) { y.addEventListener('click', function () { setActive(i); }); });
+      cards.forEach(function (c, i) {
+        // Les cartes ne sont pas des <button> car la carte 2023 contient un vrai
+        // lien ("Découvrir nos bureaux") — un lien imbriqué dans un bouton est
+        // invalide en HTML. L'activation au clavier de cette même étape reste
+        // possible via les années de la frise ou les flèches, qui sont de vrais
+        // boutons.
+        c.addEventListener('click', function (e) {
+          if (e.target.closest('a')) return; // laisser le lien suivre son cours normal
+          setActive(i);
+        });
+      });
+      prevBtn.addEventListener('click', function () { setActive(activeIndex - 1); });
+      nextBtn.addEventListener('click', function () { setActive(activeIndex + 1); });
+
+      root.querySelector('.wth-years').addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { setActive(activeIndex + 1); e.preventDefault(); }
+        else if (e.key === 'ArrowLeft') { setActive(activeIndex - 1); e.preventDefault(); }
+      });
+
+      // Glisser (Pointer Events, pas Touch Events, pour fonctionner aussi à la
+      // souris/trackpad) : seuil de 8px avant d'engager le geste et jamais de
+      // setPointerCapture avant ce seuil, sinon le clic sur une carte (ou son
+      // lien "Découvrir nos bureaux") est intercepté. Pas de flag "isAnimating"
+      // qui dépendrait d'un transitionend qui ne se déclenche pas forcément
+      // (piège déjà vécu sur le bloc "Paroles de WeFiiTers") : on se contente de
+      // renvoyer l'état courant à chaque relâchement, ce qui rejoue la même
+      // position (effet de "retour") quand le glisser n'a pas franchi le seuil
+      // de bascule.
+      var pointerActive = false, dragging = false, startX = 0, deltaX = 0;
+      var DRAG_ENGAGE = 8, DRAG_COMMIT = 40;
+
+      railWrap.addEventListener('pointerdown', function (e) {
+        pointerActive = true; dragging = false; startX = e.clientX; deltaX = 0;
+      });
+      railWrap.addEventListener('pointermove', function (e) {
+        if (!pointerActive) return;
+        deltaX = e.clientX - startX;
+        if (!dragging) {
+          if (Math.abs(deltaX) < DRAG_ENGAGE) return;
+          dragging = true;
+          track.style.transition = 'none';
+          railWrap.setPointerCapture(e.pointerId);
+        }
+        var firstCard = cards[0];
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        var step = firstCard.getBoundingClientRect().width + gap;
+        var maxShift = Math.max(0, track.scrollWidth - railVisibleWidth());
+        var base = -Math.min(activeIndex * step, maxShift);
+        track.style.transform = 'translateX(' + (base + deltaX) + 'px)';
+      });
+      function endDrag() {
+        if (!pointerActive) return;
+        pointerActive = false;
+        track.style.transition = '';
+        if (!dragging) return;
+        dragging = false;
+        if (deltaX < -DRAG_COMMIT) { setActive(activeIndex + 1); }
+        else if (deltaX > DRAG_COMMIT) { setActive(activeIndex - 1); }
+        else { render(); }
+      }
+      railWrap.addEventListener('pointerup', endDrag);
+      railWrap.addEventListener('pointercancel', endDrag);
+
+      window.addEventListener('resize', render);
+      render();
+    })();
+  </script>
+</section>

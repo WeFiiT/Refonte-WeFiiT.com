@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Librairie des blocs · WeFiiT</title>
+<!--
+  Fichier GÉNÉRÉ par librairie/build.sh à partir de template.html, catalogue.txt
+  et des fichiers de blocs-neutres/. Ne pas modifier index.html à la main : modifier
+  template.html (mise en page de la librairie) ou catalogue.txt (liste des
+  blocs), puis relancer le script.
+-->
+<style>
+  :root {
+    --blue: #001d84; --blue-2: #002882; --blue-3: #2a4cff;
+    --orange: #f98f03; --orange-2: #e95400;
+    --label: #858fd6; --ghost: #f2f4ff; --border: #eff0f6; --line: #d9dcea;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Work Sans v2", Arial, sans-serif; color: var(--blue); background: #fff; }
+  .wrap { max-width: 82rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  .top { padding: 3rem 0 1.5rem; text-align: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--blue-3); }
+  .eyebrow::before { content: ""; width: 1.5rem; height: 1px; background: var(--blue-3); }
+  h1 { margin: 0; font-family: Allroundgothic, Arial, sans-serif; font-weight: 400; font-size: 3rem; line-height: 3rem; letter-spacing: -0.12rem; background: linear-gradient(270deg, var(--blue-2), var(--blue-3)); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+  h1 .dot { background: linear-gradient(var(--orange-2), var(--orange)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .lead { max-width: 46rem; margin: 1rem auto 0; font-size: 1rem; line-height: 1.5; }
+  .note { max-width: 46rem; margin: 1.25rem auto 0; padding: 0.75rem 1rem; background: var(--ghost); font-size: 0.875rem; line-height: 1.45; text-align: left; }
+  .note code { font-size: 0.8125rem; }
+
+  .toolbar { position: sticky; top: 0; z-index: 10; background: #fff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .toolbar-in { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; padding-top: 0.75rem; padding-bottom: 0.75rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; flex: 1 1 auto; }
+  .chip { appearance: none; font: inherit; font-size: 0.875rem; font-weight: 600; color: var(--blue); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.9rem; cursor: pointer; }
+  .chip:hover { border-color: var(--blue-3); }
+  .chip[aria-pressed="true"] { color: #fff; border-color: transparent; background: linear-gradient(to right, var(--orange), var(--orange-2)); }
+  .search { font: inherit; font-size: 0.875rem; color: var(--blue); border: 1px solid var(--line); padding: 0.4rem 0.75rem; min-width: 14rem; }
+  .seg { display: inline-flex; border: 1px solid var(--blue-3); }
+  .seg button { appearance: none; font: inherit; font-size: 0.875rem; font-weight: 600; color: var(--blue-3); background: #fff; border: 0; padding: 0.4rem 0.9rem; cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--blue-3); }
+  .seg button[aria-pressed="true"] { color: #fff; background: var(--blue-3); }
+
+  @media (max-width: 800px) { .toolbar { position: static; } } /* sur petit écran, la barre est haute : ne pas la figer en haut */
+
+  main { padding: 2rem 0 3rem; }
+  .type { margin: 0 0 3.5rem; }
+  .type h2 { margin: 0 0 1.25rem; font-family: Allroundgothic, Arial, sans-serif; font-weight: 400; font-size: 2rem; line-height: 2.25rem; letter-spacing: -0.06rem; color: var(--blue-2); }
+  .type h2 .count { margin-left: 0.5rem; font-family: "Work Sans v2", Arial, sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0; color: var(--label); }
+  .bloc { margin: 0 0 2rem; background: #fff; box-shadow: rgba(0, 0, 0, 0.08) 1px 0 3px, 0 0 0 1px var(--border); }
+  .bloc-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; padding: 1.25rem 1.5rem; }
+  .bloc-head h3 { margin: 0 0 0.35rem; font-size: 1.125rem; font-weight: 600; color: var(--blue-2); }
+  .bloc-head p { margin: 0; max-width: 44rem; font-size: 0.875rem; line-height: 1.45; }
+  .meta { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 0.4rem; max-width: 28rem; }
+  .tag { font-size: 0.75rem; font-weight: 600; color: var(--blue); background: var(--ghost); padding: 0.2rem 0.6rem; border-radius: 999px; }
+  .tag.page { color: #fff; background: var(--blue-2); }
+  .frame-wrap { display: flex; justify-content: center; background: var(--ghost); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .frame { width: 100%; background: #fff; }
+  .mode-tablet .frame-wrap, .mode-mobile .frame-wrap { padding: 1.5rem 0; }
+  .mode-tablet .frame { width: 768px; max-width: 100%; box-shadow: 0 0 0 1px var(--line); }
+  .mode-mobile .frame { width: 375px; max-width: 100%; box-shadow: 0 0 0 1px var(--line); }
+  .frame iframe { display: block; width: 100%; height: 240px; border: 0; background: #fff; }
+  .bloc-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.75rem 1.5rem; }
+  .path { font-size: 0.8125rem; color: var(--label); }
+  .copy { appearance: none; font: inherit; font-size: 0.875rem; font-weight: 600; color: #fff; background: var(--blue-3); border: 0; padding: 0.45rem 1.1rem; cursor: pointer; }
+  .copy:hover { background: var(--blue-2); }
+  .empty { padding: 3rem 0; text-align: center; color: var(--label); }
+  .foot { padding: 1rem 1.5rem 2.5rem; font-size: 0.8125rem; color: var(--label); text-align: center; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Refonte wefiit.com</p>
+    <h1>Librairie des blocs<span class="dot">.</span></h1>
+    <p class="lead">Les blocs neutres du site, vides (textes en lorem ipsum, photos et vidéos à venir), rangés par typologie. Chaque bloc est un fichier autonome à coller dans un Embed Webflow : cliquez sur « Copier le code » pour récupérer celui qui vous intéresse. Un bloc qui relève de plusieurs typologies apparaît dans chacune, avec la mention « Aussi dans ».</p>
+    <p class="note">Les vidéos YouTube peuvent afficher « Erreur 153 » quand cette page est ouverte directement depuis le disque : c'est une limite de YouTube hors d'un vrai site, pas un défaut du bloc. Pour les voir jouer, servir le dossier du repo avec un petit serveur local (par exemple <code>python -m http.server</code>) et ouvrir <code>/librairie/</code>.</p>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap toolbar-in">
+    <div id="types" class="chips" role="group" aria-label="Filtrer par typologie"></div>
+    <input id="q" class="search" type="search" placeholder="Rechercher un bloc" aria-label="Rechercher un bloc">
+    <div class="seg" role="group" aria-label="Largeur de l'aperçu">
+      <button type="button" data-mode="desktop" aria-pressed="true">Bureau</button>
+      <button type="button" data-mode="tablet" aria-pressed="false">Tablette</button>
+      <button type="button" data-mode="mobile" aria-pressed="false">Mobile</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap mode-desktop" id="list"></main>
+<p class="foot" id="gen"></p>
+
+<!--BLOCS-->
+
+<script>
+(function () {
+
+  var CDN = 'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/';
+  // Polices du site (mêmes fichiers que Webflow) : sans elles, les titres
+  // s'afficheraient en Arial. Si ces adresses changent, l'aperçu retombe sur
+  // Arial sans rien casser.
+  var FONT_CSS =
+    '@font-face{font-family:"Work Sans v2";src:url("' + CDN + '6685217fc3c9b3f73730a6c2_WorkSans-VariableFont_wght.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap}' +
+    '@font-face{font-family:Allroundgothic;src:url("' + CDN + '63e424eda0e0796b48e27cd6_AllRoundGothic-Demi.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}' +
+    '@font-face{font-family:Allroundgothic;src:url("' + CDN + '63e424e4a2e78bdb2b99bba7_AllRoundGothic-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}';
+  var fontStyle = document.createElement('style');
+  fontStyle.textContent = FONT_CSS;
+  document.head.appendChild(fontStyle);
+
+  function decode(b64) {
+    var bin = atob(b64), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+
+  var blocks = Array.prototype.map.call(document.querySelectorAll('.bloc-data'), function (d, i) {
+    var file = d.getAttribute('data-file');
+    return {
+      id: 'b' + i,
+      file: file,
+
+      title: d.getAttribute('data-title'),
+      types: d.getAttribute('data-type').split(';').map(function (t) { return t.trim(); }).filter(Boolean),
+      tags: d.getAttribute('data-tags').split(',').map(function (t) { return t.trim(); }).filter(Boolean),
+      desc: d.getAttribute('data-desc'),
+      html: decode(d.getAttribute('data-b64'))
+    };
+  });
+
+  // Typologies dans l'ordre de première apparition dans le catalogue.
+  var types = [];
+  blocks.forEach(function (b) { b.types.forEach(function (t) { if (types.indexOf(t) < 0) types.push(t); }); });
+
+  // Page de l'iframe : même enveloppe minimale pour tous les blocs (mode
+  // standard, polices du site) + un petit script qui remonte la hauteur du
+  // contenu à la librairie pour ajuster l'iframe.
+  function srcdoc(b, cid) {
+    return '<!doctype html><html lang="fr"><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1"><style>' + FONT_CSS +
+      'body{margin:0;background:#fff;font-family:"Work Sans v2",Arial,sans-serif}</style></head><body>' +
+      // flow-root : empêche les marges du bloc de s'échapper de la mesure.
+      // On mesure ce conteneur et non document.scrollHeight, qui ne descend
+      // jamais sous la hauteur actuelle de l'iframe (elle ne pourrait plus rétrécir).
+      '<div id="wt-lib-root" style="display:flow-root">' + b.html + '</div>' +
+      '<script>(function(){var r=document.getElementById("wt-lib-root");function s(){parent.postMessage({wtLibHeight:Math.ceil(r.getBoundingClientRect().height),id:' +
+      JSON.stringify(cid) + '},"*")}addEventListener("load",s);addEventListener("resize",s);' +
+      'if(window.ResizeObserver){new ResizeObserver(s).observe(r)}setTimeout(s,400);})();<\/script></body></html>';
+  }
+
+  var list = document.getElementById('list');
+  var typeBar = document.getElementById('types');
+  var iframes = {};
+  var cards = [];
+  var sections = [];
+
+  types.forEach(function (t, ti) {
+    var sec = el('section', 'type');
+    var h2 = el('h2', null, t);
+    var count = el('span', 'count');
+    h2.appendChild(count);
+    sec.appendChild(h2);
+    list.appendChild(sec);
+    var entry = { type: t, node: sec, countNode: count, cards: [] };
+    sections.push(entry);
+
+    blocks.filter(function (b) { return b.types.indexOf(t) >= 0; }).forEach(function (b) {
+      var art = el('article', 'bloc');
+      var head = el('div', 'bloc-head');
+      var left = el('div');
+      left.appendChild(el('h3', null, b.title));
+      left.appendChild(el('p', null, b.desc));
+      var meta = el('div', 'meta');
+      var others = b.types.filter(function (o) { return o !== t; });
+      if (others.length) meta.appendChild(el('span', 'tag page', 'Aussi dans : ' + others.join(', ')));
+      b.tags.forEach(function (tag) { meta.appendChild(el('span', 'tag', tag)); });
+      head.appendChild(left);
+      head.appendChild(meta);
+
+      var wrap = el('div', 'frame-wrap');
+      var frame = el('div', 'frame');
+      var iframe = document.createElement('iframe');
+      iframe.title = 'Aperçu : ' + b.title;
+      iframe.setAttribute('scrolling', 'no');
+      iframe.setAttribute('loading', 'lazy');
+      var cid = b.id + '-' + ti;
+      iframes[cid] = iframe;
+      iframe._cid = cid;
+      iframe._block = b;
+      frame.appendChild(iframe);
+      wrap.appendChild(frame);
+
+      var foot = el('div', 'bloc-foot');
+      foot.appendChild(el('code', 'path', b.file));
+      var btn = el('button', 'copy', 'Copier le code');
+      btn.type = 'button';
+      btn.addEventListener('click', function () { copy(b.html, btn); });
+      foot.appendChild(btn);
+
+      art.appendChild(head);
+      art.appendChild(wrap);
+      art.appendChild(foot);
+      sec.appendChild(art);
+      var card = { block: b, node: art, type: t };
+      cards.push(card);
+      entry.cards.push(card);
+    });
+  });
+
+  var empty = el('p', 'empty', 'Aucun bloc ne correspond à cette recherche.');
+  empty.hidden = true;
+  list.appendChild(empty);
+
+  // Les aperçus ne se chargent que lorsqu'ils approchent de l'écran (certains
+  // blocs embarquent des vidéos : inutile de tout charger d'un coup).
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && !e.target.srcdoc) {
+        e.target.srcdoc = srcdoc(e.target._block, e.target._cid);
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '600px 0px' }) : null;
+  Object.keys(iframes).forEach(function (id) {
+    if (io) io.observe(iframes[id]); else iframes[id].srcdoc = srcdoc(iframes[id]._block, iframes[id]._cid);
+  });
+
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.wtLibHeight == null) return;
+    var f = iframes[d.id];
+    if (f && f.contentWindow === e.source) f.style.height = Math.max(120, d.wtLibHeight) + 'px';
+  });
+
+  function copy(text, btn) {
+    function done() { btn.textContent = 'Copié'; setTimeout(function () { btn.textContent = 'Copier le code'; }, 1600); }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (err) { btn.textContent = 'Copie impossible'; }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
+    else fallback();
+  }
+
+  // Filtres : typologie + recherche, largeur d'aperçu.
+  var state = { type: '', q: '' };
+  function chip(label, value, n) {
+    var c = el('button', 'chip', label + ' (' + n + ')');
+    c.type = 'button';
+    c.setAttribute('aria-pressed', value === state.type ? 'true' : 'false');
+    c.addEventListener('click', function () { state.type = value; renderChips(); applyFilters(); });
+    return c;
+  }
+  function renderChips() {
+    typeBar.textContent = '';
+    typeBar.appendChild(chip('Tous', '', blocks.length));
+    types.forEach(function (t) {
+      typeBar.appendChild(chip(t, t, blocks.filter(function (b) { return b.types.indexOf(t) >= 0; }).length));
+    });
+  }
+  function applyFilters() {
+    var q = state.q.trim().toLowerCase();
+    var shown = 0;
+    sections.forEach(function (s) {
+      var n = 0;
+      s.cards.forEach(function (c) {
+        var b = c.block;
+        var hay = (b.title + ' ' + b.types.join(' ') + ' ' + b.tags.join(' ') + ' ' + b.desc + ' ' + b.file).toLowerCase();
+        var ok = (!state.type || c.type === state.type) && (!q || hay.indexOf(q) >= 0);
+        c.node.hidden = !ok;
+        if (ok) n++;
+      });
+      s.node.hidden = n === 0;
+      s.countNode.textContent = n + (n > 1 ? ' blocs' : ' bloc');
+      shown += n;
+    });
+    empty.hidden = shown !== 0;
+  }
+  document.getElementById('q').addEventListener('input', function (e) { state.q = e.target.value; applyFilters(); });
+  Array.prototype.forEach.call(document.querySelectorAll('.seg button'), function (b) {
+    b.addEventListener('click', function () {
+      Array.prototype.forEach.call(document.querySelectorAll('.seg button'), function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      list.className = 'wrap mode-' + b.getAttribute('data-mode');
+    });
+  });
+
+  renderChips();
+  applyFilters();
+  var meta = document.getElementById('lib-meta');
+  if (meta) document.getElementById('gen').textContent = blocks.length + ' blocs, générée le ' + meta.getAttribute('data-date') + ' à partir de blocs-neutres/ et librairie/catalogue.txt.';
+})();
+</script>
+</body>
+</html>

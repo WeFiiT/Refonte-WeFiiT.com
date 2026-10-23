@@ -1,0 +1,241 @@
+<section class="wt-faq" id="wt-faq" aria-labelledby="wtq-title">
+  <style>
+    #wt-faq {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      max-width: 45rem;
+      margin: 0 auto 5rem; /* bloc plein, pas de bande colorée : marge de fin standard, pas de margin-top (voir design-system.md) */
+      padding: 0;
+      box-sizing: border-box;
+      interpolate-size: allow-keywords; /* permet d'animer la hauteur de "auto" dans les navigateurs qui le gèrent (Chrome) ; les autres ouvrent sans animation */
+    }
+    #wt-faq *, #wt-faq *::before, #wt-faq *::after { box-sizing: border-box; }
+
+    /* Les styles par défaut de Webflow sur h2, p, ol et ul sont réinitialisés
+       explicitement sur chaque classe du bloc (marges, retraits, puces, alignement). */
+
+    /* En-tête centré : eyebrow standard, H2 (dégradé bleu + point orange à part), intro.
+       Le H2 suit le design system (48px, 40px sur mobile). */
+    #wt-faq .wtq-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; margin: 0 0 24px; }
+    #wt-faq .wtq-eyebrow {
+      display: flex; align-items: center; gap: 0.625rem; margin: 0;
+      font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+      color: var(--wt-blue-3); text-align: center;
+    }
+    #wt-faq .wtq-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; flex: none; }
+    #wt-faq .wtq-title {
+      margin: 0; font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 3rem; line-height: 1; font-weight: 400; letter-spacing: -0.12rem; text-align: center; text-transform: none;
+      background: linear-gradient(270deg, var(--wt-blue-2), var(--wt-blue-3));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-faq .wtq-title-dot {
+      background: linear-gradient(var(--wt-orange-2), var(--wt-orange));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-faq .wtq-intro { margin: 0; font-size: 0.875rem; line-height: 1.55; color: var(--wt-blue); text-align: center; }
+
+    /* Xdéon : <details name="faq"> (un seul ouvert à la fois, sans JavaScript).
+       Pas de fond ni de carte : un filet bas par item, pas de filet haut sur le premier. */
+    #wt-faq .wtq-list { margin: 0; }
+    #wt-faq .wtq-item { margin: 0; padding: 0; border-bottom: 1px solid var(--wt-border); scroll-margin-top: 6rem; }
+    #wt-faq .wtq-q {
+      list-style: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      margin: 0; padding: 16px 0; cursor: pointer;
+      font-size: 0.9375rem; line-height: 1.35; font-weight: 600; color: var(--wt-blue-2); text-align: left;
+      transition: color 0.2s ease;
+    }
+    #wt-faq .wtq-q::-webkit-details-marker { display: none; }
+    #wt-faq .wtq-q::marker { content: ""; }
+    #wt-faq .wtq-q:hover { color: var(--wt-blue-3); }
+    #wt-faq .wtq-q:focus-visible { outline: 2px solid var(--wt-blue-3); outline-offset: 4px; }
+
+    /* Icône + / − dessinée en CSS (deux barres), calée sur la 1re ligne de la question :
+       sa boîte fait exactement la hauteur d'une ligne (1.35em du summary). */
+    #wt-faq .wtq-icon { flex: none; position: relative; width: 16px; height: 1.35em; }
+    #wt-faq .wtq-icon::before, #wt-faq .wtq-icon::after {
+      content: ""; position: absolute; left: 50%; top: 50%; background: var(--wt-blue-3);
+      transform: translate(-50%, -50%); transition: opacity 0.2s ease;
+    }
+    #wt-faq .wtq-icon::before { width: 12px; height: 2px; }
+    #wt-faq .wtq-icon::after { width: 2px; height: 12px; }
+    #wt-faq .wtq-item[open] .wtq-icon::after { opacity: 0; }
+
+    /* Ouverture en hauteur (~200ms) via ::details-content, quand le navigateur le gère. */
+    #wt-faq .wtq-item::details-content { block-size: 0; overflow: hidden; transition: block-size 0.2s ease, content-visibility 0.2s allow-discrete; }
+    #wt-faq .wtq-item[open]::details-content { block-size: auto; }
+
+    #wt-faq .wtq-a { padding: 0 0 20px; font-size: 0.875rem; line-height: 1.6; color: var(--wt-blue); text-align: left; }
+    #wt-faq .wtq-a p { margin: 0 0 0.75rem; font-size: inherit; line-height: inherit; color: inherit; text-align: left; }
+    #wt-faq .wtq-a > :last-child { margin-bottom: 0; }
+    #wt-faq .wtq-a strong { font-weight: 600; }
+
+    /* Étapes de Q2 : <ol> sans numérotation native, numéros affichés par compteur. */
+    #wt-faq .wtq-steps { list-style: none; margin: 0 0 0.75rem; padding: 0; display: flex; flex-direction: column; gap: 8px; counter-reset: wtq-step; }
+    #wt-faq .wtq-step { margin: 0; padding: 0; display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 8px; counter-increment: wtq-step; text-align: left; }
+    #wt-faq .wtq-step::before { content: counter(wtq-step); font-family: Allroundgothic, Arial, sans-serif; font-size: 1rem; line-height: 1.5; color: var(--wt-orange-2); }
+
+    /* Listes à puces de Q3 et Q6 : puce « — » orange, retrait suspendu (le texte qui passe à
+       la ligne reste aligné sous le texte). Tout le texte de l'item est dans un seul span. */
+    #wt-faq .wtq-bullets { list-style: none; margin: 0 0 0.75rem; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    #wt-faq .wtq-bullet { margin: 0; padding: 0; display: flex; gap: 0.5rem; text-align: left; }
+    #wt-faq .wtq-dash { flex: none; color: var(--wt-orange-2); }
+    #wt-faq .wtq-bullet-text { min-width: 0; }
+
+    @media screen and (max-width: 991px) {
+      #wt-faq { max-width: none; padding: 0 2rem; }
+      #wt-faq .wtq-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
+    }
+    @media screen and (max-width: 767px) {
+      #wt-faq { padding: 0 1.5rem; }
+      #wt-faq .wtq-q { padding: 14px 0; min-height: 44px; }
+      #wt-faq .wtq-step { grid-template-columns: 22px minmax(0, 1fr); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #wt-faq .wtq-q, #wt-faq .wtq-icon::before, #wt-faq .wtq-icon::after, #wt-faq .wtq-item::details-content { transition: none !important; }
+    }
+  </style>
+
+  <header class="wtq-head">
+    <!-- « Tu veux nous rejoindre ? » est un H3 dans le document : affiché ici en eyebrow, donc en <p>, pour ne pas casser la hiérarchie. -->
+    <p class="wtq-eyebrow"><span class="wtq-eyebrow-line"></span>Lorem ipsum dolor sit;?</p>
+    <h2 class="wtq-title" id="wtq-title">Amet consectetur<span class="wtq-title-dot">.</span></h2>
+    <p class="wtq-intro">Adipiscing elit sed do eiusmod tempor incididunt ut labore.</p>
+  </header>
+
+  <!-- Xdéon générique : le même balisage sert pour toute autre FAQ (changer le name, les id et le contenu).
+       Tout est fermé au chargement ; un seul item ouvert à la fois (name partagé + script de secours en bas). -->
+  <div class="wtq-list">
+
+    <details class="wtq-item" id="question-1" name="faq">
+      <summary class="wtq-q"><span class="wtq-q-text">Et dolore magna aliqua enim ad minim veniam quis;?</span><span class="wtq-icon" aria-hidden="true"></span></summary>
+      <div class="wtq-a">
+        <p>Nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat.</p>
+      </div>
+    </details>
+
+    <details class="wtq-item" id="question-2" name="faq">
+      <summary class="wtq-q"><span class="wtq-q-text">Cupidatat non proident sunt culpa qui officia;?</span><span class="wtq-icon" aria-hidden="true"></span></summary>
+      <div class="wtq-a">
+        <p>Deserunt mollit anim id est laborum lorem;:</p>
+        <ol class="wtq-steps" role="list">
+          <li class="wtq-step"><span>Ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt.</span></li>
+          <li class="wtq-step"><span>Ut labore et dolore magna aliqua enim ad minim veniam quis nostrud.</span></li>
+          <li class="wtq-step"><span>Exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur.</span></li>
+          <li class="wtq-step"><span>Excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis.</span></li>
+          <li class="wtq-step"><span>Nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat.</span></li>
+        </ol>
+        <p>Non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.</p>
+        <p>Et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute;!</p>
+      </div>
+    </details>
+
+    <details class="wtq-item" id="question-3" name="faq">
+      <summary class="wtq-q"><span class="wtq-q-text">Irure in reprehenderit voluptate;?</span><span class="wtq-icon" aria-hidden="true"></span></summary>
+      <div class="wtq-a">
+        <p>Velit esse cillum;:</p>
+        <ul class="wtq-bullets" role="list">
+          <li class="wtq-bullet"><span class="wtq-dash" aria-hidden="true">fugiat</span><span class="wtq-bullet-text">Nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum</span></li>
+          <li class="wtq-bullet"><span class="wtq-dash" aria-hidden="true">lorem</span><span class="wtq-bullet-text">Ipsum dolor sit amet consectetur</span></li>
+          <li class="wtq-bullet"><span class="wtq-dash" aria-hidden="true">adipiscing</span><span class="wtq-bullet-text">Elit sed do eiusmod tempor</span></li>
+          <li class="wtq-bullet"><span class="wtq-dash" aria-hidden="true">incididunt</span><span class="wtq-bullet-text">Ut labore et dolore magna…</span></li>
+        </ul>
+        <p>Aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate.</p>
+        <p>Velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt.</p>
+        <p>Culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing.</p>
+      </div>
+    </details>
+
+    <details class="wtq-item" id="question-4" name="faq">
+      <summary class="wtq-q"><span class="wtq-q-text">Elit sed do eiusmod tempor incididunt;?</span><span class="wtq-icon" aria-hidden="true"></span></summary>
+      <div class="wtq-a">
+        <p>Ut labore et dolore magna aliqua enim ad minim veniam quis nostrud.</p>
+        <p>Exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui.</p>
+        <p>Officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod</p>
+      </div>
+    </details>
+
+    <details class="wtq-item" id="question-5" name="faq">
+      <summary class="wtq-q"><span class="wtq-q-text">Tempor incididunt ut labore;?</span><span class="wtq-icon" aria-hidden="true"></span></summary>
+      <div class="wtq-a">
+        <p>Et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis.</p>
+        <p>Aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis.</p>
+        <p>Aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur</p>
+      </div>
+    </details>
+
+    <details class="wtq-item" id="question-6" name="faq">
+      <summary class="wtq-q"><span class="wtq-q-text">Sint occaecat cupidatat non proident sunt;?</span><span class="wtq-icon" aria-hidden="true"></span></summary>
+      <div class="wtq-a">
+        <p>Culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate.</p>
+        <p>Velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
+        <!-- Liens à confirmer : blog, chaîne YouTube (et IMPAQT, Les Tips du PM). Aucune URL de blog ou de vidéos n'existe encore dans le repo : à ajouter ici (/blog, /videos) quand elles sont confirmées. -->
+        <p>Aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit;:</p>
+        <ul class="wtq-bullets" role="list">
+          <li class="wtq-bullet"><span class="wtq-dash" aria-hidden="true">voluptate</span><span class="wtq-bullet-text"><strong>Velit</strong>esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit.</span></li>
+          <li class="wtq-bullet"><span class="wtq-dash" aria-hidden="true">amet</span><span class="wtq-bullet-text"><strong>Consectetur adipiscing elit sed</strong>do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo.</span></li>
+          <li class="wtq-bullet"><span class="wtq-dash" aria-hidden="true">consequat</span><span class="wtq-bullet-text"><strong>Duis aute irure in reprehenderit voluptate velit esse cillum.</strong></span></li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('wt-faq');
+      if (!root || root.getAttribute('data-wtq-init') === '1') return;
+      root.setAttribute('data-wtq-init', '1');
+      var items = Array.prototype.slice.call(root.querySelectorAll('.wtq-item'));
+
+      // Secours pour les navigateurs sans <details name> : ouvrir un item referme les autres.
+      if (!('name' in document.createElement('details'))) {
+        items.forEach(function (d) {
+          d.addEventListener('toggle', function () {
+            if (d.open) items.forEach(function (o) { if (o !== d) o.open = false; });
+          });
+        });
+      }
+
+      // Ancre (#question-2, etc.) : la question visée est ouverte au chargement et quand l'ancre change.
+      function openFromHash() {
+        var id = '';
+        try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }
+        var target = id ? document.getElementById(id) : null;
+        if (target && target.tagName === 'DETAILS' && root.contains(target)) {
+          target.open = true;
+          target.scrollIntoView({ block: 'start' });
+        }
+      }
+      openFromHash();
+      window.addEventListener('hashchange', openFromHash);
+    })();
+  </script>
+</section>
+<!-- Données structurées FAQPage : une entrée par question, texte brut de la réponse (listes aplaties en phrases).
+     À garder alignées avec le texte visible : remplacer cet exemple par les vraies questions et réponses. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Lorem ipsum dolor sit amet ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }
+    },
+    {
+      "@type": "Question",
+      "name": "Ut enim ad minim veniam ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." }
+    }
+  ]
+}
+</script>

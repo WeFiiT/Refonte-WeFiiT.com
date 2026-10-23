@@ -1,0 +1,306 @@
+<section class="wt-manifesto" id="wt-manifesto" aria-labelledby="wtm-title">
+  <style>
+    #wt-manifesto {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-num-small: #c94800; /* orange plus foncé pour les numéros de 18px (mobile) : #e95400 sur blanc fait 3,7:1, il en faut 4,5:1 sous 24px ; #c94800 fait 4,8:1 */
+      --wt-label: #858fd6;
+      --wt-ghost: #f2f4ff;
+      --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      max-width: 71.25rem;
+      margin: 0 auto 5rem; /* bloc plein, pas de bande colorée : marge de fin standard, pas de margin-top (voir design-system.md) */
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+    #wt-manifesto *, #wt-manifesto *::before, #wt-manifesto *::after { box-sizing: border-box; }
+    #wt-manifesto [hidden] { display: none !important; }
+
+    /* En-tête centré : eyebrow standard, H2 (dégradé bleu + point orange à part),
+       chapô. Taille du titre alignée sur les H2 réels de /equipe (48px, 40px sur
+       mobile), comme les autres blocs de la page Culture. */
+    #wt-manifesto .wtm-head { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 0 0 2.5rem; }
+    #wt-manifesto .wtm-eyebrow {
+      display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem;
+      font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+      color: var(--wt-blue-3); text-align: center;
+    }
+    #wt-manifesto .wtm-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; }
+    #wt-manifesto .wtm-title {
+      margin: 0; font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 3rem; line-height: 1; font-weight: 400; letter-spacing: -0.12rem; text-align: center; text-transform: none;
+      background: linear-gradient(270deg, var(--wt-blue-2), var(--wt-blue-3));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-manifesto .wtm-title-dot {
+      background: linear-gradient(var(--wt-orange-2), var(--wt-orange));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-manifesto .wtm-lead { margin: 1rem 0 0; max-width: max(50%, 28rem); font-size: 1rem; line-height: 1.5; color: var(--wt-blue); text-align: center; text-wrap: pretty; }
+
+    /* Liste des 10 commandements. Webflow applique des styles par défaut aux
+       listes et aux h3 : tout est réinitialisé ici. La numérotation native est
+       masquée (list-style: none), le numéro affiché est un élément visuel à part. */
+    #wt-manifesto .wtm-list { list-style: none; margin: 0; padding: 0; }
+    #wt-manifesto .wtm-item { margin: 0; padding: 0; }
+    #wt-manifesto .wtm-h { margin: 0; font-size: inherit; line-height: inherit; font-weight: inherit; text-transform: none; letter-spacing: 0; text-align: left; }
+    #wt-manifesto .wtm-btn {
+      appearance: none; -webkit-appearance: none; display: grid; width: 100%; margin: 0; padding: 0;
+      background: none; border: 0; border-radius: 0; font: inherit; color: inherit; text-align: left; cursor: default;
+    }
+    #wt-manifesto .wtm-num { font-family: Allroundgothic, Arial, sans-serif; font-weight: 400; color: var(--wt-orange-2); }
+    #wt-manifesto .wtm-q { font-weight: 600; color: var(--wt-blue-2); }
+    #wt-manifesto .wtm-icon { display: none; }
+    #wt-manifesto .wtm-panel { display: grid; grid-template-rows: 1fr; }
+    #wt-manifesto .wtm-panel-in { min-height: 0; overflow: hidden; }
+    #wt-manifesto .wtm-text { margin: 0; color: var(--wt-blue); text-align: left; text-wrap: pretty; }
+
+    /* Desktop (>= 768px) : grille ouverte de 2 colonnes, 5 lignes, lue en
+       colonnes (1 à 5 à gauche, 6 à 10 à droite). Séparateurs de 1px : le gap
+       laisse voir le fond de la grille, les cellules sont blanches. Pas de
+       survol, pas d'interaction : tout est visible. */
+    @media screen and (min-width: 768px) {
+      #wt-manifesto .wtm-list {
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, auto);
+        grid-auto-flow: column; gap: 1px; background: var(--wt-border); border: 1px solid var(--wt-border);
+      }
+      #wt-manifesto .wtm-item { padding: 1.125rem 1.25rem; background: #fff; }
+      #wt-manifesto .wtm-btn { grid-template-columns: 44px minmax(0, 1fr); gap: 0.75rem; align-items: baseline; }
+      #wt-manifesto .wtm-num { font-size: 1.875rem; line-height: 1; }
+      #wt-manifesto .wtm-q { font-size: 0.9375rem; line-height: 1.35; }
+      #wt-manifesto .wtm-text { margin-top: 0.4rem; padding-left: calc(44px + 0.75rem); font-size: 0.9375rem; line-height: 1.5; }
+    }
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+      #wt-manifesto .wtm-item { padding: 1rem; }
+      #wt-manifesto .wtm-num { font-size: 1.625rem; }
+    }
+
+    /* Mobile (<= 767px) : 1 colonne. Sans JavaScript, tout reste ouvert et lisible ;
+       le script ajoute la classe .wtm-acc pour activer l'accordéon. */
+    @media screen and (max-width: 767px) {
+      #wt-manifesto .wtm-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
+      #wt-manifesto .wtm-lead { max-width: none; }
+      #wt-manifesto .wtm-list { border-top: 1px solid var(--wt-border); }
+      #wt-manifesto .wtm-item { border-bottom: 1px solid var(--wt-border); }
+      #wt-manifesto .wtm-btn { grid-template-columns: 28px minmax(0, 1fr); gap: 0.5rem; align-items: center; min-height: 2.75rem; padding: 0.7rem 0; }
+      #wt-manifesto .wtm-num { font-size: 1.125rem; line-height: 1; color: var(--wt-num-small); }
+      #wt-manifesto .wtm-q { font-size: 0.875rem; line-height: 1.3; }
+      #wt-manifesto .wtm-text { padding: 0 0 0.9rem 36px; font-size: 0.9375rem; line-height: 1.5; }
+
+      #wt-manifesto.wtm-acc .wtm-btn { grid-template-columns: 28px minmax(0, 1fr) 16px; cursor: pointer; }
+      #wt-manifesto.wtm-acc .wtm-btn:focus-visible { outline: 2px solid var(--wt-blue-3); outline-offset: 2px; }
+      /* Icône + / − dessinée en CSS : deux barres, la verticale disparaît à l'ouverture. */
+      #wt-manifesto.wtm-acc .wtm-icon { display: block; position: relative; width: 16px; height: 16px; }
+      #wt-manifesto.wtm-acc .wtm-icon::before,
+      #wt-manifesto.wtm-acc .wtm-icon::after { content: ""; position: absolute; left: 50%; top: 50%; background: var(--wt-blue-3); transform: translate(-50%, -50%); transition: opacity 0.2s ease; }
+      #wt-manifesto.wtm-acc .wtm-icon::before { width: 12px; height: 2px; }
+      #wt-manifesto.wtm-acc .wtm-icon::after { width: 2px; height: 12px; }
+      #wt-manifesto.wtm-acc .wtm-item.is-open .wtm-icon::after { opacity: 0; }
+      /* Ouverture courte (~200ms) de la hauteur du panneau. */
+      #wt-manifesto.wtm-acc .wtm-panel { grid-template-rows: 0fr; transition: grid-template-rows 0.2s ease; }
+      #wt-manifesto.wtm-acc .wtm-item.is-open .wtm-panel { grid-template-rows: 1fr; }
+    }
+    /* Eyebrow un peu plus petit sur petit écran : à 16px il passe sur 2 lignes et le
+       petit trait se retrouve à côté de la première seulement. */
+    @media screen and (max-width: 479px) {
+      #wt-manifesto .wtm-eyebrow { font-size: 0.875rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #wt-manifesto .wtm-panel, #wt-manifesto .wtm-icon::before, #wt-manifesto .wtm-icon::after { transition: none !important; }
+    }
+  </style>
+
+  <header class="wtm-head">
+    <p class="wtm-eyebrow"><span class="wtm-eyebrow-line"></span>Lorem ipsum dolor sit amet</p>
+    <h2 class="wtm-title" id="wtm-title">Consectetur adipiscing<span class="wtm-title-dot">.</span></h2>
+    <p class="wtm-lead">Elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat.</p>
+  </header>
+
+  <!-- Même balisage pour desktop et mobile (pas de contenu dupliqué). Desktop : tout
+       est affiché et les boutons sont neutralisés. Mobile : accordéon géré par le
+       script en bas de fichier. Sans JavaScript : tout reste ouvert. -->
+  <ol class="wtm-list">
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b1" aria-expanded="true" aria-controls="wtm-p1">
+          <span class="wtm-num" aria-hidden="true">1</span>
+          <span class="wtm-q">Duis aute irure in.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p1"><div class="wtm-panel-in"><p class="wtm-text">Reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b2" aria-expanded="true" aria-controls="wtm-p2">
+          <span class="wtm-num" aria-hidden="true">2</span>
+          <span class="wtm-q">Proident sunt culpa qui officia deserunt mollit anim id est.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p2"><div class="wtm-panel-in"><p class="wtm-text">Laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b3" aria-expanded="true" aria-controls="wtm-p3">
+          <span class="wtm-num" aria-hidden="true">3</span>
+          <span class="wtm-q">Ad minim veniam quis nostrud exercitation ullamco.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p3"><div class="wtm-panel-in"><p class="wtm-text">Laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b4" aria-expanded="true" aria-controls="wtm-p4">
+          <span class="wtm-num" aria-hidden="true">4</span>
+          <span class="wtm-q">Sint occaecat cupidatat non proident sunt culpa.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p4"><div class="wtm-panel-in"><p class="wtm-text">Qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b5" aria-expanded="true" aria-controls="wtm-p5">
+          <span class="wtm-num" aria-hidden="true">5</span>
+          <span class="wtm-q">Eiusmod tempor incididunt ut labore.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p5"><div class="wtm-panel-in"><p class="wtm-text">Et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b6" aria-expanded="true" aria-controls="wtm-p6">
+          <span class="wtm-num" aria-hidden="true">6</span>
+          <span class="wtm-q">Aliquip ex ea commodo consequat duis aute irure in.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p6"><div class="wtm-panel-in"><p class="wtm-text">Reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b7" aria-expanded="true" aria-controls="wtm-p7">
+          <span class="wtm-num" aria-hidden="true">7</span>
+          <span class="wtm-q">Adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p7"><div class="wtm-panel-in"><p class="wtm-text">Magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b8" aria-expanded="true" aria-controls="wtm-p8">
+          <span class="wtm-num" aria-hidden="true">8</span>
+          <span class="wtm-q">Esse cillum fugiat nulla pariatur excepteur.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p8"><div class="wtm-panel-in"><p class="wtm-text">Sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b9" aria-expanded="true" aria-controls="wtm-p9">
+          <span class="wtm-num" aria-hidden="true">9</span>
+          <span class="wtm-q">Eiusmod tempor incididunt ut labore et.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p9"><div class="wtm-panel-in"><p class="wtm-text">Dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute.</p></div></div>
+    </li>
+    <li class="wtm-item">
+      <h3 class="wtm-h">
+        <button type="button" class="wtm-btn" id="wtm-b10" aria-expanded="true" aria-controls="wtm-p10">
+          <span class="wtm-num" aria-hidden="true">10</span>
+          <span class="wtm-q">Irure in reprehenderit voluptate velit esse cillum fugiat.</span>
+          <span class="wtm-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="wtm-panel" id="wtm-p10"><div class="wtm-panel-in"><p class="wtm-text">Nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore.</p></div></div>
+    </li>
+  </ol>
+
+  <script>
+    (function () {
+      var root = document.getElementById('wt-manifesto');
+      if (!root || root.getAttribute('data-wtm-init') === '1') return;
+      root.setAttribute('data-wtm-init', '1');
+
+      var items = Array.prototype.slice.call(root.querySelectorAll('.wtm-item'));
+      var mqMobile = window.matchMedia('(max-width: 767px)');
+      var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // Ouvre ou ferme un item (mobile). À la fermeture, le panneau n'est masqué
+      // (hidden) qu'après la fin de l'animation, pour rester invisible aux
+      // lecteurs d'écran et hors de l'ordre de tabulation. Un délai fixe plutôt
+      // que transitionend : il se déclenche même si la transition n'a pas lieu.
+      function setState(item, open, animate) {
+        var btn = item.querySelector('.wtm-btn');
+        var panel = item.querySelector('.wtm-panel');
+        var animated = animate && !mqReduce.matches;
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        clearTimeout(item._hideTimer);
+        if (open) {
+          panel.hidden = false;
+          if (animated) {
+            // deux images : le panneau doit d'abord exister fermé pour que la hauteur s'anime
+            requestAnimationFrame(function () { requestAnimationFrame(function () { item.classList.add('is-open'); }); });
+          } else {
+            item.classList.add('is-open');
+          }
+        } else {
+          item.classList.remove('is-open');
+          if (animated) {
+            item._hideTimer = setTimeout(function () {
+              if (!item.classList.contains('is-open')) panel.hidden = true;
+            }, 230);
+          } else {
+            panel.hidden = true;
+          }
+        }
+      }
+
+      // Applique le mode courant : accordéon en mobile (1er item ouvert), grille
+      // entièrement ouverte en desktop. Rappelé à chaque changement de breakpoint.
+      function apply() {
+        var mobile = mqMobile.matches;
+        root.classList.toggle('wtm-acc', mobile);
+        items.forEach(function (item, k) {
+          var btn = item.querySelector('.wtm-btn');
+          if (mobile) {
+            btn.removeAttribute('tabindex');
+            setState(item, k === 0, false);
+          } else {
+            // desktop : bouton neutralisé (hors de l'ordre de tabulation), panneau toujours visible
+            btn.setAttribute('tabindex', '-1');
+            item.classList.remove('is-open');
+            item.querySelector('.wtm-panel').hidden = false;
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      }
+
+      items.forEach(function (item) {
+        item.querySelector('.wtm-btn').addEventListener('click', function () {
+          if (!mqMobile.matches) return;
+          var wasOpen = item.classList.contains('is-open');
+          items.forEach(function (other) {
+            if (other !== item && other.classList.contains('is-open')) setState(other, false, true);
+          });
+          setState(item, !wasOpen, true);
+        });
+      });
+
+      if (mqMobile.addEventListener) mqMobile.addEventListener('change', apply);
+      else mqMobile.addListener(apply);
+      apply();
+    })();
+  </script>
+</section>

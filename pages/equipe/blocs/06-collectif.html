@@ -1,0 +1,481 @@
+<section class="wt-collectif" id="wt-collectif" aria-labelledby="wtc-title-heading">
+  <style>
+    #wt-collectif {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-label: #858fd6;
+      --wt-ghost: #f2f4ff;
+      --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      margin: 0; /* le bas de la bande est porté par le bloc témoignage qui suit */
+      box-sizing: border-box;
+    }
+    #wt-collectif *, #wt-collectif *::before, #wt-collectif *::after { box-sizing: border-box; }
+    /* Bande de fond pleine largeur (comme la section d'origine), alors que le
+       contenu (.wtc-inner, max-width) reste centré. Technique par marges négatives
+       (pas de clip-path/transform) : ces propriétés créent un référentiel de
+       positionnement pour les éléments position:fixed de la page — un lightbox ou
+       une image plein écran plus bas sur la page se retrouverait alors contenu
+       dans ce bloc au lieu de couvrir tout l'écran. */
+    #wt-collectif .wtc-band {
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      width: 100vw;
+      background: var(--wt-ghost);
+      padding: 3rem 0 0; /* pas de padding bas : la bande se prolonge dans le bloc témoignage qui suit (07-temoignage-anne-claire.html), qui porte le bas de la bande */
+    }
+    #wt-collectif .wtc-inner {
+      max-width: 71.25rem;
+      margin: 0 auto;
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+    #wt-collectif .wtc-sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* Titre + texte d'intro : repris à l'identique du bloc natif (h2.h2-heading-12 +
+       p.subh2 de la page équipe), désormais inclus dans l'embed. */
+    /* Même traitement que les autres titres de rubrique du site (ex. "Paroles de
+       WeFiiTers.") : dégradé bleu horizontal sur le texte, point final en dégradé
+       orange vertical séparé — vérifié directement sur ce titre de référence. */
+    #wt-collectif .wtc-title {
+      font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 3.2rem;
+      line-height: 3.84rem;
+      font-weight: 400;
+      letter-spacing: -0.128rem;
+      text-align: center;
+      margin: 0;
+      background: linear-gradient(270deg, var(--wt-blue-2), var(--wt-blue-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent; /* nécessaire sur certains moteurs pour que le dégradé s'affiche au lieu du texte */
+    }
+    #wt-collectif .wtc-title-dot {
+      background: linear-gradient(var(--wt-orange-2), var(--wt-orange));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #wt-collectif .wtc-intro {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.3rem;
+      color: var(--wt-blue);
+      text-align: center;
+      max-width: 46rem;
+      margin: 1.125rem auto 3rem;
+    }
+    #wt-collectif .wtc-intro strong { font-weight: 600; }
+    #wt-collectif .wtc-intro .wtc-highlight { color: var(--wt-blue-3); font-style: normal; }
+
+    /* Onglets soulignés : remplace les 3 blocs empilés pour alléger la hauteur.
+       Volontairement différent de la pilule dégradée du bloc Tribes (simple trait
+       de couleur, pas de fond plein) pour ne pas reproduire le même motif. */
+    #wt-collectif .wtc-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      border-bottom: 1px solid var(--wt-border);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    #wt-collectif .wtc-tabs::-webkit-scrollbar { display: none; }
+    #wt-collectif .wtc-tab {
+      appearance: none;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--wt-label);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding: 0 0 0.9rem;
+      margin: 0;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+    #wt-collectif .wtc-tab.is-active { color: var(--wt-blue-3); }
+    #wt-collectif .wtc-tab.is-active::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -1px;
+      height: 2px;
+      background: var(--wt-blue-3);
+    }
+    #wt-collectif .wtc-panel { display: none; }
+    #wt-collectif .wtc-panel.is-active { display: block; animation: wtc-fade 0.2s ease; }
+    @keyframes wtc-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* min-height calé sur la description la plus longue des 3 catégories : sans
+       ça, le passage d'un onglet à l'autre fait quand même sauter la hauteur du
+       bloc (texte de description plus ou moins long selon la catégorie), même
+       une fois les cartes vidéo elles-mêmes uniformisées. */
+    #wt-collectif .wtc-desc {
+      color: var(--wt-blue-2);
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.5;
+      max-width: 42rem;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+      min-height: 4.5rem;
+    }
+
+    /* Galerie : défilement horizontal avec accroche (scroll-snap) + flèches reprises
+       du slider de témoignages de la page "Acteur de ta mission" (mêmes icônes,
+       même pastille bleu foncé), pour indiquer clairement qu'on peut faire défiler.
+       Remplace le slider natif Webflow (une carte à la fois, points de pagination). */
+    #wt-collectif .wtc-scroller-wrap { position: relative; }
+    #wt-collectif .wtc-scroller {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    #wt-collectif .wtc-scroller::-webkit-scrollbar { display: none; }
+    #wt-collectif .wtc-track { display: flex; gap: 1.25rem; }
+
+    #wt-collectif .wtc-card {
+      position: relative;
+      flex: 0 0 auto;
+      width: min(78vw, 16rem);
+      scroll-snap-align: start;
+      border-radius: 0; /* design system du site : pas de coins arrondis */
+      overflow: hidden !important; /* second rempart : même si le titre débordait malgré tout, la carte elle-même ne doit jamais laisser rien dépasser */
+      background: #fff; /* blanc pour ressortir sur le fond bleu clair du bloc, qui utilise la même couleur que l'ancien fond des cartes */
+      box-shadow: 1px 0 3px rgba(0,0,0,0.08); /* ombre de repos des cartes du site (design-system.md §5) */
+    }
+    /* Desktop : 3 cartes pleinement visibles + amorce de la 4ème (3 cartes + 3
+       écarts + ~30% d'une 4ème carte doivent tenir dans la largeur du track). */
+    @media screen and (min-width: 992px) {
+      #wt-collectif .wtc-card { width: calc((100% - 3 * 1.25rem) / 3.3); }
+    }
+    /* Vignette + bouton lecture (chargement différé), pas d'iframe YouTube
+       directe : constaté (2026-09-29) que le lecteur YouTube choisit lui-même
+       une miniature basse résolution en fonction de la taille CSS réelle du
+       conteneur au chargement (~330px de large ici), même quand le vrai
+       maxresdefault.jpg (1280x720) existe pour la vidéo — vérifié pour les 12
+       vidéos de ce bloc, l'image haute résolution existe bien à chaque fois.
+       Vimeo/tube.rvere (bloc "Paroles de WeFiiTers") n'ont pas ce comportement
+       de dégradation, d'où l'écart de netteté remonté par Paul entre les deux
+       blocs. On charge donc nous-mêmes le vrai maxresdefault.jpg en <img>, et
+       on ne crée l'iframe YouTube (avec autoplay) qu'au clic sur le bouton. */
+    #wt-collectif .wtc-media { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+    #wt-collectif .wtc-media > * { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    #wt-collectif .wtc-poster { object-fit: cover; display: block; }
+    #wt-collectif .wtc-play {
+      width: 3rem;
+      height: 3rem;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      transform: translate(-50%, -50%);
+      border-radius: 99px;
+      background: rgba(0, 29, 132, 0.85);
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    #wt-collectif .wtc-play:hover { background: var(--wt-blue-2); transform: translate(-50%, -50%) scale(1.06); }
+    #wt-collectif .wtc-play svg { width: 1.375rem; height: 1.375rem; margin-left: 0.15rem; }
+    /* Hauteur fixée à 2 lignes (titre tronqué avec "…" au-delà), sur demande
+       de Paul (retour à 2 lignes partout, l'exception 3 lignes de l'onglet
+       We.Talk créait un espace vide trop grand sous les titres courts des
+       autres onglets, surtout visible sur mobile).
+       ⚠️ Avec ça, le titre le plus long de l'onglet We.Talk ("We.Talk
+       d'Anne-Claire Baschet, Chief Data & AI Officer chez Mirakl", 66
+       caractères) repasse au-dessus du seuil de fiabilité de
+       -webkit-line-clamp observé sur ce bloc (~60-62 caractères à cette
+       largeur de carte) — vérifié en direct sur la page, ce titre précis peut
+       à nouveau déborder (3e ligne visible) malgré ce CSS. Assumé comme
+       compromis (2 lignes partout > éviter un bug sur un seul titre) plutôt
+       que résolu — à garder en tête si Paul le remonte à nouveau. */
+    #wt-collectif .wtc-card-title {
+      padding: 0.85rem 1rem 1rem;
+      color: var(--wt-blue-2);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.35;
+      background: #fff; /* zone blanche distincte sous la vidéo */
+      height: 4.2rem !important;
+      max-height: 4.2rem !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+    }
+
+    /* Flèches : mêmes assets (icônes) et même pastille ronde bleu foncé que le
+       slider de témoignages de la page "Acteur de ta mission". Décalées vers
+       l'extérieur (dans la marge du bloc) pour ne plus chevaucher la vidéo. */
+    #wt-collectif .wtc-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2.8125rem;
+      height: 2.8125rem;
+      border-radius: 99px;
+      background: var(--wt-blue-2);
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    /* Visible seulement quand il y a effectivement de quoi défiler dans cette
+       direction (calculé en JS) : pas de flèche gauche tant qu'on n'a pas
+       commencé à glisser, pas de flèche droite une fois arrivé au bout. */
+    #wt-collectif .wtc-arrow.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
+    #wt-collectif .wtc-arrow img { width: 1rem; height: 1rem; }
+    #wt-collectif .wtc-arrow-left { left: -0.75rem; }
+    #wt-collectif .wtc-arrow-right { right: -0.75rem; }
+
+    #wt-collectif .wtc-rituals {
+      text-align: center;
+      color: var(--wt-blue-2);
+      font-size: 1rem;
+      line-height: 1.5;
+      max-width: 40rem;
+      margin: 2.5rem auto 0;
+    }
+    #wt-collectif .wtc-rituals strong { color: var(--wt-blue-3); }
+
+
+    @media screen and (max-width: 767px) {
+      #wt-collectif .wtc-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
+      #wt-collectif .wtc-tabs { gap: 1.25rem; justify-content: flex-start; }
+    }
+    @media screen and (max-width: 479px) {
+      #wt-collectif .wtc-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+    }
+  </style>
+
+  <div class="wtc-band">
+  <div class="wtc-inner">
+
+  <h2 class="wtc-title" id="wtc-title-heading">S’épanouir grâce au collectif<span class="wtc-title-dot">.</span></h2>
+  <p class="wtc-intro">
+    Chez WeFiiT, nous sommes convaincus que l’épanouissement professionnel passe par le collectif. Grandir, partager, débattre et apprendre les uns des autres font partie intégrante de notre quotidien.<br><br>
+    Chaque deuxième jeudi du mois, nous prenons le temps de nous retrouver lors de <strong>nos rituels</strong> <span class="wtc-highlight">We.Talk</span>, <span class="wtc-highlight">We.Share</span> ou <span class="wtc-highlight">Afterworks</span> : des temps forts dédiés au partage d’expériences, d’expertises et de points de vue.<br><br>
+    Une fois par an, l’équipe se retrouve dans un cadre différent pour prendre du recul, célébrer le chemin parcouru et imaginer ensemble la suite de l’aventure WeFiiT.
+  </p>
+
+  <div class="wtc-tabs" role="tablist">
+    <button type="button" id="wtc-tab-2" class="wtc-tab is-active" role="tab" aria-selected="true" aria-controls="wtc-panel-2" data-tab="2">We.Talk</button>
+    <button type="button" id="wtc-tab-1" class="wtc-tab" role="tab" aria-selected="false" aria-controls="wtc-panel-1" data-tab="1">WeFiiT Live</button>
+    <button type="button" id="wtc-tab-0" class="wtc-tab" role="tab" aria-selected="false" aria-controls="wtc-panel-0" data-tab="0">We.Share &amp; Afterwork</button>
+  </div>
+
+  <div class="wtc-panel" id="wtc-panel-0" role="tabpanel" aria-labelledby="wtc-tab-0" data-panel="0">
+    <p class="wtc-desc">Voyage, sport, gastronomie, art ; et si les passions étaient contagieuses ? Un ou plusieurs WeFiiTers nous partagent une expérience, un savoir-faire, un talent, une aventure... On a hâte de découvrir les tiennes !</p>
+    <span class="wtc-sr-only">Faites glisser pour voir toutes les vidéos</span>
+    <div class="wtc-scroller-wrap">
+      <button type="button" class="wtc-arrow wtc-arrow-left" data-dir="-1" aria-label="Vidéos précédentes"><img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63eabf64b5d45c38647886aa_Arrow5.svg" alt=""></button>
+      <div class="wtc-scroller">
+        <div class="wtc-track">
+          <div class="wtc-card" data-cat="0">
+            <div class="wtc-media" data-yt-id="PWjXb1Tc9eU" data-yt-title="Kermesse de l'Université WeFiiT"><img class="wtc-poster" src="https://i.ytimg.com/vi/PWjXb1Tc9eU/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : Kermesse de l'Université WeFiiT"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">Kermesse de l'Université WeFiiT 🎓</div>
+          </div>
+          <div class="wtc-card" data-cat="0">
+            <div class="wtc-media" data-yt-id="7nBMmFm06v4" data-yt-title="We.Share magique"><img class="wtc-poster" src="https://i.ytimg.com/vi/7nBMmFm06v4/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : We.Share magique"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">We.Share magique ! 🪄</div>
+          </div>
+          <div class="wtc-card" data-cat="0">
+            <div class="wtc-media" data-yt-id="etNcPdHOB9M" data-yt-title="We.Share Musique"><img class="wtc-poster" src="https://i.ytimg.com/vi/etNcPdHOB9M/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : We.Share Musique"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">We.Share Musique 🎵</div>
+          </div>
+          <div class="wtc-card" data-cat="0">
+            <div class="wtc-media" data-yt-id="rfbRoSief58" data-yt-title="We.Share Voyage"><img class="wtc-poster" src="https://i.ytimg.com/vi/rfbRoSief58/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : We.Share Voyage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">We.Share Voyage ✈️</div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="wtc-arrow wtc-arrow-right" data-dir="1" aria-label="Vidéos suivantes"><img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63eabfbda7b0471dbc86a3ec_Arrow-Right.svg" alt=""></button>
+    </div>
+  </div>
+
+  <div class="wtc-panel" id="wtc-panel-1" role="tabpanel" aria-labelledby="wtc-tab-1" data-panel="1">
+    <p class="wtc-desc">Le WeFiiT Live c'est un moment de rencontres, de feedbacks, de sollicitation d'avis, de démo, de plaisir, de surprises…</p>
+    <span class="wtc-sr-only">Faites glisser pour voir toutes les vidéos</span>
+    <div class="wtc-scroller-wrap">
+      <button type="button" class="wtc-arrow wtc-arrow-left" data-dir="-1" aria-label="Vidéos précédentes"><img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63eabf64b5d45c38647886aa_Arrow5.svg" alt=""></button>
+      <div class="wtc-scroller">
+        <div class="wtc-track">
+          <div class="wtc-card" data-cat="1">
+            <div class="wtc-media" data-yt-id="9qj77xJ6gjc" data-yt-title="WeFiiT Live"><img class="wtc-poster" src="https://i.ytimg.com/vi/9qj77xJ6gjc/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : WeFiiT Live"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">WeFiiT Live - The Product Builder Show</div>
+          </div>
+          <div class="wtc-card" data-cat="1">
+            <div class="wtc-media" data-yt-id="ieVvuySbfHs" data-yt-title="WeFiiT Live Décembre 2025"><img class="wtc-poster" src="https://i.ytimg.com/vi/ieVvuySbfHs/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : WeFiiT Live Décembre 2025"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">WeFiiT Live - Décembre 2025</div>
+          </div>
+          <div class="wtc-card" data-cat="1">
+            <div class="wtc-media" data-yt-id="aI5jmMEL5jg" data-yt-title="WeFiiT Live édition We.Sea"><img class="wtc-poster" src="https://i.ytimg.com/vi/aI5jmMEL5jg/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : WeFiiT Live édition We.Sea"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">WeFiiT Live - Édition We.Sea</div>
+          </div>
+          <div class="wtc-card" data-cat="1">
+            <div class="wtc-media" data-yt-id="cvXJZ-On9uE" data-yt-title="WeFiiT Live Décembre 2023"><img class="wtc-poster" src="https://i.ytimg.com/vi/cvXJZ-On9uE/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : WeFiiT Live Décembre 2023"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">WeFiiT Live - Décembre 2023</div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="wtc-arrow wtc-arrow-right" data-dir="1" aria-label="Vidéos suivantes"><img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63eabfbda7b0471dbc86a3ec_Arrow-Right.svg" alt=""></button>
+    </div>
+  </div>
+
+  <div class="wtc-panel is-active" id="wtc-panel-2" role="tabpanel" aria-labelledby="wtc-tab-2" data-panel="2">
+    <p class="wtc-desc">Une personne influente de la sphère Produit nous livre son expertise et ses best-practices.</p>
+    <span class="wtc-sr-only">Faites glisser pour voir toutes les vidéos</span>
+    <div class="wtc-scroller-wrap">
+      <button type="button" class="wtc-arrow wtc-arrow-left" data-dir="-1" aria-label="Vidéos précédentes"><img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63eabf64b5d45c38647886aa_Arrow5.svg" alt=""></button>
+      <div class="wtc-scroller">
+        <div class="wtc-track">
+          <div class="wtc-card" data-cat="2">
+            <div class="wtc-media" data-yt-id="A8a5QrMxt4g" data-yt-title="We.Talk de Claire Rohaut"><img class="wtc-poster" src="https://i.ytimg.com/vi/A8a5QrMxt4g/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : We.Talk de Claire Rohaut"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">We.Talk - Claire Rohaut, Lead Product Manager chez PlayPlay</div>
+          </div>
+          <div class="wtc-card" data-cat="2">
+            <div class="wtc-media" data-yt-id="Oa4EOYsvIRs" data-yt-title="We.Talk de Sylvain Grande"><img class="wtc-poster" src="https://i.ytimg.com/vi/Oa4EOYsvIRs/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : We.Talk de Sylvain Grande"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">We.Talk - Sylvain Grande, Chief Product Officer chez Payfit</div>
+          </div>
+          <div class="wtc-card" data-cat="2">
+            <div class="wtc-media" data-yt-id="1PdKWaVdn-U" data-yt-title="We.Talk de Frédéric Bardolle"><img class="wtc-poster" src="https://i.ytimg.com/vi/1PdKWaVdn-U/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : We.Talk de Frédéric Bardolle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">We.Talk - Frédéric Bardolle, Head of Product chez Scaleway</div>
+          </div>
+          <div class="wtc-card" data-cat="2">
+            <div class="wtc-media" data-yt-id="MEWktufBlg4" data-yt-title="We.Talk d'Anne-Claire Baschet"><img class="wtc-poster" src="https://i.ytimg.com/vi/MEWktufBlg4/maxresdefault.jpg" alt="" loading="lazy"><button type="button" class="wtc-play" aria-label="Lire la vidéo : We.Talk d'Anne-Claire Baschet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button></div>
+            <div class="wtc-card-title">We.Talk - Anne-Claire Baschet, Chief Data &amp; AI Officer chez Mirakl</div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="wtc-arrow wtc-arrow-right" data-dir="1" aria-label="Vidéos suivantes"><img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63eabfbda7b0471dbc86a3ec_Arrow-Right.svg" alt=""></button>
+    </div>
+  </div>
+
+  <p class="wtc-rituals">Et quand des WeFiiTers partagent une passion commune, de nouveaux rituels voient le jour pour faire vivre l'équipe : <strong>We.Swim, Nous.Lisons, We.Act</strong>, et bien d'autres encore.</p>
+
+  </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('wt-collectif');
+      if (!root || root.getAttribute('data-wtc-init') === '1') return;
+      root.setAttribute('data-wtc-init', '1');
+
+      // Flèches : font défiler d'une carte (+ l'écart entre cartes) à chaque clic,
+      // en bornant toujours la position cible entre 0 et le scroll maximum pour ne
+      // jamais dépasser la dernière carte (zones blanches en bout de course).
+      // La flèche gauche reste masquée tant qu'on n'a pas commencé à défiler, la
+      // flèche droite se masque une fois arrivé au bout (et les deux restent
+      // masquées si tout tient déjà dans la largeur visible).
+      var scrollerWraps = [];
+      root.querySelectorAll('.wtc-scroller-wrap').forEach(function (wrap) {
+        var scroller = wrap.querySelector('.wtc-scroller');
+        var track = wrap.querySelector('.wtc-track');
+        var firstCard = track.querySelector('.wtc-card');
+        var leftArrow = wrap.querySelector('.wtc-arrow-left');
+        var rightArrow = wrap.querySelector('.wtc-arrow-right');
+
+        function updateArrows() {
+          var maxScroll = scroller.scrollWidth - scroller.clientWidth;
+          leftArrow.classList.toggle('is-visible', scroller.scrollLeft > 4);
+          rightArrow.classList.toggle('is-visible', scroller.scrollLeft < maxScroll - 4);
+        }
+
+        function scrollByCard(dir) {
+          var gap = parseFloat(getComputedStyle(track).gap) || 0;
+          var amount = (firstCard.getBoundingClientRect().width + gap) * dir;
+          var maxScroll = scroller.scrollWidth - scroller.clientWidth;
+          var target = Math.min(Math.max(scroller.scrollLeft + amount, 0), maxScroll);
+          scroller.scrollTo({ left: target, behavior: 'smooth' });
+        }
+
+        leftArrow.addEventListener('click', function () { scrollByCard(-1); });
+        rightArrow.addEventListener('click', function () { scrollByCard(1); });
+        scroller.addEventListener('scroll', updateArrows);
+        window.addEventListener('resize', updateArrows);
+        updateArrows();
+
+        scrollerWraps.push({ wrap: wrap, update: updateArrows });
+      });
+
+      // Vignettes YouTube : voir le commentaire CSS sur .wtc-media pour le
+      // pourquoi (miniature basse résolution servie par le lecteur YouTube sur
+      // un petit conteneur). On ne crée l'iframe (avec autoplay) qu'au clic.
+      root.querySelectorAll('.wtc-media[data-yt-id]').forEach(function (media) {
+        var play = media.querySelector('.wtc-play');
+        if (!play) return;
+        play.addEventListener('click', function () {
+          var id = media.getAttribute('data-yt-id');
+          var title = media.getAttribute('data-yt-title') || '';
+          var iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1';
+          iframe.title = title;
+          iframe.setAttribute('frameborder', '0');
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+          iframe.setAttribute('allowfullscreen', '');
+          media.innerHTML = '';
+          media.appendChild(iframe);
+        });
+      });
+
+      // Onglets (soulignés, pas de pilule) : basculent entre les 3 catégories.
+      var tabs = root.querySelectorAll('.wtc-tab');
+      var panels = root.querySelectorAll('.wtc-panel');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var index = tab.getAttribute('data-tab');
+          tabs.forEach(function (t) {
+            var active = t === tab;
+            t.classList.toggle('is-active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          var activePanel = null;
+          panels.forEach(function (p) {
+            var active = p.getAttribute('data-panel') === index;
+            p.classList.toggle('is-active', active);
+            if (active) activePanel = p;
+          });
+          // Un panneau caché (display:none) a scrollWidth/clientWidth à 0 : le
+          // calcul initial des flèches était donc faux pour les onglets non actifs
+          // au chargement. On le refait maintenant qu'il est réellement visible.
+          scrollerWraps.forEach(function (sw) {
+            if (activePanel && activePanel.contains(sw.wrap)) sw.update();
+          });
+        });
+      });
+    })();
+  </script>
+</section>

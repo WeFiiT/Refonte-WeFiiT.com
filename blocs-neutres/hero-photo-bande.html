@@ -55,11 +55,11 @@
     #wt-hero .wt-hero-intro span { font-weight: 500; color: var(--wt-blue); }
 
     @media screen and (max-width: 767px) {
-      #wt-hero { margin-top: 0; } /* premier bloc de la page sur mobile : pas d'espace avant, demande explicite de Paul */
-      #wt-hero .wt-hero-title { font-size: 2.8125rem; line-height: 2.8125rem; letter-spacing: -0.05rem; }
+      #wt-hero { margin-top: 0; } /* premier bloc de la page sur mobile : pas d'espace avant, demande explicite du client */
+      #wt-hero .wt-hero-title { font-size: 2.5rem; line-height: 2.5rem; letter-spacing: -0.05rem; } /* design-system.md §2 : H1 2.5rem jusqu'à 767px, 2.8125rem sous 480px (règle en bas de feuille) */
       #wt-hero .wt-hero-intro { font-size: 1.125rem; line-height: 1.35rem; }
     }
-    /* Desktop : Paul trouve l'écart avec le bloc suivant ("WeFiiT en 2025") trop
+    /* Desktop : le client trouve l'écart avec le bloc suivant ("WeFiiT en 2025") trop
        collé malgré la marge standard de 5rem — remonté à 7rem, mobile inchangé. */
     @media screen and (min-width: 768px) {
       #wt-hero { margin-bottom: 7rem; }
@@ -100,15 +100,18 @@
          débord ni au-dessus ni en dessous) — vérifié directement à 375px. */
       #wt-hero .wt-hero-band { top: 0; bottom: 0; }
     }
+    @media screen and (max-width: 479px) {
+      #wt-hero .wt-hero-title { font-size: 2.8125rem; line-height: 2.8125rem; }
+    }
   </style>
 
   <div class="wt-inner">
-    <h1 class="wt-hero-title" id="wt-hero-title">Faire partie de l’équipe WeFiiT<span class="wt-hero-dot">.</span></h1>
-    <p class="wt-hero-intro">WeFiiT, c’est d’abord et avant tout une histoire de FiiT entre <span>passionné·e·s de Product</span>, ayant <span>envie de grandir ensemble</span> tout en participant à la création du WeFiiT de demain !</p>
+    <h1 class="wt-hero-title" id="wt-hero-title">Lorem ipsum dolor sit amet<span class="wt-hero-dot">.</span></h1>
+    <p class="wt-hero-intro">Consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et <span>dolore magna aliqua</span>enim ad <span>minim veniam quis nostrud</span> exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute!</p>
     <div class="wt-hero-photo-frame">
       <div class="wt-hero-band"></div>
       <div class="wt-hero-photo">
-        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63f8dbd439128e5ba28c3b2d_PUBLIC-77-%20BD.webp" alt="L’équipe WeFiiT réunie" loading="lazy">
+        <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27800%27%20height%3D%27600%27%20fill%3D%27%23f2f4ff%27%2F%3E%3Ctext%20x%3D%27400%27%20y%3D%27320%27%20font-family%3D%27Arial%2Csans-serif%27%20font-size%3D%2740%27%20font-weight%3D%27600%27%20text-anchor%3D%27middle%27%20fill%3D%27%23858fd6%27%3EPhoto%20%C3%A0%20venir%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Description de la photo" loading="lazy">
       </div>
     </div>
   </div>

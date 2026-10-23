@@ -1,0 +1,36 @@
+<section class="wt-temoignage" id="wt-temoignage-blanc" aria-label="Témoignage">
+  <style>
+    #wt-temoignage-blanc {
+      --wt-blue-2: #002882; --wt-blue-3: #2a4cff; --wt-ghost: #f2f4ff; --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      max-width: 71.25rem; margin: 0 auto 5rem; padding: 0 1rem; /* bloc sur fond blanc : margin-bottom seul */
+      box-sizing: border-box;
+    }
+    #wt-temoignage-blanc *, #wt-temoignage-blanc *::before, #wt-temoignage-blanc *::after { box-sizing: border-box; }
+    /* Carte de témoignage : photo qui déborde en haut (cadre transparent aux proportions de la photo, centré sur le bord de la carte),
+       guillemets en icônes SVG du site, texte et signature centrés (nom en gras, fonction en poids normal). */
+    #wt-temoignage-blanc .wtt-testimonial { position: relative; margin: 0 auto; padding-top: 4.21875rem; padding-bottom: 1rem; max-width: 40rem; }
+    #wt-temoignage-blanc .wtt-card { position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0; padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; }
+    #wt-temoignage-blanc .wtt-photo { position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%); width: 7.5rem; height: 8.4375rem; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1; }
+    #wt-temoignage-blanc .wtt-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    #wt-temoignage-blanc .wtt-quote-icon { position: absolute; width: 2.5rem; }
+    #wt-temoignage-blanc .wtt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+    #wt-temoignage-blanc .wtt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+    #wt-temoignage-blanc .wtt-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+    #wt-temoignage-blanc .wtt-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 400; text-align: center; margin: 0; }
+    #wt-temoignage-blanc .wtt-name { font-weight: 600; }
+    @media screen and (max-width: 767px) { #wt-temoignage-blanc .wtt-card { padding: 5rem 1.25rem 1.5rem; } }
+  </style>
+
+  <div class="wtt-testimonial">
+    <div class="wtt-card">
+      <div class="wtt-photo">
+        <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27800%27%20height%3D%27600%27%20fill%3D%27%23f2f4ff%27%2F%3E%3Ctext%20x%3D%27400%27%20y%3D%27320%27%20font-family%3D%27Arial%2Csans-serif%27%20font-size%3D%2740%27%20font-weight%3D%27600%27%20text-anchor%3D%27middle%27%20fill%3D%27%23858fd6%27%3EPhoto%20%C3%A0%20venir%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Description de la photo" loading="lazy">
+      </div>
+      <img class="wtt-quote-icon wtt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
+      <img class="wtt-quote-icon wtt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
+      <p class="wtt-text">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute</p>
+      <p class="wtt-author"><strong class="wtt-name">Irure</strong> in reprehenderit voluptate velit</p>
+    </div>
+  </div>
+</section>

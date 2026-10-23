@@ -1,0 +1,149 @@
+<section class="wt-histoire-hero" id="wt-histoire-hero" aria-labelledby="wth-title-heading">
+  <style>
+    #wt-histoire-hero {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-label: #858fd6;
+      --wt-ghost: #f2f4ff;
+      --wt-border: #eff0f6;
+      /* Cadrage de la photo du hero (object-position), réglable sans toucher au
+         reste : desktop, puis mobile (photo recadrée en portrait). Ex. "50% 30%"
+         pour garder les visages si la photo est coupée en haut ou en bas. */
+      --wth-hero-pos: 50% 50%;
+      --wth-hero-pos-mobile: 50% 50%;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      /* Premier bloc de la page : le hero photo est collé au header (aucune marge au-dessus, sur tous les écrans).
+         Pas de marge dessous : l'espace avant la frise est le padding haut du bloc suivant (02-histoire.html). */
+      margin: 0;
+      box-sizing: border-box;
+    }
+    #wt-histoire-hero *, #wt-histoire-hero *::before, #wt-histoire-hero *::after { box-sizing: border-box; }
+
+
+    #wt-histoire-hero .wth-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; }
+
+    /* Hero photo plein cadre : le titre et la citation
+       sont dans le hero, sur la photo. Pleine largeur via la technique par
+       marge négative (jamais clip-path ni box-shadow géant, voir
+       design-system.md). min-height et non height : le contenu ne déborde
+       jamais, le hero grandit s'il en a besoin. */
+    #wt-histoire-hero .wth-hero {
+      position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw;
+      min-height: 36.25rem; /* 580px */
+      padding: 3rem; /* 48px */
+      display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 2rem;
+      overflow: hidden; isolation: isolate; color: #fff;
+    }
+    /* Photo : une vraie balise <img> (pas un background-image) pour garder un
+       alt et rester compatible avec un chargement depuis le CMS. */
+    #wt-histoire-hero .wth-hero-img {
+      position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+      object-fit: cover; object-position: var(--wth-hero-pos); z-index: 0;
+    }
+    /* Placeholder en attendant la vraie photo. Fond marine (et non le fond
+       pâle habituel) pour que le titre blanc reste lisible pendant ce temps. */
+    #wt-histoire-hero .wth-hero-placeholder {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--wt-blue-2), var(--wt-blue-3));
+      color: rgba(255, 255, 255, 0.7); font-size: 0.875rem; font-weight: 600; text-align: center;
+    }
+    #wt-histoire-hero .wth-hero-placeholder .wth-cam { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+    /* Voile marine discret, du haut-gauche vers le bas : sert uniquement à
+       garantir la lisibilité du titre, pas à teinter la photo. */
+    #wt-histoire-hero .wth-hero::before {
+      content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(160deg, rgba(0, 29, 132, 0.5) 0%, rgba(0, 29, 132, 0.12) 55%, rgba(0, 29, 132, 0.2) 100%);
+    }
+    #wt-histoire-hero .wth-hero-head { position: relative; z-index: 2; }
+    #wt-histoire-hero .wth-hero-eyebrow {
+      display: flex; align-items: center; gap: 0.625rem; margin: 0 0 1rem;
+      font-size: 1rem; line-height: 1.2rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.03em; color: #fff; text-align: left;
+    }
+    #wt-histoire-hero .wth-hero-eyebrow .wth-eyebrow-line { background: #fff; }
+    #wt-histoire-hero .wth-title {
+      margin: 0; font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 4rem; line-height: 1; font-weight: 400; letter-spacing: -2px;
+      color: #fff; text-align: left;
+    }
+    #wt-histoire-hero .wth-title-dot { color: var(--wt-orange); }
+
+    /* Citation : panneau en verre dépoli, en bas à droite. */
+    #wt-histoire-hero .wth-hero-quote {
+      position: relative; z-index: 2; align-self: flex-end;
+      width: 21.25rem; /* 340px */ max-width: 100%;
+      margin: 0; padding: 1.25rem 1.5rem;
+      display: flex; flex-direction: column; gap: 0.625rem;
+      background: rgba(0, 29, 132, 0.72);
+      -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 0; color: #fff;
+    }
+    @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+      #wt-histoire-hero .wth-hero-quote { background: rgba(0, 29, 132, 0.9); }
+    }
+    #wt-histoire-hero .wth-hero-qmark {
+      display: block; font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 2.5rem; line-height: 0.6; color: var(--wt-orange); text-align: left;
+    }
+    /* Webflow applique des styles par défaut à blockquote/figure/figcaption
+       (marge, bordure gauche, centrage) : tout est réinitialisé ici. */
+    #wt-histoire-hero .wth-hero-quote blockquote { margin: 0; padding: 0; border: 0; background: none; }
+    #wt-histoire-hero .wth-hero-quote blockquote p {
+      margin: 0; font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 1.0625rem; line-height: 1.4; font-weight: 400; color: #fff; text-align: left;
+    }
+    #wt-histoire-hero .wth-hero-quote figcaption { margin: 0; font-size: 0.8125rem; line-height: 1.4; color: #fff; text-align: left; }
+    #wt-histoire-hero .wth-hero-quote figcaption strong { font-weight: 600; }
+
+    @media screen and (max-width: 991px) {
+      #wt-histoire-hero .wth-title { font-size: 3.25rem; } /* 52px */
+      #wt-histoire-hero .wth-hero-quote { width: 20rem; } /* 320px */
+    }
+    @media screen and (max-width: 767px) {
+      #wt-histoire-hero .wth-hero { min-height: 37.5rem; padding: 2.5rem 1rem 1rem; } /* 600px ; 40px 16px 16px */
+      #wt-histoire-hero .wth-hero-img { object-position: var(--wth-hero-pos-mobile); }
+      #wt-histoire-hero .wth-title { font-size: 2.5rem; letter-spacing: -1px; } /* 40px */
+      /* Panneau pleine largeur, collé en bas : les marges négatives annulent le
+         padding du hero pour que le panneau touche les bords. */
+      #wt-histoire-hero .wth-hero-quote { align-self: stretch; width: auto; max-width: none; margin: 0 -1rem -1rem; padding: 1.125rem; }
+      #wt-histoire-hero .wth-hero-qmark { font-size: 2.25rem; } /* 36px */
+      #wt-histoire-hero .wth-hero-quote blockquote p { font-size: 1rem; }
+    }
+    @media screen and (max-width: 479px) {
+      #wt-histoire-hero .wth-title { font-size: 2.25rem; } /* 36px */
+    }
+
+  </style>
+
+  <div class="wth-hero">
+    <!-- PHOTO DU HERO (à fournir) : paysage large, avec une zone calme en bas à
+         droite pour le panneau de citation. Pour l'ajouter, remplacer le <div>
+         "wth-hero-placeholder" ci-dessous par :
+         <img class="wth-hero-img" src="URL-de-la-photo" alt="Description de la photo" loading="eager">
+         puis régler le cadrage avec --wth-hero-pos (desktop) et
+         --wth-hero-pos-mobile (mobile, photo recadrée en portrait) en haut du
+         <style>. Idéalement fournir aussi une version portrait pour le mobile.
+         Aucun texte dans l'image. -->
+    <div class="wth-hero-placeholder"><span class="wth-cam">lorem</span>Ipsum dolor sit</div>
+
+    <div class="wth-hero-head">
+      <p class="wth-hero-eyebrow"><span class="wth-eyebrow-line"></span>Amet</p>
+      <!-- H1 : ce bloc est le premier de la page Culture et son seul titre de
+           premier niveau (les blocs suivants du maquette sont des H2). À
+           repasser en H2 si un autre H1 apparaît plus haut sur la page. -->
+      <h1 class="wth-title" id="wth-title-heading">Consectetur adipiscing<span class="wth-title-dot">.</span></h1>
+    </div>
+
+    <figure class="wth-hero-quote">
+      <span class="wth-hero-qmark" aria-hidden="true">elit</span>
+      <blockquote>
+        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis.</p>
+      </blockquote>
+      <figcaption><strong>Aute irure</strong>in reprehenderit voluptate velit esse cillum</figcaption>
+    </figure>
+  </div>
+</section>

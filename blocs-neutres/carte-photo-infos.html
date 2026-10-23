@@ -1,0 +1,133 @@
+<section class="wt-nos-bureaux" id="nos-bureaux" aria-labelledby="wtb-title">
+  <style>
+    #nos-bureaux {
+      --wt-blue: #001d84;
+      --wt-blue-2: #002882;
+      --wt-blue-3: #2a4cff;
+      --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
+      --wt-label: #858fd6;
+      --wt-ghost: #f2f4ff;
+      --wt-border: #eff0f6;
+      --wt-card-border: #d9dcea;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      max-width: 71.25rem;
+      margin: 0 auto 5rem; /* bloc plein, pas de bande colorée : marge de fin standard, pas de margin-top (voir design-system.md) */
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+    #nos-bureaux *, #nos-bureaux *::before, #nos-bureaux *::after { box-sizing: border-box; }
+    #nos-bureaux [hidden] { display: none !important; }
+    #nos-bureaux .wtb-sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    /* Les styles par défaut de Webflow sur h2, dl/dd et p sont réinitialisés explicitement
+       sur chaque classe du bloc (marges, retraits, alignement). */
+
+    /* Carte : 2 colonnes égales sans espace, photo à gauche sur toute la hauteur. */
+    #nos-bureaux .wtb-card { display: grid; grid-template-columns: 1fr 1fr; background: #fff; border: 1px solid var(--wt-card-border); }
+
+    /* La photo suit la hauteur de la colonne de texte (l'image est en position
+       absolue : elle ne pèse pas sur la hauteur), avec un minimum de 560px. */
+    #nos-bureaux .wtb-photo { position: relative; min-height: 560px; min-width: 0; overflow: hidden; background: var(--wt-ghost); display: flex; align-items: center; justify-content: center; }
+    #nos-bureaux .wtb-photo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    #nos-bureaux .wtb-photo-placeholder { color: var(--wt-label); font-size: 0.875rem; font-weight: 600; text-align: center; padding: 1rem; }
+    #nos-bureaux .wtb-cam { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+    #nos-bureaux .wtb-body { min-width: 0; padding: 48px 40px; display: flex; flex-direction: column; gap: 20px; }
+
+    /* Titre identique à celui des autres blocs de la page Culture : 48px (40px sur
+       mobile, comme les H2 réels de /equipe), dégradé bleu 270deg sur le texte, point
+       final en dégradé orange vertical dans son propre span. */
+    #nos-bureaux .wtb-title {
+      margin: 0; font-family: Allroundgothic, Arial, sans-serif;
+      font-size: 3rem; line-height: 1; font-weight: 400; letter-spacing: -0.12rem; text-align: left; text-transform: none;
+      background: linear-gradient(270deg, var(--wt-blue-2), var(--wt-blue-3));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #nos-bureaux .wtb-title-dot {
+      background: linear-gradient(var(--wt-orange-2), var(--wt-orange));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    #nos-bureaux .wtb-text { margin: 0; font-size: 0.875rem; line-height: 1.6; color: var(--wt-blue); text-align: left; text-wrap: pretty; }
+
+    /* Infos pratiques : 4 cellules en 2 x 2, de même hauteur (lignes de grille
+       étirées). Chaque cellule affiche, dans l'ordre : intitulé, valeur, libellé ;
+       dans le HTML, l'intitulé (dt) vient en premier, puis la valeur et le libellé
+       (dd), ce qui donne une lecture "Ouverture : …" sans le style. */
+    #nos-bureaux .wtb-infos { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px; }
+    #nos-bureaux .wtb-info { margin: 0; padding: 14px; min-width: 0; background: var(--wt-ghost); display: flex; flex-direction: column; gap: 4px; }
+    #nos-bureaux .wtb-info-k { order: 1; margin: 0; font-size: 0.6875rem; line-height: 1.3; font-weight: 600; color: var(--wt-blue-3); text-align: left; text-transform: none; letter-spacing: 0; }
+    #nos-bureaux .wtb-info-v { order: 2; margin: 0; font-family: Allroundgothic, Arial, sans-serif; font-size: 1.25rem; line-height: 1.1; font-weight: 400; white-space: nowrap; color: var(--wt-orange-2); text-align: left; }
+    #nos-bureaux .wtb-info-l { order: 3; margin: 0; font-size: 0.75rem; line-height: 1.35; color: var(--wt-blue); text-align: left; }
+
+
+
+    @media screen and (max-width: 991px) {
+      #nos-bureaux .wtb-photo { min-height: 480px; }
+      #nos-bureaux .wtb-body { padding: 40px 32px; }
+      #nos-bureaux .wtb-title { font-size: 2.5rem; letter-spacing: -0.1rem; } /* comme les autres blocs Culture (40px) */
+    }
+
+    /* Mobile : la carte s'empile, photo en tête au ratio 4:3. La grille d'infos reste
+       en 2 x 2 (jamais en 1 colonne). */
+    @media screen and (max-width: 767px) {
+      #nos-bureaux .wtb-card { grid-template-columns: 1fr; }
+      #nos-bureaux .wtb-photo { min-height: 0; aspect-ratio: 4 / 3; }
+      #nos-bureaux .wtb-body { padding: 32px 24px 40px; gap: 18px; }
+      #nos-bureaux .wtb-infos { gap: 8px; }
+      #nos-bureaux .wtb-info { padding: 12px; }
+      #nos-bureaux .wtb-info-v { font-size: 1.125rem; }
+      #nos-bureaux .wtb-info-l { font-size: 0.6875rem; }
+    }
+    @media screen and (max-width: 479px) {
+      #nos-bureaux .wtb-info-v { font-size: 1rem; }
+    }
+  </style>
+
+  <div class="wtb-card">
+    <div class="wtb-photo">
+      <!-- Photo du le lieu à fournir : remplacer le <div> "wtb-photo-placeholder" par
+           <img class="wtb-photo-img" src="URL-de-la-photo" alt="Description de la photo" loading="lazy">
+           (photo paysage, 1600px de large minimum ; l'alt est à ajuster selon la photo). -->
+      <div class="wtb-photo-placeholder"><span class="wtb-cam">lorem</span>Ipsum dolor sit</div>
+    </div>
+
+    <div class="wtb-body">
+      <h2 class="wtb-title" id="wtb-title">Amet consectetur<span class="wtb-title-dot">.</span></h2>
+      <p class="wtb-text">Adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore.</p>
+
+      <!-- Intitulés (Ouverture, Accès, Connexion, Avis) ajoutés par le design : absents du texte source.
+           "Ouverture" est obligatoire : ces horaires sont ceux du lieu, pas ceux des consultants. -->
+      <dl class="wtb-infos">
+        <div class="wtb-info">
+          <dt class="wtb-info-k">Magna</dt>
+          <!-- Horaires coupés en valeur + libellé pour la carte : la phrase complète est lue par le .wtb-sr-only. -->
+          <dd class="wtb-sr-only">Aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip</dd>
+          <dd class="wtb-info-v" aria-hidden="true">ex ea commodo</dd>
+          <dd class="wtb-info-l" aria-hidden="true">Consequat duis aute irure in</dd>
+        </div>
+        <div class="wtb-info">
+          <dt class="wtb-info-k">Reprehenderit</dt>
+          <dd class="wtb-info-v">voluptate velit</dd>
+          <dd class="wtb-info-l">esse cillum fugiat</dd>
+          <dd class="wtb-info-l">nulla pariatur excepteur sint occaecat</dd>
+        </div>
+        <div class="wtb-info">
+          <dt class="wtb-info-k">Cupidatat</dt>
+          <dd class="wtb-info-v">non</dd>
+          <dd class="wtb-info-l">proident sunt culpa</dd>
+        </div>
+        <div class="wtb-info">
+          <dt class="wtb-info-k">Qui</dt>
+          <dd class="wtb-info-v">4,7 <span aria-hidden="true">officia</span><span class="wtb-sr-only"> deserunt mollit</span></dd>
+          <dd class="wtb-info-l">Anim id est</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>

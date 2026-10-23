@@ -3,16 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Faire partie de l'équipe WeFiiT</title>
-<!--
-  Page "Équipe" assemblée à partir des blocs de blocks/equipe/, dans l'ordre
-  de la page Webflow : hero-equipe, wefiit-2025, cadre-sans-photos, paroles,
-  collectif, tribes, photo-pleine-largeur. Chaque bloc reste autonome (style
-  et script scopés à son propre id) : cette page ne fait que les mettre bout
-  à bout pour pouvoir les voir ensemble dans un navigateur. Ne pas modifier ce
-  fichier à la main : modifier le bloc concerné dans blocks/equipe/ puis
-  régénérer la page (voir le README à la racine du repo).
--->
+<title>WeFiiT.com, page equipe (assemblée)</title>
+<!-- Page assemblée automatiquement par outils/assembler-page.sh à partir de pages/equipe/blocs/. Ne pas modifier à la main : modifier les blocs puis relancer le script. -->
 <style>
   body { margin: 0; background: #fff; font-family: "Work Sans v2", Arial, sans-serif; }
 </style>
@@ -76,7 +68,7 @@
 
     @media screen and (max-width: 767px) {
       #wt-hero { margin-top: 0; } /* premier bloc de la page sur mobile : pas d'espace avant, demande explicite de Paul */
-      #wt-hero .wt-hero-title { font-size: 2.8125rem; line-height: 2.8125rem; letter-spacing: -0.05rem; }
+      #wt-hero .wt-hero-title { font-size: 2.5rem; line-height: 2.5rem; letter-spacing: -0.05rem; } /* design-system.md §2 : H1 2.5rem jusqu'à 767px, 2.8125rem sous 480px (règle en bas de feuille) */
       #wt-hero .wt-hero-intro { font-size: 1.125rem; line-height: 1.35rem; }
     }
     /* Desktop : Paul trouve l'écart avec le bloc suivant ("WeFiiT en 2025") trop
@@ -119,6 +111,9 @@
       /* Sur mobile, le site aligne la bande exactement sur la photo (pas de
          débord ni au-dessus ni en dessous) — vérifié directement à 375px. */
       #wt-hero .wt-hero-band { top: 0; bottom: 0; }
+    }
+    @media screen and (max-width: 479px) {
+      #wt-hero .wt-hero-title { font-size: 2.8125rem; line-height: 2.8125rem; }
     }
   </style>
 
@@ -171,7 +166,7 @@
     }
     #wt-2025 .wt-title-dot { color: var(--wt-orange); }
     @media screen and (max-width: 767px) {
-      #wt-2025 .wt-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
+      #wt-2025 .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
     }
 
     /* Vidéo : iframe YouTube native (pas -nocookie ici, comme le bloc réel),
@@ -187,6 +182,9 @@
       overflow: hidden;
     }
     #wt-2025 .wt-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    @media screen and (max-width: 479px) {
+      #wt-2025 .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+    }
   </style>
 
   <h2 class="wt-title" id="wt-2025-title">WeFiiT en 2025 c'était ça<span class="wt-title-dot">.</span></h2>
@@ -207,7 +205,7 @@
       --wt-ghost: #f2f4ff;
       --wt-border: #eff0f6;
       font-family: "Work Sans v2", Arial, sans-serif;
-      margin: 0 0 3rem;
+      margin: 0; /* le bas de la bande est porté par le bloc témoignage qui suit */
       box-sizing: border-box;
     }
     #wt-cadrec *, #wt-cadrec *::before, #wt-cadrec *::after { box-sizing: border-box; }
@@ -220,7 +218,8 @@
       margin-right: -50vw;
       width: 100vw;
       background: var(--wt-ghost);
-      padding: 4rem 0 5rem; /* un peu plus de bleu pastel en bas pour aérer avec le bloc suivant, demande de Paul */
+      display: flow-root; /* la marge basse du dernier élément reste dans la bande */
+      padding: 4rem 0 0; /* pas de padding bas : la bande se prolonge dans le bloc témoignage qui suit (04-temoignage-yamila.html), qui porte le bas de la bande */
     }
     #wt-cadrec .wt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
 
@@ -246,7 +245,7 @@
       -webkit-text-fill-color: transparent;
     }
     @media screen and (max-width: 767px) {
-      #wt-cadrec .wt-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
+      #wt-cadrec .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
     }
 
     /* Mise en page "plus visuelle" (demande de Paul) : titre, puis un encart
@@ -404,29 +403,8 @@
     }
     #wt-cadrec .wt-outro strong { font-weight: 600; }
 
-    #wt-cadrec .wt-testimonial { position: relative; margin: 3.5rem auto 1rem; max-width: 40rem; padding-top: 4.21875rem; }
-    #wt-cadrec .wt-testi-card {
-      position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0;
-      padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px;
-    }
-    #wt-cadrec .wt-testi-photo {
-      /* Cadre au ratio réel de la photo de Yamila (160×180px), centré exactement
-         sur la ligne du haut de la carte (top = -moitié de la hauteur), fond
-         transparent (jamais une couleur pleine, les coins de la photo sont
-         transparents) — voir library.md pour la recette complète. */
-      position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%);
-      width: 7.5rem; height: 8.4375rem; background: transparent;
-      display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1;
-    }
-    #wt-cadrec .wt-testi-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
-    #wt-cadrec .wt-quote-icon { position: absolute; width: 2.5rem; }
-    #wt-cadrec .wt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
-    #wt-cadrec .wt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
-    #wt-cadrec .wt-testi-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
-    #wt-cadrec .wt-testi-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 500; text-align: center; margin: 0; }
-    #wt-cadrec .wt-testi-name { font-weight: 600; }
-    @media screen and (max-width: 767px) {
-      #wt-cadrec .wt-testi-card { padding: 5rem 1.25rem 1.5rem; }
+    @media screen and (max-width: 479px) {
+      #wt-cadrec .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
     }
   </style>
 
@@ -478,18 +456,6 @@
     </div>
   </div>
 
-  <div class="wt-testimonial">
-    <div class="wt-testi-card">
-      <div class="wt-testi-photo" data-person="yamila">
-        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6a8c35a519d54491c9ab5e1d_yamila.webp" alt="Yamila, Lead People Experience" loading="lazy">
-      </div>
-      <img class="wt-quote-icon wt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
-      <img class="wt-quote-icon wt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
-      <p class="wt-testi-text">L’université WeFiiT, c’est un programme de formation qu’on déploie tout au long de l’année (…) ce qui est assez différenciant des autres, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours, et on le fait évoluer tous les ans.</p>
-      <p class="wt-testi-author"><strong class="wt-testi-name">Yamila</strong> | Lead People Experience</p>
-    </div>
-  </div>
-
   </div>
   </div>
 
@@ -521,6 +487,52 @@
       });
     })();
   </script>
+</section>
+<section class="wt-temoignage" id="wt-temoignage-yamila" aria-label="Témoignage de Yamila">
+  <style>
+    #wt-temoignage-yamila {
+      --wt-blue-2: #002882; --wt-blue-3: #2a4cff; --wt-ghost: #f2f4ff; --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      margin: 0 0 3rem; /* bloc avec bande de fond pleine largeur : margin-bottom seul */
+      box-sizing: border-box;
+    }
+    #wt-temoignage-yamila *, #wt-temoignage-yamila *::before, #wt-temoignage-yamila *::after { box-sizing: border-box; }
+    /* Bande pleine largeur (technique des marges négatives, jamais clip-path ni box-shadow géant). Elle prolonge la bande du bloc
+       qui précède : ce bloc doit suivre directement celui dont il a été séparé. */
+    #wt-temoignage-yamila .wtt-band { position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw; background: var(--wt-ghost); padding: 1rem 0 6rem; } /* haut : 3.5rem d'origine moins les 2.5rem de marge basse du bloc cadre, désormais contenus dans sa bande */
+    #wt-temoignage-yamila .wtt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+    /* Carte de témoignage : photo qui déborde en haut (cadre transparent aux proportions de la photo, centré sur le bord de la carte),
+       guillemets en icônes SVG du site, texte et signature centrés (nom en gras, fonction en poids normal). */
+    #wt-temoignage-yamila .wtt-testimonial { position: relative; margin: 0 auto; max-width: 40rem; padding-top: 4.21875rem; }
+    #wt-temoignage-yamila .wtt-card { position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0; padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; }
+    #wt-temoignage-yamila .wtt-photo { position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%); width: 7.5rem; height: 8.4375rem; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1; }
+    #wt-temoignage-yamila .wtt-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    #wt-temoignage-yamila .wtt-quote-icon { position: absolute; width: 2.5rem; }
+    #wt-temoignage-yamila .wtt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+    #wt-temoignage-yamila .wtt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+    #wt-temoignage-yamila .wtt-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+    #wt-temoignage-yamila .wtt-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 400; text-align: center; margin: 0; }
+    #wt-temoignage-yamila .wtt-name { font-weight: 600; }
+    @media screen and (max-width: 767px) { #wt-temoignage-yamila .wtt-card { padding: 5rem 1.25rem 1.5rem; } }
+  </style>
+
+  <div class="wtt-band">
+  <div class="wtt-inner">
+
+  <div class="wtt-testimonial">
+    <div class="wtt-card">
+      <div class="wtt-photo" data-person="yamila">
+        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6a8c35a519d54491c9ab5e1d_yamila.webp" alt="Yamila, Lead People Experience" loading="lazy">
+      </div>
+      <img class="wtt-quote-icon wtt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
+      <img class="wtt-quote-icon wtt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
+      <p class="wtt-text">L’université WeFiiT, c’est un programme de formation qu’on déploie tout au long de l’année (…) ce qui est assez différenciant des autres, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours, et on le fait évoluer tous les ans.</p>
+      <p class="wtt-author"><strong class="wtt-name">Yamila</strong> | Lead People Experience</p>
+    </div>
+  </div>
+
+  </div>
+  </div>
 </section>
 <section class="wt-paroles" id="wt-paroles" aria-labelledby="wt-paroles-title">
   <style>
@@ -579,7 +591,7 @@
     #wt-paroles .wt-intro em { font-style: italic; }
 
     @media screen and (max-width: 767px) {
-      #wt-paroles .wt-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
+      #wt-paroles .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
     }
 
     /* Grille desktop : reprise telle quelle du bloc natif du site (3 colonnes,
@@ -662,11 +674,20 @@
       color: #fff;
       font-family: inherit;
       font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.25rem;
       font-size: 1rem;
       text-decoration: none;
       text-align: center;
       padding: 1.0625rem 2.5rem;
       border-radius: 500px;
+    }
+    /* Mobile : bouton pleine largeur et texte centré, comme le bouton du site (design-system.md §6). */
+    @media screen and (max-width: 767px) {
+      #wt-paroles .wt-cta { width: 100%; }
+    }
+    @media screen and (max-width: 479px) {
+      #wt-paroles .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
     }
   </style>
 
@@ -863,7 +884,7 @@
       --wt-ghost: #f2f4ff;
       --wt-border: #eff0f6;
       font-family: "Work Sans v2", Arial, sans-serif;
-      margin: 0 0 3rem; /* espace après le bloc uniquement — la bande de fond a déjà sa propre respiration interne (padding), voir design-system.md */
+      margin: 0; /* le bas de la bande est porté par le bloc témoignage qui suit */
       box-sizing: border-box;
     }
     #wt-collectif *, #wt-collectif *::before, #wt-collectif *::after { box-sizing: border-box; }
@@ -881,7 +902,7 @@
       margin-right: -50vw;
       width: 100vw;
       background: var(--wt-ghost);
-      padding: 3rem 0 4rem; /* un peu plus de bleu pastel en bas pour aérer avec le bloc suivant, demande de Paul */
+      padding: 3rem 0 0; /* pas de padding bas : la bande se prolonge dans le bloc témoignage qui suit (07-temoignage-anne-claire.html), qui porte le bas de la bande */
     }
     #wt-collectif .wtc-inner {
       max-width: 71.25rem;
@@ -1014,7 +1035,7 @@
       border-radius: 0; /* design system du site : pas de coins arrondis */
       overflow: hidden !important; /* second rempart : même si le titre débordait malgré tout, la carte elle-même ne doit jamais laisser rien dépasser */
       background: #fff; /* blanc pour ressortir sur le fond bleu clair du bloc, qui utilise la même couleur que l'ancien fond des cartes */
-      box-shadow: 0 0.5rem 1.5rem rgba(20,20,43,0.08);
+      box-shadow: 1px 0 3px rgba(0,0,0,0.08); /* ombre de repos des cartes du site (design-system.md §5) */
     }
     /* Desktop : 3 cartes pleinement visibles + amorce de la 4ème (3 cartes + 3
        écarts + ~30% d'une 4ème carte doivent tenir dans la largeur du track). */
@@ -1123,72 +1144,13 @@
     }
     #wt-collectif .wtc-rituals strong { color: var(--wt-blue-3); }
 
-    /* Témoignage : repris du bloc de témoignage de la page "Acteur de ta mission"
-       (quote-div) — photo qui déborde en haut de la carte, guillemets en icônes
-       dans les coins opposés, carte blanche à coins droits (pas d'arrondi). */
-    /* La photo déborde de 5.625rem au-dessus de la carte (comme sur le bloc de
-       référence) : le wrapper réserve cet espace en padding-top pour de vrai,
-       plutôt qu'en marge négative, afin qu'elle n'empiète ni sur ce qui précède
-       ni sur ce qui suit le bloc. */
-    #wt-collectif .wtc-testimonial { position: relative; margin: 2.75rem auto 1rem; max-width: 40rem; padding-top: 4.21875rem; }
-    #wt-collectif .wtc-testi-card {
-      position: relative;
-      background: #fff;
-      border: 1px solid var(--wt-border);
-      border-radius: 0;
-      padding: 5rem 1.75rem 2rem; /* >= 4.21875rem (moitié basse de la photo, voir .wtc-testi-photo) avec marge de sécurité, pour que le texte ne chevauche jamais la photo */
-      text-align: left;
-      box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; /* ombre reprise du bloc de témoignage de référence */
-    }
-    #wt-collectif .wtc-testi-photo {
-      position: absolute;
-      top: -4.21875rem; /* moitié de la hauteur de la photo (8.4375rem / 2) : la photo est centrée exactement sur la ligne du haut de la carte blanche, pas posée au-dessus */
-      left: 50%;
-      transform: translateX(-50%);
-      /* Cadre à la proportion réelle de la photo (160×180px sur les photos
-         WeFiiT fournies), pas une proportion inventée : avec object-fit:fill,
-         un cadre qui ne respecte pas ce ratio étire l'image et la déforme
-         visiblement (constaté sur la photo d'Anne-Claire). */
-      width: 7.5rem;
-      height: 8.4375rem;
-      /* Pas de fond ni de bordure, complètement transparent : les photos WeFiiT
-         (voir Guillaume sur "Acteur de ta mission") ont des coins transparents
-         (cadrage diagonal). Tout fond posé ici (blanc, ghost...) réapparaît
-         dans ces coins sous forme de cadre visible — la photo doit laisser
-         voir ce qu'il y a vraiment derrière (bande pastel au-dessus de la
-         carte, blanc de la carte en dessous), pas une couleur unique plaquée. */
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      z-index: 1;
-    }
-    /* object-fit:fill (pas cover) : c'est exactement la technique du vrai bloc de
-       référence (page "Acteur de ta mission", photo de Guillaume) — étire
-       légèrement la photo pour remplir le cadre plutôt que de la rogner. Un
-       recadrage "cover" coupait une bonne partie du visage d'Anne-Claire. */
-    #wt-collectif .wtc-testi-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
-    #wt-collectif .wtc-testi-photo-placeholder {
-      color: var(--wt-label);
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-align: center;
-      padding: 0.5rem;
-    }
-    /* Masque automatiquement "Photo à venir" dès qu'une image de fond est posée
-       en style inline sur .wtc-testi-photo (voir plus bas dans le HTML). */
-    #wt-collectif .wtc-quote-icon { position: absolute; width: 2.5rem; }
-    #wt-collectif .wtc-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
-    #wt-collectif .wtc-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
-    #wt-collectif .wtc-testi-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
-    #wt-collectif .wtc-testi-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 500; text-align: center; margin: 0; }
-    #wt-collectif .wtc-testi-name { font-weight: 600; }
 
     @media screen and (max-width: 767px) {
-      #wt-collectif .wtc-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
-      #wt-collectif .wtc-testi-card { padding: 5.5rem 1.25rem 1.5rem; } /* même haut, juste les côtés/bas resserrés */
+      #wt-collectif .wtc-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
       #wt-collectif .wtc-tabs { gap: 1.25rem; justify-content: flex-start; }
+    }
+    @media screen and (max-width: 479px) {
+      #wt-collectif .wtc-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
     }
   </style>
 
@@ -1297,18 +1259,6 @@
 
   <p class="wtc-rituals">Et quand des WeFiiTers partagent une passion commune, de nouveaux rituels voient le jour pour faire vivre l'équipe : <strong>We.Swim, Nous.Lisons, We.Act</strong>, et bien d'autres encore.</p>
 
-  <div class="wtc-testimonial">
-    <div class="wtc-testi-card">
-      <div class="wtc-testi-photo" data-person="anne-claire">
-        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6a8c05d73b86dda0c4334ef0_anne-claire.webp" alt="Anne-Claire, Consultante Product Confirmée" loading="lazy">
-      </div>
-      <img class="wtc-quote-icon wtc-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
-      <img class="wtc-quote-icon wtc-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
-      <p class="wtc-testi-text">Ce qui est fou chez WeFiiT c'est qu'on se connait tous mais au final on se rend compte qu'on a des talents cachés</p>
-      <p class="wtc-testi-author"><strong class="wtc-testi-name">Anne-Claire</strong> | Consultante Product Confirmée</p>
-    </div>
-  </div>
-
   </div>
   </div>
 
@@ -1403,6 +1353,52 @@
     })();
   </script>
 </section>
+<section class="wt-temoignage" id="wt-temoignage-anne-claire" aria-label="Témoignage de Anne-Claire">
+  <style>
+    #wt-temoignage-anne-claire {
+      --wt-blue-2: #002882; --wt-blue-3: #2a4cff; --wt-ghost: #f2f4ff; --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      margin: 0 0 3rem; /* bloc avec bande de fond pleine largeur : margin-bottom seul */
+      box-sizing: border-box;
+    }
+    #wt-temoignage-anne-claire *, #wt-temoignage-anne-claire *::before, #wt-temoignage-anne-claire *::after { box-sizing: border-box; }
+    /* Bande pleine largeur (technique des marges négatives, jamais clip-path ni box-shadow géant). Elle prolonge la bande du bloc
+       qui précède : ce bloc doit suivre directement celui dont il a été séparé. */
+    #wt-temoignage-anne-claire .wtt-band { position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw; background: var(--wt-ghost); padding: 2.75rem 0 5rem; }
+    #wt-temoignage-anne-claire .wtt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+    /* Carte de témoignage : photo qui déborde en haut (cadre transparent aux proportions de la photo, centré sur le bord de la carte),
+       guillemets en icônes SVG du site, texte et signature centrés (nom en gras, fonction en poids normal). */
+    #wt-temoignage-anne-claire .wtt-testimonial { position: relative; margin: 0 auto; max-width: 40rem; padding-top: 4.21875rem; }
+    #wt-temoignage-anne-claire .wtt-card { position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0; padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; }
+    #wt-temoignage-anne-claire .wtt-photo { position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%); width: 7.5rem; height: 8.4375rem; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1; }
+    #wt-temoignage-anne-claire .wtt-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    #wt-temoignage-anne-claire .wtt-quote-icon { position: absolute; width: 2.5rem; }
+    #wt-temoignage-anne-claire .wtt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+    #wt-temoignage-anne-claire .wtt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+    #wt-temoignage-anne-claire .wtt-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+    #wt-temoignage-anne-claire .wtt-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 400; text-align: center; margin: 0; }
+    #wt-temoignage-anne-claire .wtt-name { font-weight: 600; }
+    @media screen and (max-width: 767px) { #wt-temoignage-anne-claire .wtt-card { padding: 5.5rem 1.25rem 1.5rem; } }
+  </style>
+
+  <div class="wtt-band">
+  <div class="wtt-inner">
+
+  <div class="wtt-testimonial">
+    <div class="wtt-card">
+      <div class="wtt-photo" data-person="anne-claire">
+        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6a8c05d73b86dda0c4334ef0_anne-claire.webp" alt="Anne-Claire, Consultante Product Confirmée" loading="lazy">
+      </div>
+      <img class="wtt-quote-icon wtt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
+      <img class="wtt-quote-icon wtt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
+      <p class="wtt-text">Ce qui est fou chez WeFiiT c'est qu'on se connait tous mais au final on se rend compte qu'on a des talents cachés</p>
+      <p class="wtt-author"><strong class="wtt-name">Anne-Claire</strong> | Consultante Product Confirmée</p>
+    </div>
+  </div>
+
+  </div>
+  </div>
+</section>
 <section class="wt-tribes" id="wt-tribes" aria-labelledby="wt-title-heading">
   <style>
     #wt-tribes {
@@ -1416,7 +1412,7 @@
       --wt-border: #eff0f6;
       font-family: "Work Sans v2", Arial, sans-serif;
       max-width: 71.25rem;
-      margin: 0 auto 5rem; /* espace après le bloc uniquement, voir design-system.md — pas de margin-top pour éviter le doublement de marge entre blocs Embed */
+      margin: 0 auto 3.75rem; /* espace avant le bloc témoignage qui suit (09-temoignage-guillaume.html), qui porte la marge de fin du bloc */
       padding: 0 1rem;
       box-sizing: border-box;
     }
@@ -1463,7 +1459,7 @@
     #wt-tribes .wt-intro strong { font-weight: 600; }
 
     @media screen and (max-width: 767px) {
-      #wt-tribes .wt-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
+      #wt-tribes .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
     }
 
     /* Tabs wrapper: hugs the pill's own size/position (like .wt-tabs used to) and hosts
@@ -1541,7 +1537,7 @@
       background: #fff;
       border: 1px solid var(--wt-border);
       border-radius: 0; /* design system: this block stays a plain rectangle, no rounded corners */
-      box-shadow: 0 0.5rem 1.5rem rgba(20,20,43,0.06);
+      box-shadow: 1px 0 3px rgba(0,0,0,0.08); /* ombre de repos des cartes du site (design-system.md §5) */
     }
     /* Font-family/weight/size/color below match the live site's own tribe title +
        paragraph exactly (Work Sans v2, not a display font) — kept as they already are
@@ -1557,7 +1553,7 @@
       letter-spacing: 0.03em;
       text-transform: uppercase;
     }
-    #wt-tribes .wt-label .wt-line { width: 1.5rem; height: 2px; background: var(--wt-blue-3); display: inline-block; }
+    #wt-tribes .wt-label .wt-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; }
     #wt-tribes .wt-objective {
       font-family: inherit;
       color: var(--wt-blue-2);
@@ -1693,57 +1689,16 @@
       #wt-tribes .wt-text { padding: 1.25rem; }
     }
 
-    /* Témoignage : même pattern que sur le bloc "S'épanouir grâce au collectif",
-       lui-même repris du bloc de témoignage de la page "Acteur de ta mission"
-       (quote-div) — photo qui déborde en haut de la carte (débord réservé en
-       padding-top réel, pas en marge négative, pour ne jamais empiéter sur ce qui
-       précède/suit), guillemets en icônes SVG réelles du site dans les coins
-       opposés, carte blanche à coins droits, ombre reprise du bloc de référence. */
-    #wt-tribes .wt-testimonial { position: relative; margin: 3.75rem auto 0; padding-top: 4.21875rem; padding-bottom: 1rem; max-width: 40rem; }
-    #wt-tribes .wt-testi-card {
-      position: relative;
-      background: #fff;
-      border: 1px solid var(--wt-border);
-      border-radius: 0;
-      padding: 5rem 1.75rem 2rem;
-      text-align: center;
-      box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px;
-    }
-    #wt-tribes .wt-testi-photo {
-      position: absolute;
-      top: -4.21875rem; /* moitié de la hauteur de la photo (8.4375rem / 2) : centrée exactement sur la ligne du haut de la carte, voir library.md */
-      left: 50%;
-      transform: translateX(-50%);
-      /* Cadre au ratio réel de la photo de Guillaume (160×180px). */
-      width: 7.5rem;
-      height: 8.4375rem;
-      /* Transparent, jamais une couleur pleine : les coins de la photo sont
-         transparents (cadrage diagonal), un fond fixe y dessinerait un cadre
-         visible dès que ce qu'il y a derrière change de couleur. Voir library.md. */
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      z-index: 1;
-    }
-    #wt-tribes .wt-testi-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
-    #wt-tribes .wt-quote-icon { position: absolute; width: 2.5rem; }
-    #wt-tribes .wt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
-    #wt-tribes .wt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
-    #wt-tribes .wt-testi-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
-    #wt-tribes .wt-testi-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 500; text-align: center; margin: 0; }
-    #wt-tribes .wt-testi-name { font-weight: 600; }
 
-    @media screen and (max-width: 767px) {
-      #wt-tribes .wt-testi-card { padding: 5rem 1.25rem 1.5rem; }
-    }
 
     #wt-tribes .wt-photo[data-tribe="experience"] { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/65830dbb97aa2a27f503a401_Equipe%20-%20Tribe%20RH.webp'); }
     #wt-tribes .wt-photo[data-tribe="excellence"] { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63ef9682a3c580c78d8a6490_Equipe%20-%20Tribe%20recrutement.webp'); }
     #wt-tribes .wt-photo[data-tribe="expertises"] { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63ef963fdb660241a22aa549_Equipe%20-%20Tribe%20notori%C3%A9t%C3%A9.webp'); }
     #wt-tribes .wt-photo[data-tribe="business"]   { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/65830d5972bf95697c4af2be_Equipe%20-%20Tribe%20Business.webp'); }
     #wt-tribes .wt-photo[data-tribe="notoriete"]  { background-image: url('https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/65830d592f789caac7e57bdf_Equipe%20-%20Tribe%20Notori%C3%A9t%C3%A9.webp'); }
+    @media screen and (max-width: 479px) {
+      #wt-tribes .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+    }
   </style>
 
   <h2 class="wt-title" id="wt-title-heading">Construire ensemble le WeFiiT de demain<span class="wt-title-dot">.</span></h2>
@@ -1863,18 +1818,6 @@
 
   </div>
 
-  <div class="wt-testimonial">
-    <div class="wt-testi-card">
-      <div class="wt-testi-photo" data-person="guillaume">
-        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/64118ccd9e750a2969c2eb5b_Mission%20-%20T%C3%A9moignages%20WeFiiTers%20-%20Consultant%20Product%20Guillaume.webp" alt="Guillaume, Consultant Product Leader" loading="lazy">
-      </div>
-      <img class="wt-quote-icon wt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
-      <img class="wt-quote-icon wt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
-      <p class="wt-testi-text">J'ai tout de suite accroché à la vision des co-fondateurs pour WeFiiT, à savoir la construction d'un collectif d'experts bienveillants (...) où chacun peut apporter sa pierre à l'édifice pour construire un WeFiiT qui nous ressemble</p>
-      <p class="wt-testi-author"><strong class="wt-testi-name">Guillaume</strong> | Consultant Product Leader</p>
-    </div>
-  </div>
-
   <script>
     (function () {
       var root = document.getElementById('wt-tribes');
@@ -1903,6 +1846,42 @@
       });
     })();
   </script>
+</section>
+<section class="wt-temoignage" id="wt-temoignage-guillaume" aria-label="Témoignage de Guillaume">
+  <style>
+    #wt-temoignage-guillaume {
+      --wt-blue-2: #002882; --wt-blue-3: #2a4cff; --wt-ghost: #f2f4ff; --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      max-width: 71.25rem; margin: 0 auto 5rem; padding: 0 1rem; /* bloc sur fond blanc : margin-bottom seul */
+      box-sizing: border-box;
+    }
+    #wt-temoignage-guillaume *, #wt-temoignage-guillaume *::before, #wt-temoignage-guillaume *::after { box-sizing: border-box; }
+    /* Carte de témoignage : photo qui déborde en haut (cadre transparent aux proportions de la photo, centré sur le bord de la carte),
+       guillemets en icônes SVG du site, texte et signature centrés (nom en gras, fonction en poids normal). */
+    #wt-temoignage-guillaume .wtt-testimonial { position: relative; margin: 0 auto; padding-top: 4.21875rem; padding-bottom: 1rem; max-width: 40rem; }
+    #wt-temoignage-guillaume .wtt-card { position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0; padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; }
+    #wt-temoignage-guillaume .wtt-photo { position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%); width: 7.5rem; height: 8.4375rem; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1; }
+    #wt-temoignage-guillaume .wtt-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    #wt-temoignage-guillaume .wtt-quote-icon { position: absolute; width: 2.5rem; }
+    #wt-temoignage-guillaume .wtt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+    #wt-temoignage-guillaume .wtt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+    #wt-temoignage-guillaume .wtt-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+    #wt-temoignage-guillaume .wtt-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 400; text-align: center; margin: 0; }
+    #wt-temoignage-guillaume .wtt-name { font-weight: 600; }
+    @media screen and (max-width: 767px) { #wt-temoignage-guillaume .wtt-card { padding: 5rem 1.25rem 1.5rem; } }
+  </style>
+
+  <div class="wtt-testimonial">
+    <div class="wtt-card">
+      <div class="wtt-photo" data-person="guillaume">
+        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/64118ccd9e750a2969c2eb5b_Mission%20-%20T%C3%A9moignages%20WeFiiTers%20-%20Consultant%20Product%20Guillaume.webp" alt="Guillaume, Consultant Product Leader" loading="lazy">
+      </div>
+      <img class="wtt-quote-icon wtt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
+      <img class="wtt-quote-icon wtt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
+      <p class="wtt-text">J'ai tout de suite accroché à la vision des co-fondateurs pour WeFiiT, à savoir la construction d'un collectif d'experts bienveillants (...) où chacun peut apporter sa pierre à l'édifice pour construire un WeFiiT qui nous ressemble</p>
+      <p class="wtt-author"><strong class="wtt-name">Guillaume</strong> | Consultant Product Leader</p>
+    </div>
+  </div>
 </section>
 <section id="wt-photo-full">
   <style>

@@ -1,0 +1,46 @@
+<section class="wt-temoignage" id="wt-temoignage-yamila" aria-label="Témoignage de Yamila">
+  <style>
+    #wt-temoignage-yamila {
+      --wt-blue-2: #002882; --wt-blue-3: #2a4cff; --wt-ghost: #f2f4ff; --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      margin: 0 0 3rem; /* bloc avec bande de fond pleine largeur : margin-bottom seul */
+      box-sizing: border-box;
+    }
+    #wt-temoignage-yamila *, #wt-temoignage-yamila *::before, #wt-temoignage-yamila *::after { box-sizing: border-box; }
+    /* Bande pleine largeur (technique des marges négatives, jamais clip-path ni box-shadow géant). Elle prolonge la bande du bloc
+       qui précède : ce bloc doit suivre directement celui dont il a été séparé. */
+    #wt-temoignage-yamila .wtt-band { position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw; background: var(--wt-ghost); padding: 1rem 0 6rem; } /* haut : 3.5rem d'origine moins les 2.5rem de marge basse du bloc cadre, désormais contenus dans sa bande */
+    #wt-temoignage-yamila .wtt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+    /* Carte de témoignage : photo qui déborde en haut (cadre transparent aux proportions de la photo, centré sur le bord de la carte),
+       guillemets en icônes SVG du site, texte et signature centrés (nom en gras, fonction en poids normal). */
+    #wt-temoignage-yamila .wtt-testimonial { position: relative; margin: 0 auto; max-width: 40rem; padding-top: 4.21875rem; }
+    #wt-temoignage-yamila .wtt-card { position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0; padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; }
+    #wt-temoignage-yamila .wtt-photo { position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%); width: 7.5rem; height: 8.4375rem; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1; }
+    #wt-temoignage-yamila .wtt-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    #wt-temoignage-yamila .wtt-quote-icon { position: absolute; width: 2.5rem; }
+    #wt-temoignage-yamila .wtt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+    #wt-temoignage-yamila .wtt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+    #wt-temoignage-yamila .wtt-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+    #wt-temoignage-yamila .wtt-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 400; text-align: center; margin: 0; }
+    #wt-temoignage-yamila .wtt-name { font-weight: 600; }
+    @media screen and (max-width: 767px) { #wt-temoignage-yamila .wtt-card { padding: 5rem 1.25rem 1.5rem; } }
+  </style>
+
+  <div class="wtt-band">
+  <div class="wtt-inner">
+
+  <div class="wtt-testimonial">
+    <div class="wtt-card">
+      <div class="wtt-photo" data-person="yamila">
+        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6a8c35a519d54491c9ab5e1d_yamila.webp" alt="Yamila, Lead People Experience" loading="lazy">
+      </div>
+      <img class="wtt-quote-icon wtt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
+      <img class="wtt-quote-icon wtt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
+      <p class="wtt-text">L’université WeFiiT, c’est un programme de formation qu’on déploie tout au long de l’année (…) ce qui est assez différenciant des autres, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours, et on le fait évoluer tous les ans.</p>
+      <p class="wtt-author"><strong class="wtt-name">Yamila</strong> | Lead People Experience</p>
+    </div>
+  </div>
+
+  </div>
+  </div>
+</section>

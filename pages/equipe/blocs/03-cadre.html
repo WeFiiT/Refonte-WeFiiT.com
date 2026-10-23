@@ -10,7 +10,7 @@
       --wt-ghost: #f2f4ff;
       --wt-border: #eff0f6;
       font-family: "Work Sans v2", Arial, sans-serif;
-      margin: 0 0 3rem;
+      margin: 0; /* le bas de la bande est porté par le bloc témoignage qui suit */
       box-sizing: border-box;
     }
     #wt-cadrec *, #wt-cadrec *::before, #wt-cadrec *::after { box-sizing: border-box; }
@@ -23,7 +23,8 @@
       margin-right: -50vw;
       width: 100vw;
       background: var(--wt-ghost);
-      padding: 4rem 0 5rem; /* un peu plus de bleu pastel en bas pour aérer avec le bloc suivant, demande de Paul */
+      display: flow-root; /* la marge basse du dernier élément reste dans la bande */
+      padding: 4rem 0 0; /* pas de padding bas : la bande se prolonge dans le bloc témoignage qui suit (04-temoignage-yamila.html), qui porte le bas de la bande */
     }
     #wt-cadrec .wt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
 
@@ -49,7 +50,7 @@
       -webkit-text-fill-color: transparent;
     }
     @media screen and (max-width: 767px) {
-      #wt-cadrec .wt-title { font-size: 2.25rem; line-height: 2.6rem; letter-spacing: -0.06rem; }
+      #wt-cadrec .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
     }
 
     /* Mise en page "plus visuelle" (demande de Paul) : titre, puis un encart
@@ -207,29 +208,8 @@
     }
     #wt-cadrec .wt-outro strong { font-weight: 600; }
 
-    #wt-cadrec .wt-testimonial { position: relative; margin: 3.5rem auto 1rem; max-width: 40rem; padding-top: 4.21875rem; }
-    #wt-cadrec .wt-testi-card {
-      position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0;
-      padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px;
-    }
-    #wt-cadrec .wt-testi-photo {
-      /* Cadre au ratio réel de la photo de Yamila (160×180px), centré exactement
-         sur la ligne du haut de la carte (top = -moitié de la hauteur), fond
-         transparent (jamais une couleur pleine, les coins de la photo sont
-         transparents) — voir library.md pour la recette complète. */
-      position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%);
-      width: 7.5rem; height: 8.4375rem; background: transparent;
-      display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1;
-    }
-    #wt-cadrec .wt-testi-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
-    #wt-cadrec .wt-quote-icon { position: absolute; width: 2.5rem; }
-    #wt-cadrec .wt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
-    #wt-cadrec .wt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
-    #wt-cadrec .wt-testi-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
-    #wt-cadrec .wt-testi-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 500; text-align: center; margin: 0; }
-    #wt-cadrec .wt-testi-name { font-weight: 600; }
-    @media screen and (max-width: 767px) {
-      #wt-cadrec .wt-testi-card { padding: 5rem 1.25rem 1.5rem; }
+    @media screen and (max-width: 479px) {
+      #wt-cadrec .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
     }
   </style>
 
@@ -278,18 +258,6 @@
           <p class="wt-item-text"><span>Développer tes compétences</span>, affiner tes expertises et faire reconnaître ton impact, auprès des clients comme en interne</p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="wt-testimonial">
-    <div class="wt-testi-card">
-      <div class="wt-testi-photo" data-person="yamila">
-        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6a8c35a519d54491c9ab5e1d_yamila.webp" alt="Yamila, Lead People Experience" loading="lazy">
-      </div>
-      <img class="wt-quote-icon wt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
-      <img class="wt-quote-icon wt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
-      <p class="wt-testi-text">L’université WeFiiT, c’est un programme de formation qu’on déploie tout au long de l’année (…) ce qui est assez différenciant des autres, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours, et on le fait évoluer tous les ans.</p>
-      <p class="wt-testi-author"><strong class="wt-testi-name">Yamila</strong> | Lead People Experience</p>
     </div>
   </div>
 

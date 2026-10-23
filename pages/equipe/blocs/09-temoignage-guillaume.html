@@ -1,0 +1,36 @@
+<section class="wt-temoignage" id="wt-temoignage-guillaume" aria-label="Témoignage de Guillaume">
+  <style>
+    #wt-temoignage-guillaume {
+      --wt-blue-2: #002882; --wt-blue-3: #2a4cff; --wt-ghost: #f2f4ff; --wt-border: #eff0f6;
+      font-family: "Work Sans v2", Arial, sans-serif;
+      max-width: 71.25rem; margin: 0 auto 5rem; padding: 0 1rem; /* bloc sur fond blanc : margin-bottom seul */
+      box-sizing: border-box;
+    }
+    #wt-temoignage-guillaume *, #wt-temoignage-guillaume *::before, #wt-temoignage-guillaume *::after { box-sizing: border-box; }
+    /* Carte de témoignage : photo qui déborde en haut (cadre transparent aux proportions de la photo, centré sur le bord de la carte),
+       guillemets en icônes SVG du site, texte et signature centrés (nom en gras, fonction en poids normal). */
+    #wt-temoignage-guillaume .wtt-testimonial { position: relative; margin: 0 auto; padding-top: 4.21875rem; padding-bottom: 1rem; max-width: 40rem; }
+    #wt-temoignage-guillaume .wtt-card { position: relative; background: #fff; border: 1px solid var(--wt-border); border-radius: 0; padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; }
+    #wt-temoignage-guillaume .wtt-photo { position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%); width: 7.5rem; height: 8.4375rem; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1; }
+    #wt-temoignage-guillaume .wtt-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    #wt-temoignage-guillaume .wtt-quote-icon { position: absolute; width: 2.5rem; }
+    #wt-temoignage-guillaume .wtt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+    #wt-temoignage-guillaume .wtt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+    #wt-temoignage-guillaume .wtt-text { color: var(--wt-blue-2); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+    #wt-temoignage-guillaume .wtt-author { color: var(--wt-blue-3); font-size: 1rem; font-weight: 400; text-align: center; margin: 0; }
+    #wt-temoignage-guillaume .wtt-name { font-weight: 600; }
+    @media screen and (max-width: 767px) { #wt-temoignage-guillaume .wtt-card { padding: 5rem 1.25rem 1.5rem; } }
+  </style>
+
+  <div class="wtt-testimonial">
+    <div class="wtt-card">
+      <div class="wtt-photo" data-person="guillaume">
+        <img src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/64118ccd9e750a2969c2eb5b_Mission%20-%20T%C3%A9moignages%20WeFiiTers%20-%20Consultant%20Product%20Guillaume.webp" alt="Guillaume, Consultant Product Leader" loading="lazy">
+      </div>
+      <img class="wtt-quote-icon wtt-quote-icon-tl" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06f6b5cd13d0c86e4a7_quotes-1.svg" alt="">
+      <img class="wtt-quote-icon wtt-quote-icon-br" src="https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63d6a06fcc3c397e769ef781_quotes.svg" alt="">
+      <p class="wtt-text">J'ai tout de suite accroché à la vision des co-fondateurs pour WeFiiT, à savoir la construction d'un collectif d'experts bienveillants (...) où chacun peut apporter sa pierre à l'édifice pour construire un WeFiiT qui nous ressemble</p>
+      <p class="wtt-author"><strong class="wtt-name">Guillaume</strong> | Consultant Product Leader</p>
+    </div>
+  </div>
+</section>
