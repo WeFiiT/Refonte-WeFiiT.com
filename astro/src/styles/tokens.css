@@ -1,0 +1,15 @@
+/* Tokens du design system WeFiiT (docs/design-system.md §1). Les noms d'origine du
+   site Webflow sont rappelés en commentaire. Valeurs brutes, jamais inventées. */
+:root {
+  --wf-blue-900: #001d84; /* --midnight-blue : couleur principale */
+  --wf-blue-800: #002882; /* --dark_blue_wefiit : texte body, départ des dégradés de titres */
+  --wf-blue-600: #2a4cff; /* --slate-blue : liens, eyebrows, fin des dégradés */
+  --wf-blue-500: #4a3aff;
+  --wf-blue-300: #858fd6; /* --cornflower-blue */
+  --wf-blue-75: #edf0ff;
+  --wf-blue-50: #f2f4ff; /* --ghost-white : bandes de fond claires */
+  --wf-orange-500: #f98f03; /* --light_orange_wefiit : CTA, point final */
+  --wf-orange-600: #e95400; /* --e95400 : dégradés */
+  --wf-grey-100: #eff0f6;
+  --wf-ink: #0e0f11;
+}

@@ -1,0 +1,13 @@
+---
+import Page from '../layouts/Page.astro';
+import { PAGES } from '../pages-publiees';
+---
+
+<Page titre="WeFiiT.com, Astro">
+  <main style="max-width:40rem;margin:4rem auto;padding:0 1rem;color:#001d84;">
+    <h1 style="font-family:Allroundgothic,Arial,sans-serif;font-weight:400;">Pages du site</h1>
+    <ul>
+      {PAGES.map((p) => <li><a href={`/${p.slug}/`}>{p.nom}</a></li>)}
+    </ul>
+  </main>
+</Page>

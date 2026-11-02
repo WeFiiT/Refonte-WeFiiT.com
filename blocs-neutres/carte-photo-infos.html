@@ -38,6 +38,14 @@
 
     #nos-bureaux .wtb-body { min-width: 0; padding: 48px 40px; display: flex; flex-direction: column; gap: 20px; }
 
+    /* Eyebrow standard (16px, bleu vif, trait de 1.5rem), alignée à gauche comme le titre ; groupée avec lui
+       pour que l'écart du flex (20px) ne s'applique qu'entre l'en-tête et le texte. */
+    #nos-bureaux .wtb-eyebrow {
+      display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem;
+      font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+      color: var(--wt-blue-3); text-align: left;
+    }
+    #nos-bureaux .wtb-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; flex: none; }
     /* Titre identique à celui des autres blocs de la page Culture : 48px (40px sur
        mobile, comme les H2 réels de /equipe), dégradé bleu 270deg sur le texte, point
        final en dégradé orange vertical dans son propre span. */
@@ -53,7 +61,7 @@
       -webkit-background-clip: text; background-clip: text; color: transparent;
       -webkit-text-fill-color: transparent;
     }
-    #nos-bureaux .wtb-text { margin: 0; font-size: 0.875rem; line-height: 1.6; color: var(--wt-blue); text-align: left; text-wrap: pretty; }
+    #nos-bureaux .wtb-text { margin: 0; font-size: 0.9375rem; line-height: 1.6; color: var(--wt-blue); text-align: left; text-wrap: pretty; }
 
     /* Infos pratiques : 4 cellules en 2 x 2, de même hauteur (lignes de grille
        étirées). Chaque cellule affiche, dans l'ordre : intitulé, valeur, libellé ;
@@ -61,8 +69,8 @@
        (dd), ce qui donne une lecture "Ouverture : …" sans le style. */
     #nos-bureaux .wtb-infos { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px; }
     #nos-bureaux .wtb-info { margin: 0; padding: 14px; min-width: 0; background: var(--wt-ghost); display: flex; flex-direction: column; gap: 4px; }
-    #nos-bureaux .wtb-info-k { order: 1; margin: 0; font-size: 0.6875rem; line-height: 1.3; font-weight: 600; color: var(--wt-blue-3); text-align: left; text-transform: none; letter-spacing: 0; }
-    #nos-bureaux .wtb-info-v { order: 2; margin: 0; font-family: Allroundgothic, Arial, sans-serif; font-size: 1.25rem; line-height: 1.1; font-weight: 400; white-space: nowrap; color: var(--wt-orange-2); text-align: left; }
+    #nos-bureaux .wtb-info-k { order: 1; margin: 0; font-size: 0.75rem; line-height: 1.3; font-weight: 600; color: var(--wt-blue-3); text-align: left; text-transform: none; letter-spacing: 0; }
+    #nos-bureaux .wtb-info-v { order: 2; margin: 0; font-family: Allroundgothic, Arial, sans-serif; font-size: 1.375rem; line-height: 1.1; font-weight: 400; white-space: nowrap; color: var(--wt-orange-2); text-align: left; }
     #nos-bureaux .wtb-info-l { order: 3; margin: 0; font-size: 0.75rem; line-height: 1.35; color: var(--wt-blue); text-align: left; }
 
 
@@ -82,7 +90,7 @@
       #nos-bureaux .wtb-infos { gap: 8px; }
       #nos-bureaux .wtb-info { padding: 12px; }
       #nos-bureaux .wtb-info-v { font-size: 1.125rem; }
-      #nos-bureaux .wtb-info-l { font-size: 0.6875rem; }
+      #nos-bureaux .wtb-info-l { font-size: 0.75rem; }
     }
     @media screen and (max-width: 479px) {
       #nos-bureaux .wtb-info-v { font-size: 1rem; }
@@ -98,34 +106,37 @@
     </div>
 
     <div class="wtb-body">
-      <h2 class="wtb-title" id="wtb-title">Amet consectetur<span class="wtb-title-dot">.</span></h2>
-      <p class="wtb-text">Adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      <div class="wtb-head">
+        <p class="wtb-eyebrow"><span class="wtb-eyebrow-line"></span>Amet consectetur</p>
+        <h2 class="wtb-title" id="wtb-title">Adipiscing elit<span class="wtb-title-dot">.</span></h2>
+      </div>
+      <p class="wtb-text">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
       <!-- Intitulés (Ouverture, Accès, Connexion, Avis) ajoutés par le design : absents du texte source.
            "Ouverture" est obligatoire : ces horaires sont ceux du lieu, pas ceux des consultants. -->
       <dl class="wtb-infos">
         <div class="wtb-info">
-          <dt class="wtb-info-k">Magna</dt>
+          <dt class="wtb-info-k">Enim</dt>
           <!-- Horaires coupés en valeur + libellé pour la carte : la phrase complète est lue par le .wtb-sr-only. -->
-          <dd class="wtb-sr-only">Aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip</dd>
-          <dd class="wtb-info-v" aria-hidden="true">ex ea commodo</dd>
-          <dd class="wtb-info-l" aria-hidden="true">Consequat duis aute irure in</dd>
+          <dd class="wtb-sr-only">Ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea</dd>
+          <dd class="wtb-info-v" aria-hidden="true">commodo consequat duis</dd>
+          <dd class="wtb-info-l" aria-hidden="true">Aute irure in reprehenderit voluptate</dd>
         </div>
         <div class="wtb-info">
-          <dt class="wtb-info-k">Reprehenderit</dt>
-          <dd class="wtb-info-v">voluptate velit</dd>
-          <dd class="wtb-info-l">esse cillum fugiat</dd>
-          <dd class="wtb-info-l">nulla pariatur excepteur sint occaecat</dd>
+          <dt class="wtb-info-k">Velit</dt>
+          <dd class="wtb-info-v">esse cillum</dd>
+          <dd class="wtb-info-l">fugiat nulla pariatur</dd>
+          <dd class="wtb-info-l">excepteur sint occaecat cupidatat non</dd>
         </div>
         <div class="wtb-info">
-          <dt class="wtb-info-k">Cupidatat</dt>
-          <dd class="wtb-info-v">non</dd>
-          <dd class="wtb-info-l">proident sunt culpa</dd>
+          <dt class="wtb-info-k">Proident</dt>
+          <dd class="wtb-info-v">sunt</dd>
+          <dd class="wtb-info-l">culpa qui officia</dd>
         </div>
         <div class="wtb-info">
-          <dt class="wtb-info-k">Qui</dt>
-          <dd class="wtb-info-v">4,7 <span aria-hidden="true">officia</span><span class="wtb-sr-only"> deserunt mollit</span></dd>
-          <dd class="wtb-info-l">Anim id est</dd>
+          <dt class="wtb-info-k">Deserunt</dt>
+          <dd class="wtb-info-v">4,7 <span aria-hidden="true">mollit</span><span class="wtb-sr-only"> anim id</span></dd>
+          <dd class="wtb-info-l">Est laborum lorem</dd>
         </div>
       </dl>
     </div>

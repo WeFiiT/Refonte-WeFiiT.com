@@ -1,0 +1,247 @@
+---
+// Bande de fond pleine largeur : titre H2, photo + texte d'intro/suite côte à côte (empilés
+// sur mobile), puis une accroche et une liste de points numérotés qui apparaissent en fondu
+// au défilement. Version composant du bloc pages/equipe/blocs/03-cadre.html (même rendu,
+// même comportement, couleurs lues dans les tokens --wf-*).
+interface Props {
+  titre: string; // sans le point final : il est ajouté en dégradé orange
+  photo: string;
+  alt?: string;
+  intro: string; // HTML autorisé (<br>)
+  suite: string; // HTML autorisé (<br>, <span>, <strong>)
+  accroche: string; // phrase au-dessus de la liste
+  points: { accent: string; reste: string }[]; // accent = partie mise en avant, reste = suite de la phrase
+  id?: string;
+}
+const { titre, photo, alt = '', intro, suite, accroche, points, id = 'wt-cadrec' } = Astro.props;
+---
+
+<section class="wt-cadrec" id={id} aria-labelledby={`${id}-title`}>
+  <div class="wt-band">
+    <div class="wt-inner">
+      <h2 class="wt-title" id={`${id}-title`}>{titre}<span class="wt-title-dot">.</span></h2>
+
+      <div class="wt-layout">
+        <div class="wt-layout-photo">
+          <div class="wt-photo">
+            <img src={photo} alt={alt} loading="lazy" />
+          </div>
+        </div>
+        <div class="wt-layout-text">
+          <p class="wt-intro" set:html={intro} />
+          <p class="wt-outro" set:html={suite} />
+        </div>
+        <div class="wt-layout-list">
+          <p class="wt-lead-in">{accroche}</p>
+          <div class="wt-list">
+            {
+              points.map((point, i) => (
+                <div class="wt-item">
+                  <span class="wt-item-index">{i + 1}</span>
+                  <p class="wt-item-text"><span>{point.accent}</span>{point.reste}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wt-cadrec {
+    font-family: "Work Sans v2", Arial, sans-serif;
+    margin: 0; /* le bas de la bande est porté par le bloc témoignage qui suit */
+    box-sizing: border-box;
+  }
+  .wt-cadrec, .wt-cadrec :global(*), .wt-cadrec :global(*::before), .wt-cadrec :global(*::after) { box-sizing: border-box; }
+
+  .wt-band {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    background: var(--wf-blue-50);
+    display: flow-root; /* la marge basse du dernier élément reste dans la bande */
+    padding: 4rem 0 0; /* pas de padding bas : la bande se prolonge dans le bloc témoignage qui suit (04-temoignage-yamila), qui porte le bas de la bande */
+  }
+  .wt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+
+  .wt-title {
+    font-family: Allroundgothic, Arial, sans-serif;
+    font-size: 3.2rem;
+    line-height: 3.84rem;
+    font-weight: 400;
+    letter-spacing: -0.128rem;
+    text-align: center;
+    margin: 0;
+    background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .wt-title-dot {
+    background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  @media screen and (max-width: 767px) {
+    .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px */
+  }
+
+  /* Mise en page : titre, puis un encart photo + le texte d'intro, puis les points en dessous
+     (pleine largeur). Sur mobile : ordre normal du HTML (photo, texte, points), simple flux
+     bloc, texte centré. À partir de 768px : photo à gauche + texte à droite sur une seule
+     ligne, la liste passe sur sa propre ligne en pleine largeur (grille à 2 colonnes). */
+  .wt-layout {
+    margin: 2rem 0 2.5rem;
+  }
+  .wt-layout-photo { margin-bottom: 1.75rem; }
+  .wt-layout-text { margin-bottom: 1.75rem; }
+  @media screen and (min-width: 768px) {
+    .wt-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 58%) 1fr;
+      grid-template-areas: "photo text" "list list";
+      column-gap: 2.75rem;
+      row-gap: 2rem;
+      align-items: start;
+    }
+    .wt-layout-photo { grid-area: photo; margin-bottom: 0; }
+    .wt-layout-text { grid-area: text; margin-bottom: 0; }
+    .wt-layout-list { grid-area: list; }
+  }
+
+  .wt-intro {
+    font-size: 1rem; font-weight: 400; line-height: 1.3rem; color: var(--wf-blue-900);
+    text-align: left; margin: 0;
+  }
+  /* Phrase d'accroche des points : regroupée avec la liste (pleine largeur, sous la ligne
+     photo/texte), sur sa propre ligne, centrée à tous les paliers. */
+  .wt-lead-in {
+    font-size: 1rem; font-weight: 400; line-height: 1.3rem; color: var(--wf-blue-900);
+    text-align: center; margin: 0 0 1.5rem;
+  }
+  /* Texte centré sur mobile (demande de Paul), liste comprise ; repasse à gauche à partir de
+     768px où le texte est à côté de la photo. */
+  @media screen and (max-width: 767px) {
+    .wt-intro,
+    .wt-outro { text-align: center; }
+    .wt-item-text { text-align: center; }
+  }
+
+  /* Encart photo : format paysage garanti à toute largeur via aspect-ratio plutôt qu'une
+     hauteur fixe. Photo agrandie sur deux retours de Paul (colonne desktop 58%, ratio 4:3,
+     `min-height` sur desktop pour garantir une taille substantielle). */
+  .wt-photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: var(--wf-blue-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  @media screen and (min-width: 768px) {
+    .wt-photo { min-height: 26rem; }
+  }
+  .wt-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Numéro discret aligné avec le texte, apparition en fondu + léger glissement vers le haut
+     au défilement (voir le script). La liste passe en grille à 2 colonnes à partir de 768px. */
+  .wt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  @media screen and (min-width: 768px) {
+    .wt-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2.5rem; }
+  }
+  .wt-item {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  /* Sur mobile, le texte des points est centré : numéro empilé au-dessus, texte centré dessous. */
+  @media screen and (max-width: 767px) {
+    .wt-item { flex-direction: column; gap: 0.375rem; }
+  }
+  .wt-item.is-visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .wt-item { transition: none; opacity: 1; transform: none; }
+  }
+  .wt-item-index {
+    flex: none;
+    min-width: 1.75rem;
+    font-family: Allroundgothic, Arial, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--wf-orange-500), var(--wf-orange-600));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .wt-item-text { font-size: 0.9375rem; line-height: 1.5; color: var(--wf-blue-800); margin: 0; }
+  /* Légèrement plus grand que le reste du texte du point (pas juste en couleur/gras) pour
+     renforcer la mise en avant, demande de Paul. */
+  .wt-item-text span { color: var(--wf-blue-600); font-weight: 600; font-size: 1.0625rem; }
+
+  /* Regroupé avec .wt-intro dans .wt-layout-text : même traitement, juste un espacement
+     au-dessus. Pas de text-align ici : cette règle est déclarée après le media query mobile
+     qui centre .wt-outro (même spécificité), un text-align fixé ici écraserait le centrage
+     sur mobile. Piège déjà vécu avec ce bloc, voir design-system.md. Le HTML de la suite
+     vient de `set:html` : d'où `:global` sur <strong>. */
+  .wt-outro {
+    font-size: 1rem; font-weight: 400; line-height: 1.3rem; color: var(--wf-blue-900);
+    margin: 1.5rem 0 0;
+  }
+  .wt-outro :global(strong) { font-weight: 600; }
+
+  @media screen and (max-width: 479px) {
+    .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+  }
+</style>
+
+<script>
+  // Apparition des points au défilement (fondu + glissement), un par un avec un léger décalage.
+  // Sans IntersectionObserver, tous les points sont affichés d'emblée.
+  document.querySelectorAll<HTMLElement>('.wt-cadrec').forEach((root) => {
+    if (root.getAttribute('data-wtc-init') === '1') return;
+    root.setAttribute('data-wtc-init', '1');
+
+    const items = root.querySelectorAll<HTMLElement>('.wt-item');
+
+    if (!('IntersectionObserver' in window)) {
+      items.forEach((item) => item.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    items.forEach((item, i) => {
+      item.style.transitionDelay = i * 0.08 + 's';
+      observer.observe(item);
+    });
+  });
+</script>

@@ -1,0 +1,40 @@
+---
+import Page from '../layouts/Page.astro';
+import { PAGES } from '../pages-publiees';
+
+// Les blocs sont lus tels quels (texte brut) depuis ../../../pages/<page>/blocs/*.html,
+// donc le <style> et le <script> de chaque bloc restent intacts, exactement comme dans
+// un Embed Webflow. Aucune copie : modifier un bloc là-bas le met à jour ici.
+const blocs = import.meta.glob<string>('../../../pages/*/blocs/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+// Blocs déjà convertis en composants Astro (src/contenu/<page>.ts) : ils remplacent
+// le fichier HTML du même nom.
+const contenus = import.meta.glob<{ composants: Record<string, { Composant: any; props: Record<string, unknown> }> }>(
+  '../contenu/*.ts',
+  { eager: true },
+);
+
+export function getStaticPaths() {
+  return PAGES.map(({ slug }) => ({ params: { page: slug } }));
+}
+
+const { page } = Astro.params;
+const composants = contenus[`../contenu/${page}.ts`]?.composants ?? {};
+const fichiers = Object.keys(blocs)
+  .filter((chemin) => chemin.includes(`/pages/${page}/blocs/`))
+  .sort() // ordre alphabétique = ordre des numéros 01-, 02-, ...
+  .map((chemin) => ({ chemin, nom: chemin.split('/').pop()!.replace(/\.html$/, '') }));
+---
+
+<Page titre={`WeFiiT.com, page ${page}`}>
+  {
+    fichiers.map(({ chemin, nom }) => {
+      const c = composants[nom];
+      return c ? <c.Composant {...c.props} /> : <Fragment set:html={blocs[chemin]} />;
+    })
+  }
+</Page>

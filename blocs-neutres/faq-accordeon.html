@@ -40,7 +40,7 @@
       -webkit-background-clip: text; background-clip: text; color: transparent;
       -webkit-text-fill-color: transparent;
     }
-    #wt-faq .wtq-intro { margin: 0; font-size: 0.875rem; line-height: 1.55; color: var(--wt-blue); text-align: center; }
+    #wt-faq .wtq-intro { margin: 0; font-size: 1rem; line-height: 1.5; color: var(--wt-blue); text-align: center; }
 
     /* Xdéon : <details name="faq"> (un seul ouvert à la fois, sans JavaScript).
        Pas de fond ni de carte : un filet bas par item, pas de filet haut sur le premier. */
@@ -57,22 +57,24 @@
     #wt-faq .wtq-q:hover { color: var(--wt-blue-3); }
     #wt-faq .wtq-q:focus-visible { outline: 2px solid var(--wt-blue-3); outline-offset: 4px; }
 
-    /* Icône + / − dessinée en CSS (deux barres), calée sur la 1re ligne de la question :
-       sa boîte fait exactement la hauteur d'une ligne (1.35em du summary). */
-    #wt-faq .wtq-icon { flex: none; position: relative; width: 16px; height: 1.35em; }
-    #wt-faq .wtq-icon::before, #wt-faq .wtq-icon::after {
-      content: ""; position: absolute; left: 50%; top: 50%; background: var(--wt-blue-3);
-      transform: translate(-50%, -50%); transition: opacity 0.2s ease;
+    /* Icône + / − : image SVG en fond (et non deux barres en CSS). Chaque question démarre à un
+       y fractionnaire différent (interligne 1.35 x 15px = 20,25px) et, sur un écran à échelle
+       fractionnaire (125 %, 150 %), des barres CSS de 2px calées une à une sur la grille de pixels
+       ressortent plus ou moins épaisses selon la ligne. Une image est dessinée à l'identique à
+       chaque ligne, donc les 6 croix sont strictement pareilles. Couleur #2a4cff (--wt-blue-3). */
+    #wt-faq .wtq-icon {
+      flex: none; width: 16px; height: 1.35em;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8h12M8 2v12' fill='none' stroke='%232a4cff' stroke-width='2'/%3E%3C/svg%3E") no-repeat center / 16px 16px;
     }
-    #wt-faq .wtq-icon::before { width: 12px; height: 2px; }
-    #wt-faq .wtq-icon::after { width: 2px; height: 12px; }
-    #wt-faq .wtq-item[open] .wtq-icon::after { opacity: 0; }
+    #wt-faq .wtq-item[open] .wtq-icon {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8h12' fill='none' stroke='%232a4cff' stroke-width='2'/%3E%3C/svg%3E");
+    }
 
     /* Ouverture en hauteur (~200ms) via ::details-content, quand le navigateur le gère. */
     #wt-faq .wtq-item::details-content { block-size: 0; overflow: hidden; transition: block-size 0.2s ease, content-visibility 0.2s allow-discrete; }
     #wt-faq .wtq-item[open]::details-content { block-size: auto; }
 
-    #wt-faq .wtq-a { padding: 0 0 20px; font-size: 0.875rem; line-height: 1.6; color: var(--wt-blue); text-align: left; }
+    #wt-faq .wtq-a { padding: 0 0 20px; font-size: 0.9375rem; line-height: 1.6; color: var(--wt-blue); text-align: left; }
     #wt-faq .wtq-a p { margin: 0 0 0.75rem; font-size: inherit; line-height: inherit; color: inherit; text-align: left; }
     #wt-faq .wtq-a > :last-child { margin-bottom: 0; }
     #wt-faq .wtq-a strong { font-weight: 600; }
@@ -99,7 +101,7 @@
       #wt-faq .wtq-step { grid-template-columns: 22px minmax(0, 1fr); }
     }
     @media (prefers-reduced-motion: reduce) {
-      #wt-faq .wtq-q, #wt-faq .wtq-icon::before, #wt-faq .wtq-icon::after, #wt-faq .wtq-item::details-content { transition: none !important; }
+      #wt-faq .wtq-q, #wt-faq .wtq-item::details-content { transition: none !important; }
     }
   </style>
 

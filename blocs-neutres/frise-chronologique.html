@@ -85,7 +85,7 @@
     }
     @media screen and (max-width: 479px) {
       #wt-histoire .wth-year { padding: 0.75rem 0.0625rem; min-height: 2.75rem; } /* zone tactile >= 44px */
-      #wt-histoire .wth-year-label { font-size: 0.6875rem; }
+      #wt-histoire .wth-year-label { font-size: 0.75rem; }
       #wt-histoire .wth-boat svg { width: 1.75rem; height: 1.5rem; }
     }
 
@@ -137,12 +137,13 @@
       aspect-ratio: 4 / 3; background: var(--wt-ghost); border-bottom: 1px dashed var(--wt-line);
       display: flex; align-items: center; justify-content: center; flex: none;
     }
+    #wt-histoire .wth-card-photo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
     #wt-histoire .wth-card-photo-placeholder { color: var(--wt-label); font-size: 0.75rem; font-weight: 600; text-align: center; padding: 0.5rem; }
     #wt-histoire .wth-card-photo-placeholder .wth-cam { display: block; font-size: 1.5rem; margin-bottom: 0.25rem; }
     #wt-histoire .wth-card-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
     #wt-histoire .wth-card-year { font-family: Allroundgothic, Arial, sans-serif; font-size: 1.375rem; font-weight: 400; color: var(--wt-orange-2); }
     #wt-histoire .wth-card-title { font-size: 0.9375rem; font-weight: 600; color: var(--wt-blue-2); margin: 0; }
-    #wt-histoire .wth-card-text { font-size: 0.875rem; line-height: 1.4; color: var(--wt-blue); margin: 0; }
+    #wt-histoire .wth-card-text { font-size: 0.9375rem; line-height: 1.4; color: var(--wt-blue); margin: 0; }
     #wt-histoire .wth-card-text a { color: var(--wt-blue-3); font-weight: 600; }
     @media screen and (max-width: 767px) {
       #wt-histoire .wth-card { flex-basis: 17.5rem; } /* 280px mobile */
@@ -152,17 +153,38 @@
       #wt-histoire .wth-rail-wrap { margin: 0 -1rem; padding-left: 1.125rem; }
     }
 
-    #wt-histoire .wth-arrows { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
+    /* Flèches : rond bleu foncé de 45px (comme les galeries du bloc "S'épanouir grâce au
+       collectif"), centré sur la hauteur des cartes (50% du rail moins 0.5625rem, soit la moitié
+       du padding bas de 1.125rem réservé à l'ombre), à cheval sur le bord du rail. Le conteneur ne
+       capte pas la souris : seuls les boutons sont cliquables. Masquées (fondu) quand il n'y
+       a plus d'étape dans cette direction. */
+    #wt-histoire .wth-rail-outer { position: relative; }
+    #wt-histoire .wth-arrows { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
     #wt-histoire .wth-arrow {
-      appearance: none; width: 2rem; height: 2rem; padding: 0; margin: 0;
-      background: #fff; border: 1px solid var(--wt-blue-3); color: var(--wt-blue-3);
-      font-size: 0.8125rem; line-height: 1; cursor: pointer;
+      appearance: none; position: absolute; top: calc(50% - 0.5625rem); transform: translateY(-50%);
+      width: 2.8125rem; height: 2.8125rem; padding: 0; margin: 0; border: 0; border-radius: 99px;
+      background: var(--wt-blue-2); cursor: pointer; pointer-events: auto;
       display: flex; align-items: center; justify-content: center;
-      transition: border-color 0.2s ease, color 0.2s ease;
+      transition: opacity 0.2s ease, background 0.2s ease;
     }
-    #wt-histoire .wth-arrow:disabled { border-color: var(--wt-line); color: var(--wt-line); cursor: default; }
+    #wt-histoire .wth-arrow svg { width: 1.25rem; height: 0.9375rem; display: block; }
+    #wt-histoire .wth-arrow:hover { background: var(--wt-blue-3); }
+    #wt-histoire .wth-arrow:focus-visible { outline: 2px solid var(--wt-blue-3); outline-offset: 2px; }
+    #wt-histoire .wth-arrow:disabled { opacity: 0; visibility: hidden; pointer-events: none; }
+    #wt-histoire .wth-arrow-left { left: -0.75rem; }
+    #wt-histoire .wth-arrow-right { right: -0.75rem; }
     @media screen and (max-width: 767px) {
-      #wt-histoire .wth-arrow { width: 2.75rem; height: 2.75rem; } /* zone tactile >= 44px */
+      /* Sur le bas de la photo (valeur posée par le script) : pas sur le texte de la carte. */
+      #wt-histoire .wth-arrow { top: var(--wth-arrow-top, 8rem); }
+      #wt-histoire .wth-arrow-left { left: 0.25rem; }
+      #wt-histoire .wth-arrow-right { right: 0.25rem; }
+    }
+    /* Téléphone : une carte pleine largeur à la fois, sans amorce de la voisine (les flèches, la frise
+       et le glisser permettent de naviguer). Flèches à 0.625rem des bords de la photo. */
+    @media screen and (max-width: 479px) {
+      #wt-histoire .wth-card { flex-basis: calc(100% - 1rem); }
+      #wt-histoire .wth-arrow-left { left: 0.75rem; }  /* à 0.625rem du bord de la photo (la carte démarre 2px à droite du bloc) */
+      #wt-histoire .wth-arrow-right { right: 0.625rem; } /* à 0.625rem du bord droit de la photo (carte et bloc ont le même bord droit) */
     }
 
   </style>
@@ -215,88 +237,93 @@
       </div>
     </div>
 
+    <div class="wth-rail-outer">
     <div class="wth-rail-wrap">
       <div class="wth-track">
 
         <div class="wth-card is-active" data-step="0">
-          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">lorem</span>Ipsum dolor sit</div></div>
+          <div class="wth-card-photo"><img class="wth-card-photo-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27800%27%20height%3D%27600%27%20fill%3D%27%23f2f4ff%27%2F%3E%3Ctext%20x%3D%27400%27%20y%3D%27320%27%20font-family%3D%27Arial%2Csans-serif%27%20font-size%3D%2740%27%20font-weight%3D%27600%27%20text-anchor%3D%27middle%27%20fill%3D%27%23858fd6%27%3EPhoto%20%C3%A0%20venir%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Description de la photo" loading="lazy"></div>
           <div class="wth-card-body">
             <div class="wth-card-year">2019</div>
-            <div class="wth-card-title">Amet consectetur</div>
-            <p class="wth-card-text">Adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur.</p>
+            <div class="wth-card-title">Lorem ipsum</div>
+            <p class="wth-card-text">Dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum.</p>
           </div>
         </div>
 
         <div class="wth-card" data-step="1">
-          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">adipiscing</span>Elit sed do</div></div>
+          <div class="wth-card-photo"><img class="wth-card-photo-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27800%27%20height%3D%27600%27%20fill%3D%27%23f2f4ff%27%2F%3E%3Ctext%20x%3D%27400%27%20y%3D%27320%27%20font-family%3D%27Arial%2Csans-serif%27%20font-size%3D%2740%27%20font-weight%3D%27600%27%20text-anchor%3D%27middle%27%20fill%3D%27%23858fd6%27%3EPhoto%20%C3%A0%20venir%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Description de la photo" loading="lazy"></div>
           <div class="wth-card-body">
             <div class="wth-card-year">2020</div>
-            <div class="wth-card-title">Eiusmod tempor incididunt ut labore</div>
-            <p class="wth-card-text">Et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore.</p>
+            <div class="wth-card-title">Dolor sit amet consectetur adipiscing</div>
+            <p class="wth-card-text">Elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed.</p>
           </div>
         </div>
 
         <div class="wth-card" data-step="2">
-          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">magna</span>Aliqua enim ad</div></div>
+          <div class="wth-card-photo"><img class="wth-card-photo-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27800%27%20height%3D%27600%27%20fill%3D%27%23f2f4ff%27%2F%3E%3Ctext%20x%3D%27400%27%20y%3D%27320%27%20font-family%3D%27Arial%2Csans-serif%27%20font-size%3D%2740%27%20font-weight%3D%27600%27%20text-anchor%3D%27middle%27%20fill%3D%27%23858fd6%27%3EPhoto%20%C3%A0%20venir%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Description de la photo" loading="lazy"></div>
           <div class="wth-card-body">
             <div class="wth-card-year">2022</div>
-            <div class="wth-card-title">Minim veniam quis nostrud exercitation</div>
+            <div class="wth-card-title">Do eiusmod tempor incididunt ut</div>
             <!-- Le texte de la page place la raison d'être juste après cette étape :
                  elle naît en 2022. Reprise ici en entier, et répétée seule dans la
                  bande en dessous du rail (demande du client). -->
-            <p class="wth-card-text">Ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur.<br><br>Sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco.</p>
+            <p class="wth-card-text">Labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis.<br><br>Aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.</p>
           </div>
         </div>
 
         <div class="wth-card" data-step="3">
-          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">laboris</span>Nisi aliquip ex</div></div>
+          <div class="wth-card-photo"><img class="wth-card-photo-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27800%27%20height%3D%27600%27%20fill%3D%27%23f2f4ff%27%2F%3E%3Ctext%20x%3D%27400%27%20y%3D%27320%27%20font-family%3D%27Arial%2Csans-serif%27%20font-size%3D%2740%27%20font-weight%3D%27600%27%20text-anchor%3D%27middle%27%20fill%3D%27%23858fd6%27%3EPhoto%20%C3%A0%20venir%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Description de la photo" loading="lazy"></div>
           <div class="wth-card-body">
             <div class="wth-card-year">2022</div>
-            <div class="wth-card-title">Ea commodo consequat duis aute irure in</div>
+            <div class="wth-card-title">Et dolore magna aliqua enim ad minim</div>
             <!-- une étape : 2022 confirmé par le client. Placé après "Titre de l'étape"
                  (aussi 2022) et avant les bureaux (2023) pour garder la frise dans
                  l'ordre chronologique ; le texte de la page le plaçait après 2023. -->
-            <p class="wth-card-text">Reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit.</p>
+            <p class="wth-card-text">Veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam.</p>
           </div>
         </div>
 
         <div class="wth-card" data-step="4">
-          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">voluptate</span>Velit esse cillum</div></div>
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">quis</span>Nostrud exercitation ullamco</div></div>
           <div class="wth-card-body">
             <div class="wth-card-year">2023</div>
-            <div class="wth-card-title">Fugiat nulla pariatur excepteur sint occaecat cupidatat</div>
+            <div class="wth-card-title">Laboris nisi aliquip ex ea commodo consequat</div>
             <!-- Ancre vers la section Bureaux (bloc 6b, 08-bureaux.html) : le lien pointe vers #nos-bureaux,
                  l'id de la section de ce bloc, à vérifier une
                  fois ce bloc assemblé sur la page. Titre corrigé par rapport au
                  texte de la page ("Des nouveaux" → "De nouveaux", "coeur" → "cœur"). -->
-            <p class="wth-card-text">Non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim. <a href="#">Ad minim veniam quis</a></p>
+            <p class="wth-card-text">Duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit. <a href="#">Amet consectetur adipiscing elit</a></p>
           </div>
         </div>
 
         <div class="wth-card" data-step="5">
-          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">nostrud</span>Exercitation ullamco laboris</div></div>
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">sed</span>Do eiusmod tempor</div></div>
           <div class="wth-card-body">
             <div class="wth-card-year">2025</div>
-            <div class="wth-card-title">Nisi aliquip ex ea</div>
-            <p class="wth-card-text">Commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui.</p>
+            <div class="wth-card-title">Incididunt ut labore et</div>
+            <p class="wth-card-text">Dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit.</p>
           </div>
         </div>
 
         <div class="wth-card" data-step="6">
-          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">officia</span>Deserunt mollit anim</div></div>
+          <div class="wth-card-photo"><div class="wth-card-photo-placeholder"><span class="wth-cam">voluptate</span>Velit esse cillum</div></div>
           <div class="wth-card-body">
             <div class="wth-card-year">2026</div>
-            <div class="wth-card-title">Id est laborum lorem ipsum</div>
-            <p class="wth-card-text">Dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi.<br><br>Aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit.</p>
+            <div class="wth-card-title">Fugiat nulla pariatur excepteur sint</div>
+            <p class="wth-card-text">Occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt.<br><br>Ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse.</p>
           </div>
         </div>
 
       </div>
     </div>
 
+    <!-- Flèches : rond bleu au centre de la hauteur des cartes, sur les bords du rail (même
+         principe que les galeries vidéo du bloc "S'épanouir grâce au collectif"). Elles se masquent
+         quand il n'y a plus d'étape dans cette direction. -->
     <div class="wth-arrows">
-      <button type="button" class="wth-arrow wth-arrow-left" aria-label="Étape précédente" disabled aria-disabled="true">anim</button>
-      <button type="button" class="wth-arrow wth-arrow-right" aria-label="Étape suivante">id</button>
+      <button type="button" class="wth-arrow wth-arrow-left" aria-label="Étape précédente" disabled aria-disabled="true"><svg viewBox="0 0 20 15" fill="none" aria-hidden="true"><path d="M8.667 1L2 7.665l6.667 6.665" stroke="#fff" stroke-width="1.5"></path><path d="M2 7.665h18" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"></path></svg></button>
+      <button type="button" class="wth-arrow wth-arrow-right" aria-label="Étape suivante"><svg viewBox="0 0 20 15" fill="none" aria-hidden="true"><path d="M11.334 14.33L18 7.665 11.334 1" stroke="#fff" stroke-width="1.5"></path><path d="M18 7.665H0" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"></path></svg></button>
+    </div>
     </div>
 
   </div>
@@ -328,6 +355,22 @@
         return railWrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       }
 
+      // Décalage du rail pour l'étape active. Cartes plus étroites que l'écran (desktop, tablette,
+      // mobile large) : la carte précédente garde une amorce visible à gauche pour qu'on puisse
+      // cliquer dessus et revenir en arrière ; le rail est borné entre 0 et le maximum pour que les
+      // dernières cartes ne laissent jamais de vide à droite. Téléphone (<= 479px) : une carte pleine
+      // largeur à la fois, sans amorce ni borne (la carte active est toujours alignée à gauche).
+      function railShift() {
+        var gap = parseFloat(getComputedStyle(track).gap) || 0;
+        var step = cards[0].getBoundingClientRect().width + gap;
+        if (window.innerWidth <= 479) { return activeIndex * step; }
+        var pad = parseFloat(getComputedStyle(railWrap).paddingLeft) || 0;
+        var peekVisible = window.innerWidth <= 767 ? 24 : 64;
+        var peek = activeIndex > 0 ? Math.max(0, peekVisible + gap - pad) : 0;
+        var maxShift = Math.max(0, track.scrollWidth - railVisibleWidth());
+        return Math.min(Math.max(0, activeIndex * step - peek), maxShift);
+      }
+
       function render() {
         var pct = (activeIndex / (n - 1)) * 100;
         waveSolid.style.clipPath = 'inset(-0.25rem ' + (100 - pct) + '% -0.25rem 0)';
@@ -344,15 +387,17 @@
         // Rail borné : jamais au-delà de scrollWidth - largeur visible (les
         // dernières cartes s'activent alors sans que le rail bouge, pas
         // d'effet "3+3+1").
-        var firstCard = cards[0];
-        var gap = parseFloat(getComputedStyle(track).gap) || 0;
-        var step = firstCard.getBoundingClientRect().width + gap;
-        var maxShift = Math.max(0, track.scrollWidth - railVisibleWidth());
-        var shift = Math.min(activeIndex * step, maxShift);
-        track.style.transform = 'translateX(-' + shift + 'px)';
+        track.style.transform = 'translateX(-' + railShift() + 'px)';
+        // Flèches mobiles : posées sur le bas de la photo (3/4 de sa hauteur réelle), jamais sur le
+        // texte de la carte (qui occupe toute la largeur sur téléphone), sans dépendre de la largeur
+        // de la fenêtre ni du padding de la page.
+        var photo = cards[0].querySelector('.wth-card-photo');
+        if (photo) { root.style.setProperty('--wth-arrow-top', (photo.getBoundingClientRect().height * 0.75) + 'px'); }
 
         prevBtn.disabled = activeIndex === 0;
         nextBtn.disabled = activeIndex === n - 1;
+        prevBtn.setAttribute('aria-disabled', prevBtn.disabled ? 'true' : 'false');
+        nextBtn.setAttribute('aria-disabled', nextBtn.disabled ? 'true' : 'false');
       }
 
       function setActive(i) {
@@ -404,11 +449,7 @@
           track.style.transition = 'none';
           railWrap.setPointerCapture(e.pointerId);
         }
-        var firstCard = cards[0];
-        var gap = parseFloat(getComputedStyle(track).gap) || 0;
-        var step = firstCard.getBoundingClientRect().width + gap;
-        var maxShift = Math.max(0, track.scrollWidth - railVisibleWidth());
-        var base = -Math.min(activeIndex * step, maxShift);
+        var base = -railShift();
         track.style.transform = 'translateX(' + (base + deltaX) + 'px)';
       });
       function endDrag() {

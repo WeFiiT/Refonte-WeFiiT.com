@@ -34,6 +34,13 @@
     #wt-symbole .wts-photo-placeholder { color: var(--wt-label); font-size: 0.875rem; font-weight: 600; text-align: center; padding: 1rem; }
     #wt-symbole .wts-photo-placeholder .wts-cam { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
 
+    /* Eyebrow standard (16px, bleu vif, trait de 1.5rem), alignée à gauche comme le titre de ce bloc. */
+    #wt-symbole .wts-eyebrow {
+      display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem;
+      font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+      color: var(--wt-blue-3); text-align: left;
+    }
+    #wt-symbole .wts-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wt-blue-3); display: inline-block; flex: none; }
     /* Titre : aligné à gauche (exception à la règle des titres centrés, car
        2 colonnes). Dégradé bleu 270deg + point à part en dégradé orange
        vertical. Taille alignée sur les H2 réels de /equipe (48px, 40px en
@@ -68,7 +75,7 @@
     }
     #wt-symbole .wts-icon svg { width: 1.25rem; height: 1.25rem; display: block; }
     #wt-symbole .wts-pillar-body { display: flex; flex-direction: column; gap: 0.5rem; }
-    #wt-symbole .wts-pillar-title { margin: 0; font-size: 1rem; line-height: 1.3; font-weight: 600; color: var(--wt-blue-2); text-align: left; text-transform: none; letter-spacing: 0; }
+    #wt-symbole .wts-pillar-title { margin: 0; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; color: var(--wt-blue-2); text-align: left; text-transform: none; letter-spacing: 0; }
     #wt-symbole .wts-pillar-text { margin: 0; font-size: 0.9375rem; line-height: 1.5; font-weight: 400; color: var(--wt-blue); text-align: left; text-wrap: pretty; }
 
     @media screen and (max-width: 991px) {
@@ -79,7 +86,6 @@
       #wt-symbole { --wts-shadow: 8px; }
       /* 1 colonne : la photo d'abord (elle est déjà première dans le HTML), puis titre et texte. */
       #wt-symbole .wts-intro { grid-template-columns: 1fr; gap: 2rem; }
-      #wt-symbole .wts-title { font-size: 1.75rem; letter-spacing: -0.07rem; }
       #wt-symbole .wts-pillars { grid-template-columns: 1fr; margin-top: 2rem; }
       /* Carte en ligne : icône à gauche, titre et texte à droite. */
       #wt-symbole .wts-pillar { display: grid; grid-template-columns: 2rem 1fr; gap: 0.875rem; padding: 1.125rem; align-items: start; }
@@ -89,18 +95,17 @@
   <div class="wts-intro">
     <div class="wts-photo-frame">
       <div class="wts-photo">
-        <!-- PHOTO (à fournir) : l'équipe en marinière, paysage 4:3. Pour l'ajouter,
-             remplacer le <div> "wts-photo-placeholder" par :
-             <img class="wts-photo-img" src="URL-de-la-photo" alt="Description de la photo" loading="lazy">
-             L'alt est à renseigner (décrire la scène, pas "photo"). -->
-        <div class="wts-photo-placeholder"><span class="wts-cam">lorem</span>Ipsum dolor sit</div>
+        <!-- PHOTO : paysage 4:3 (recadrée au centre si autre format). L'alt est à ajuster
+             pour décrire précisément la scène. -->
+        <img class="wts-photo-img" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20800%20600%27%3E%3Crect%20width%3D%27800%27%20height%3D%27600%27%20fill%3D%27%23f2f4ff%27%2F%3E%3Ctext%20x%3D%27400%27%20y%3D%27320%27%20font-family%3D%27Arial%2Csans-serif%27%20font-size%3D%2740%27%20font-weight%3D%27600%27%20text-anchor%3D%27middle%27%20fill%3D%27%23858fd6%27%3EPhoto%20%C3%A0%20venir%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Description de la photo" loading="lazy">
       </div>
     </div>
 
     <div class="wts-intro-text">
-      <h2 class="wts-title" id="wts-title">Amet consectetur adipiscing elit sed<span class="wts-title-dot">.</span></h2>
-      <h3 class="wts-subtitle">Do eiusmod tempor incididunt?</h3>
-      <p class="wts-text">Ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt.</p>
+      <p class="wts-eyebrow"><span class="wts-eyebrow-line"></span>Lorem ipsum</p>
+      <h2 class="wts-title" id="wts-title">Dolor sit amet consectetur adipiscing<span class="wts-title-dot">.</span></h2>
+      <h3 class="wts-subtitle">Elit sed do eiusmod?</h3>
+      <p class="wts-text">Tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non.</p>
     </div>
   </div>
 
@@ -114,8 +119,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9q2.5-3 5 0t5 0t5 0t5 0"></path><path d="M2 15q2.5-3 5 0t5 0t5 0t5 0"></path></svg>
       </span>
       <div class="wts-pillar-body">
-        <h3 class="wts-pillar-title">Culpa</h3>
-        <p class="wts-pillar-text">Qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non.</p>
+        <h3 class="wts-pillar-title">Proident</h3>
+        <p class="wts-pillar-text">Sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat.</p>
       </div>
     </li>
     <li class="wts-pillar">
@@ -123,8 +128,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"></circle><path d="M12 7v13"></path><path d="M8.5 10.5h7"></path><path d="M4.5 14c.6 3.5 3.4 6 7.5 6s6.9-2.5 7.5-6"></path><path d="M3 12.8l1.5 1.4 1.5-1.4"></path><path d="M18 12.8l1.5 1.4 1.5-1.4"></path></svg>
       </span>
       <div class="wts-pillar-body">
-        <h3 class="wts-pillar-title">Proident</h3>
-        <p class="wts-pillar-text">Sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit.</p>
+        <h3 class="wts-pillar-title">Cupidatat</h3>
+        <p class="wts-pillar-text">Non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit.</p>
       </div>
     </li>
     <li class="wts-pillar">
@@ -132,8 +137,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M16 8l-2.2 5.8L8 16l2.2-5.8z"></path></svg>
       </span>
       <div class="wts-pillar-body">
-        <h3 class="wts-pillar-title">Esse cillum</h3>
-        <p class="wts-pillar-text">Fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud.</p>
+        <h3 class="wts-pillar-title">Voluptate velit</h3>
+        <p class="wts-pillar-text">Esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam.</p>
       </div>
     </li>
   </ul>

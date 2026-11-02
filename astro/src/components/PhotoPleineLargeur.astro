@@ -1,0 +1,51 @@
+---
+// Photo pleine largeur de la fenêtre (bande par marges négatives), à poser juste avant le
+// footer. Version composant du bloc pages/equipe/blocs/10-photo-pleine-largeur.html
+// (même rendu, mêmes valeurs).
+interface Props {
+  src: string;
+  srcset: [string, number][]; // [url, largeur en px] ; vide = pas de srcset
+  alt: string;
+  ratio: string; // ratio réel de la photo, ex. "802 / 291" (évite un saut de mise en page au chargement)
+  id?: string;
+}
+const { src, srcset, alt, ratio, id = 'wt-photo-full' } = Astro.props;
+const srcsetAttr = srcset.map(([url, largeur]) => `${url} ${largeur}w`).join(', ');
+---
+
+<section class="wt-photo-bloc" id={id}>
+  <div class="wt-full-photo" style={`aspect-ratio: ${ratio}`}>
+    <!-- sizes="100vw" : l'image est toujours affichée pleine largeur. Le bloc natif du site
+         déclare sizes="(max-width: 767px) 100vw, 802px", donc le navigateur choisit une image
+         pensée pour 802px et la floute en pleine largeur. -->
+    <img src={src} srcset={srcsetAttr || undefined} sizes="100vw" loading="lazy" alt={alt} />
+  </div>
+</section>
+
+<style>
+  .wt-photo-bloc { margin: 0; box-sizing: border-box; }
+  .wt-photo-bloc, .wt-photo-bloc *, .wt-photo-bloc *::before, .wt-photo-bloc *::after { box-sizing: border-box; }
+
+  /* Photo plein écran juste avant le footer. Technique de bande pleine largeur déjà validée
+     sur les autres blocs (marge négative, PAS clip-path ni box-shadow géant : ces deux
+     propriétés ont déjà cassé un élément position:fixed ailleurs sur la page, voir
+     design-system.md). Le ratio est réservé à l'avance (prop `ratio`) : l'image d'origine
+     n'a ni width ni height, donc une hauteur de 0 tant qu'elle n'est pas chargée. */
+  .wt-full-photo {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    overflow: hidden;
+  }
+  .wt-full-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>

@@ -1,0 +1,465 @@
+---
+// Bande de fond pleine largeur : titre + intro, onglets soulignés (une catégorie chacun), et
+// pour chaque catégorie une description puis une galerie de vidéos YouTube qui défile
+// horizontalement (scroll-snap + flèches), puis une phrase de conclusion. Version composant du
+// bloc pages/equipe/blocs/06-collectif.html (même rendu, même comportement, couleurs lues dans
+// les tokens --wf-*).
+interface Video {
+  id: string; // identifiant YouTube
+  titre: string; // title de l'iframe créée au clic et libellé du bouton lecture
+  legende: string; // titre affiché sous la vignette (tronqué à 2 lignes)
+}
+interface Categorie {
+  id: number; // sert aux ids wtc-tab-<id> / wtc-panel-<id> et à data-cat
+  nom: string; // libellé de l'onglet
+  description: string;
+  videos: Video[];
+}
+interface Props {
+  titre: string; // sans le point final : il est ajouté en dégradé orange
+  intro: string; // HTML autorisé (<br>, <span class="wtc-highlight">)
+  categories: Categorie[]; // dans l'ordre des onglets ; la première est active au chargement
+  conclusion: string; // HTML autorisé (<strong>)
+  id?: string;
+}
+const { titre, intro, categories, conclusion, id = 'wt-collectif' } = Astro.props;
+
+const CDN = 'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/';
+const flecheGauche = `${CDN}63eabf64b5d45c38647886aa_Arrow5.svg`;
+const flecheDroite = `${CDN}63eabfbda7b0471dbc86a3ec_Arrow-Right.svg`;
+
+// Les panneaux sont écrits dans l'ordre des ids, comme dans le bloc d'origine (les onglets,
+// eux, suivent l'ordre de `categories`).
+const panneaux = [...categories].sort((a, b) => a.id - b.id);
+const idActif = categories[0].id;
+---
+
+<section class="wt-collectif" id={id} aria-labelledby="wtc-title-heading">
+  <div class="wtc-band">
+    <div class="wtc-inner">
+      <h2 class="wtc-title" id="wtc-title-heading">{titre}<span class="wtc-title-dot">.</span></h2>
+      <p class="wtc-intro" set:html={intro} />
+
+      <div class="wtc-tabs" role="tablist">
+        {
+          categories.map((c) => (
+            <button
+              type="button"
+              id={`wtc-tab-${c.id}`}
+              class:list={['wtc-tab', { 'is-active': c.id === idActif }]}
+              role="tab"
+              aria-selected={c.id === idActif ? 'true' : 'false'}
+              aria-controls={`wtc-panel-${c.id}`}
+              data-tab={c.id}
+            >
+              {c.nom}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        panneaux.map((c) => (
+          <div
+            class:list={['wtc-panel', { 'is-active': c.id === idActif }]}
+            id={`wtc-panel-${c.id}`}
+            role="tabpanel"
+            aria-labelledby={`wtc-tab-${c.id}`}
+            data-panel={c.id}
+          >
+            <p class="wtc-desc">{c.description}</p>
+            <span class="wtc-sr-only">Faites glisser pour voir toutes les vidéos</span>
+            <div class="wtc-scroller-wrap">
+              <button type="button" class="wtc-arrow wtc-arrow-left" data-dir="-1" aria-label="Vidéos précédentes"><img src={flecheGauche} alt="" /></button>
+              <div class="wtc-scroller">
+                <div class="wtc-track">
+                  {
+                    c.videos.map((v) => (
+                      <div class="wtc-card" data-cat={c.id}>
+                        <div class="wtc-media" data-yt-id={v.id} data-yt-title={v.titre}>
+                          <img class="wtc-poster" src={`https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`} alt="" loading="lazy" />
+                          <button type="button" class="wtc-play" aria-label={`Lire la vidéo : ${v.titre}`}>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff" /></svg>
+                          </button>
+                        </div>
+                        <div class="wtc-card-title">{v.legende}</div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+              <button type="button" class="wtc-arrow wtc-arrow-right" data-dir="1" aria-label="Vidéos suivantes"><img src={flecheDroite} alt="" /></button>
+            </div>
+          </div>
+        ))
+      }
+
+      <p class="wtc-rituals" set:html={conclusion} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .wt-collectif {
+    font-family: "Work Sans v2", Arial, sans-serif;
+    margin: 0; /* le bas de la bande est porté par le bloc témoignage qui suit */
+    box-sizing: border-box;
+  }
+  .wt-collectif, .wt-collectif :global(*), .wt-collectif :global(*::before), .wt-collectif :global(*::after) { box-sizing: border-box; }
+  /* Bande de fond pleine largeur (comme la section d'origine), alors que le
+     contenu (.wtc-inner, max-width) reste centré. Technique par marges négatives
+     (pas de clip-path/transform) : ces propriétés créent un référentiel de
+     positionnement pour les éléments position:fixed de la page — un lightbox ou
+     une image plein écran plus bas sur la page se retrouverait alors contenu
+     dans ce bloc au lieu de couvrir tout l'écran. */
+  .wtc-band {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    background: var(--wf-blue-50);
+    padding: 3rem 0 0; /* pas de padding bas : la bande se prolonge dans le bloc témoignage qui suit (07-temoignage-anne-claire), qui porte le bas de la bande */
+  }
+  .wtc-inner {
+    max-width: 71.25rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+  .wtc-sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  /* Titre + texte d'intro : repris à l'identique du bloc natif (h2.h2-heading-12 +
+     p.subh2 de la page équipe), désormais inclus dans l'embed. */
+  /* Même traitement que les autres titres de rubrique du site (ex. "Paroles de
+     WeFiiTers.") : dégradé bleu horizontal sur le texte, point final en dégradé
+     orange vertical séparé — vérifié directement sur ce titre de référence. */
+  .wtc-title {
+    font-family: Allroundgothic, Arial, sans-serif;
+    font-size: 3.2rem;
+    line-height: 3.84rem;
+    font-weight: 400;
+    letter-spacing: -0.128rem;
+    text-align: center;
+    margin: 0;
+    background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent; /* nécessaire sur certains moteurs pour que le dégradé s'affiche au lieu du texte */
+  }
+  .wtc-title-dot {
+    background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .wtc-intro {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.3rem;
+    color: var(--wf-blue-900);
+    text-align: center;
+    max-width: 46rem;
+    margin: 1.125rem auto 3rem;
+  }
+  /* Le HTML de l'intro vient de `set:html` : d'où `:global` sur les <span>. */
+  .wtc-intro :global(.wtc-highlight) { color: var(--wf-blue-600); font-weight: 600; font-style: normal; }
+
+  /* Onglets soulignés : remplace les 3 blocs empilés pour alléger la hauteur.
+     Volontairement différent de la pilule dégradée du bloc Tribes (simple trait
+     de couleur, pas de fond plein) pour ne pas reproduire le même motif. */
+  .wtc-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--wf-grey-100);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .wtc-tabs::-webkit-scrollbar { display: none; }
+  .wtc-tab {
+    appearance: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--wf-blue-300);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 0 0 0.9rem;
+    margin: 0;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  .wtc-tab.is-active { color: var(--wf-blue-600); }
+  .wtc-tab.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: var(--wf-blue-600);
+  }
+  .wtc-panel { display: none; }
+  .wtc-panel.is-active { display: block; animation: wtc-fade 0.2s ease; }
+  @keyframes wtc-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* min-height calé sur la description la plus longue des 3 catégories : sans
+     ça, le passage d'un onglet à l'autre fait quand même sauter la hauteur du
+     bloc (texte de description plus ou moins long selon la catégorie), même
+     une fois les cartes vidéo elles-mêmes uniformisées. */
+  .wtc-desc {
+    color: var(--wf-blue-800);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    max-width: 42rem;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+    min-height: 4.5rem;
+  }
+
+  /* Galerie : défilement horizontal avec accroche (scroll-snap) + flèches reprises
+     du slider de témoignages de la page "Acteur de ta mission" (mêmes icônes,
+     même pastille bleu foncé), pour indiquer clairement qu'on peut faire défiler.
+     Remplace le slider natif Webflow (une carte à la fois, points de pagination). */
+  .wtc-scroller-wrap { position: relative; }
+  .wtc-scroller {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .wtc-scroller::-webkit-scrollbar { display: none; }
+  .wtc-track { display: flex; gap: 1.25rem; }
+
+  .wtc-card {
+    position: relative;
+    flex: 0 0 auto;
+    width: min(78vw, 16rem);
+    scroll-snap-align: start;
+    border-radius: 0; /* design system du site : pas de coins arrondis */
+    overflow: hidden !important; /* second rempart : même si le titre débordait malgré tout, la carte elle-même ne doit jamais laisser rien dépasser */
+    background: #fff; /* blanc pour ressortir sur le fond bleu clair du bloc, qui utilise la même couleur que l'ancien fond des cartes */
+    box-shadow: 1px 0 3px rgba(0,0,0,0.08); /* ombre de repos des cartes du site (design-system.md §5) */
+  }
+  /* Desktop : 3 cartes pleinement visibles + amorce de la 4ème (3 cartes + 3
+     écarts + ~30% d'une 4ème carte doivent tenir dans la largeur du track). */
+  @media screen and (min-width: 992px) {
+    .wtc-card { width: calc((100% - 3 * 1.25rem) / 3.3); }
+  }
+  /* Vignette + bouton lecture (chargement différé), pas d'iframe YouTube
+     directe : constaté (2026-09-29) que le lecteur YouTube choisit lui-même
+     une miniature basse résolution en fonction de la taille CSS réelle du
+     conteneur au chargement (~330px de large ici), même quand le vrai
+     maxresdefault.jpg (1280x720) existe pour la vidéo — vérifié pour les 12
+     vidéos de ce bloc, l'image haute résolution existe bien à chaque fois.
+     Vimeo/tube.rvere (bloc "Paroles de WeFiiTers") n'ont pas ce comportement
+     de dégradation, d'où l'écart de netteté remonté par Paul entre les deux
+     blocs. On charge donc nous-mêmes le vrai maxresdefault.jpg en <img>, et
+     on ne crée l'iframe YouTube (avec autoplay) qu'au clic sur le bouton. */
+  .wtc-media { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  /* `:global(*)` : l'iframe créée par le script au clic n'a pas l'attribut de portée d'Astro. */
+  .wtc-media > :global(*) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .wtc-poster { object-fit: cover; display: block; }
+  .wtc-play {
+    width: 3rem;
+    height: 3rem;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    border-radius: 99px;
+    background: rgba(0, 29, 132, 0.85);
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .wtc-play:hover { background: var(--wf-blue-800); transform: translate(-50%, -50%) scale(1.06); }
+  .wtc-play svg { width: 1.375rem; height: 1.375rem; margin-left: 0.15rem; }
+  /* Hauteur fixée à 2 lignes (titre tronqué avec "…" au-delà), sur demande
+     de Paul (retour à 2 lignes partout, l'exception 3 lignes de l'onglet
+     We.Talk créait un espace vide trop grand sous les titres courts des
+     autres onglets, surtout visible sur mobile).
+     ⚠️ Avec ça, le titre le plus long de l'onglet We.Talk ("We.Talk
+     d'Anne-Claire Baschet, Chief Data & AI Officer chez Mirakl", 66
+     caractères) repasse au-dessus du seuil de fiabilité de
+     -webkit-line-clamp observé sur ce bloc (~60-62 caractères à cette
+     largeur de carte) — vérifié en direct sur la page, ce titre précis peut
+     à nouveau déborder (3e ligne visible) malgré ce CSS. Assumé comme
+     compromis (2 lignes partout > éviter un bug sur un seul titre) plutôt
+     que résolu — à garder en tête si Paul le remonte à nouveau. */
+  .wtc-card-title {
+    padding: 0.85rem 1rem 1rem;
+    color: var(--wf-blue-800);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.35;
+    background: #fff; /* zone blanche distincte sous la vidéo */
+    height: 4.2rem !important;
+    max-height: 4.2rem !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* Flèches : mêmes assets (icônes) et même pastille ronde bleu foncé que le
+     slider de témoignages de la page "Acteur de ta mission". Décalées vers
+     l'extérieur (dans la marge du bloc) pour ne plus chevaucher la vidéo. */
+  .wtc-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.8125rem;
+    height: 2.8125rem;
+    border-radius: 99px;
+    background: var(--wf-blue-800);
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  /* Visible seulement quand il y a effectivement de quoi défiler dans cette
+     direction (calculé en JS) : pas de flèche gauche tant qu'on n'a pas
+     commencé à glisser, pas de flèche droite une fois arrivé au bout. */
+  .wtc-arrow.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
+  .wtc-arrow img { width: 1rem; height: 1rem; }
+  .wtc-arrow-left { left: -0.75rem; }
+  .wtc-arrow-right { right: -0.75rem; }
+
+  .wtc-rituals {
+    text-align: center;
+    color: var(--wf-blue-800);
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 40rem;
+    margin: 2.5rem auto 0;
+  }
+  /* Le HTML de la conclusion vient de `set:html` : d'où `:global` sur <strong>. */
+  .wtc-rituals :global(strong) { color: var(--wf-blue-600); }
+
+  @media screen and (max-width: 767px) {
+    .wtc-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
+    .wtc-tabs { gap: 1.25rem; justify-content: flex-start; }
+  }
+  @media screen and (max-width: 479px) {
+    .wtc-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+  }
+</style>
+
+<script>
+  // Flèches des galeries, vignettes YouTube (iframe créée au clic) et onglets des catégories.
+  document.querySelectorAll<HTMLElement>('.wt-collectif').forEach((root) => {
+    if (root.getAttribute('data-wtc-init') === '1') return;
+    root.setAttribute('data-wtc-init', '1');
+
+    // Flèches : font défiler d'une carte (+ l'écart entre cartes) à chaque clic,
+    // en bornant toujours la position cible entre 0 et le scroll maximum pour ne
+    // jamais dépasser la dernière carte (zones blanches en bout de course).
+    // La flèche gauche reste masquée tant qu'on n'a pas commencé à défiler, la
+    // flèche droite se masque une fois arrivé au bout (et les deux restent
+    // masquées si tout tient déjà dans la largeur visible).
+    const scrollerWraps: { wrap: HTMLElement; update: () => void }[] = [];
+    root.querySelectorAll<HTMLElement>('.wtc-scroller-wrap').forEach((wrap) => {
+      const scroller = wrap.querySelector<HTMLElement>('.wtc-scroller')!;
+      const track = wrap.querySelector<HTMLElement>('.wtc-track')!;
+      const firstCard = track.querySelector<HTMLElement>('.wtc-card')!;
+      const leftArrow = wrap.querySelector<HTMLElement>('.wtc-arrow-left')!;
+      const rightArrow = wrap.querySelector<HTMLElement>('.wtc-arrow-right')!;
+
+      function updateArrows() {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        leftArrow.classList.toggle('is-visible', scroller.scrollLeft > 4);
+        rightArrow.classList.toggle('is-visible', scroller.scrollLeft < maxScroll - 4);
+      }
+
+      function scrollByCard(dir: number) {
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        const amount = (firstCard.getBoundingClientRect().width + gap) * dir;
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        const target = Math.min(Math.max(scroller.scrollLeft + amount, 0), maxScroll);
+        scroller.scrollTo({ left: target, behavior: 'smooth' });
+      }
+
+      leftArrow.addEventListener('click', () => scrollByCard(-1));
+      rightArrow.addEventListener('click', () => scrollByCard(1));
+      scroller.addEventListener('scroll', updateArrows);
+      window.addEventListener('resize', updateArrows);
+      updateArrows();
+
+      scrollerWraps.push({ wrap, update: updateArrows });
+    });
+
+    // Vignettes YouTube : voir le commentaire CSS sur .wtc-media pour le
+    // pourquoi (miniature basse résolution servie par le lecteur YouTube sur
+    // un petit conteneur). On ne crée l'iframe (avec autoplay) qu'au clic.
+    root.querySelectorAll<HTMLElement>('.wtc-media[data-yt-id]').forEach((media) => {
+      const play = media.querySelector<HTMLElement>('.wtc-play');
+      if (!play) return;
+      play.addEventListener('click', () => {
+        const id = media.getAttribute('data-yt-id');
+        const title = media.getAttribute('data-yt-title') || '';
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1';
+        iframe.title = title;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('allowfullscreen', '');
+        media.innerHTML = '';
+        media.appendChild(iframe);
+      });
+    });
+
+    // Onglets (soulignés, pas de pilule) : basculent entre les 3 catégories.
+    const tabs = root.querySelectorAll<HTMLElement>('.wtc-tab');
+    const panels = root.querySelectorAll<HTMLElement>('.wtc-panel');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const index = tab.getAttribute('data-tab');
+        tabs.forEach((t) => {
+          const active = t === tab;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        let activePanel: HTMLElement | null = null;
+        panels.forEach((p) => {
+          const active = p.getAttribute('data-panel') === index;
+          p.classList.toggle('is-active', active);
+          if (active) activePanel = p;
+        });
+        // Un panneau caché (display:none) a scrollWidth/clientWidth à 0 : le
+        // calcul initial des flèches était donc faux pour les onglets non actifs
+        // au chargement. On le refait maintenant qu'il est réellement visible.
+        scrollerWraps.forEach((sw) => {
+          if (activePanel && (activePanel as HTMLElement).contains(sw.wrap)) sw.update();
+        });
+      });
+    });
+  });
+</script>
