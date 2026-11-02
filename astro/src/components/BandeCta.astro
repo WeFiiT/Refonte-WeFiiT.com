@@ -1,0 +1,79 @@
+---
+// Bande pleine largeur en dégradé bleu (110deg), titre blanc, texte et bouton orange.
+// Reproduit la section « bilan carbone » de /notre-engagement-rse (valeurs mesurées :
+// padding 80px en haut, 60px en bas). Sans marge : collée au bloc qui suit.
+interface Props {
+  titre: string; // HTML autorisé (<br>) ; pas de point orange sur ce titre, comme sur le site
+  texte: string; // HTML autorisé (<br>)
+  cta: { libelle: string; lien: string; nouvelOnglet?: boolean };
+  id?: string;
+}
+const { titre, texte, cta, id = 'wt-bande-cta' } = Astro.props;
+const cible = cta.nouvelOnglet ? { target: '_blank', rel: 'noopener' } : {};
+---
+
+<section class="wt-bande-cta" id={id} aria-labelledby={`${id}-titre`}>
+  <div class="wt-bande">
+    <div class="wt-inner">
+      <h2 class="wt-titre" id={`${id}-titre`} set:html={titre} />
+      <p class="wt-texte" set:html={texte} />
+      <a class="wt-cta" href={cta.lien} {...cible}>{cta.libelle}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wt-bande-cta { font-family: "Work Sans v2", Arial, sans-serif; margin: 0; box-sizing: border-box; }
+  .wt-bande-cta, .wt-bande-cta :global(*), .wt-bande-cta :global(*::before), .wt-bande-cta :global(*::after) { box-sizing: border-box; }
+
+  /* Fond pleine largeur par marge négative (jamais clip-path ni box-shadow géant). */
+  .wt-bande {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    background: linear-gradient(110deg, var(--wf-blue-900), var(--wf-blue-600));
+    padding: 5rem 1rem 3.75rem;
+  }
+  .wt-inner { max-width: 46rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+  .wt-titre {
+    font-family: Allroundgothic, Arial, sans-serif;
+    font-size: 3.2rem;
+    line-height: 3.84rem;
+    font-weight: 400;
+    letter-spacing: -0.128rem;
+    text-align: center;
+    color: #fff;
+    margin: 0;
+  }
+  .wt-texte { margin: 1.75rem 0 2rem; font-size: 1rem; line-height: 1.5rem; color: var(--wf-blue-50); text-align: center; }
+
+  /* CTA principal : pilule orange (design-system.md §6). */
+  .wt-cta {
+    display: inline-block;
+    padding: 1.0625rem 2.5rem;
+    border-radius: 500px;
+    background: linear-gradient(270deg, var(--wf-orange-600), var(--wf-orange-500));
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    transition: 0.3s;
+  }
+  .wt-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); }
+  .wt-cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+  @media screen and (max-width: 767px) {
+    .wt-bande { padding: 3rem 1rem; }
+    .wt-titre { font-size: 3rem; line-height: 1; }
+    .wt-cta { display: block; width: 100%; }
+  }
+  @media screen and (max-width: 479px) {
+    .wt-titre { font-size: 2.5rem; }
+  }
+</style>

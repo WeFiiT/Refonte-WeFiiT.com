@@ -2,8 +2,15 @@
 // Titre + intro, puis une barre d'onglets en pilule orange (une par tribe) qui affiche une
 // carte : texte (objectif, Key Initiatives) à côté de la photo. Version composant du bloc
 // pages/equipe/blocs/08-tribes.html (même rendu, même comportement, couleurs lues dans les
-// tokens --wf-*). Les ids des onglets et des panneaux (wt-tab-N, wt-panel-N) sont fixes comme
-// dans le bloc d'origine : une seule instance par page.
+// tokens --wf-*).
+// Sert aussi de composant d'onglets générique (ex. « Prendre soin » de la page RSE) grâce à
+// des props optionnelles : sans elles, le rendu est exactement celui des Tribes.
+//   - `etiquette` (par onglet) : texte au-dessus de l'objectif, « Tribe <nom> » par défaut,
+//     chaîne vide = pas d'étiquette ;
+//   - `titreListe` (global ou par onglet) : titre de la liste, « Key Initiatives » par défaut ;
+//   - `alt` (par onglet) : description de la photo pour les lecteurs d'écran.
+// Ids des onglets et des panneaux : ceux du bloc d'origine (wt-tab-N, wt-panel-N) avec l'id
+// par défaut ; préfixés par `id` sinon, ce qui permet plusieurs instances sur une page.
 interface Initiative {
   texte: string;
   invitation?: boolean; // vrai = icône « + » (place laissée à une idée du lecteur), sinon coche
@@ -14,32 +21,46 @@ interface Tribe {
   objectif: string;
   initiatives: Initiative[];
   photo: string;
+  etiquette?: string;
+  titreListe?: string;
+  alt?: string;
 }
 interface Props {
   titre: string; // sans le point final : il est ajouté en dégradé orange
   intro: string; // HTML autorisé (<strong>, <br>)
   tribes: Tribe[];
+  titreListe?: string;
+  aideDefilement?: string; // texte lu par les lecteurs d'écran au-dessus des onglets
   id?: string;
 }
-const { titre, intro, tribes, id = 'wt-tribes' } = Astro.props;
+const {
+  titre,
+  intro,
+  tribes,
+  titreListe = 'Key Initiatives',
+  aideDefilement = 'Faites glisser pour voir tous les tribes',
+  id = 'wt-tribes',
+} = Astro.props;
+const prefixe = id === 'wt-tribes' ? 'wt' : id; // id par défaut : ids d'origine conservés
+const idTitre = id === 'wt-tribes' ? 'wt-title-heading' : `${id}-titre`;
 ---
 
-<section class="wt-tribes" id={id} aria-labelledby="wt-title-heading">
-  <h2 class="wt-title" id="wt-title-heading">{titre}<span class="wt-title-dot">.</span></h2>
+<section class="wt-tribes" id={id} aria-labelledby={idTitre}>
+  <h2 class="wt-title" id={idTitre}>{titre}<span class="wt-title-dot">.</span></h2>
   <p class="wt-intro" set:html={intro} />
 
   <div class="wt-tabs-wrap">
-    <span class="wt-sr-only">Faites glisser pour voir tous les tribes</span>
+    <span class="wt-sr-only">{aideDefilement}</span>
     <div class="wt-tabs" role="tablist">
       {
         tribes.map((t, i) => (
           <button
             type="button"
-            id={`wt-tab-${i}`}
+            id={`${prefixe}-tab-${i}`}
             class:list={['wt-tab', { 'is-active': i === 0 }]}
             role="tab"
             aria-selected={i === 0 ? 'true' : 'false'}
-            aria-controls={`wt-panel-${i}`}
+            aria-controls={`${prefixe}-panel-${i}`}
             data-tab={i}
           >
             {t.nom}
@@ -54,16 +75,16 @@ const { titre, intro, tribes, id = 'wt-tribes' } = Astro.props;
       tribes.map((t, i) => (
         <div
           class:list={['wt-panel', { 'is-active': i === 0 }]}
-          id={`wt-panel-${i}`}
+          id={`${prefixe}-panel-${i}`}
           role="tabpanel"
-          aria-labelledby={`wt-tab-${i}`}
+          aria-labelledby={`${prefixe}-tab-${i}`}
           data-panel={i}
         >
           <div class="wt-card">
             <div class="wt-text">
-              <div class="wt-label"><span class="wt-line"></span>Tribe {t.nom}</div>
+              {(t.etiquette ?? `Tribe ${t.nom}`) && <div class="wt-label"><span class="wt-line"></span>{t.etiquette ?? `Tribe ${t.nom}`}</div>}
               <p class="wt-objective">{t.objectif}</p>
-              <div class="wt-ki-title">Key Initiatives</div>
+              <div class="wt-ki-title">{t.titreListe ?? titreListe}</div>
               <ul class="wt-ki-list">
                 {
                   t.initiatives.map((k) => (
@@ -79,7 +100,7 @@ const { titre, intro, tribes, id = 'wt-tribes' } = Astro.props;
               </ul>
             </div>
             <div class="wt-photo-frame">
-              <div class="wt-photo" data-tribe={t.cle} style={`background-image: url('${t.photo}')`} />
+              <div class="wt-photo" data-tribe={t.cle} style={`background-image: url('${t.photo}')`} {...(t.alt ? { role: 'img', 'aria-label': t.alt } : {})} />
             </div>
           </div>
         </div>

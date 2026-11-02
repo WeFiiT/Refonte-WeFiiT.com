@@ -1,0 +1,189 @@
+---
+// Barre de navigation du site (navbar native Webflow reproduite) : logo, menus déroulants,
+// deux CTA. Fixée en haut au défilement. Hamburger sous 992px. Valeurs mesurées sur
+// wefiit.com (padding 10px 2vw, liens 16px 500 #001d84, CTA en pilule .9rem).
+// Le menu est commun à tout le site : il vit ici, seule la page courante est passée en prop.
+interface Props {
+  pageCourante?: string; // chemin de la page affichée, ex. "/notre-engagement-rse"
+}
+const { pageCourante = '' } = Astro.props;
+
+const CDN = 'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/';
+const WTTJ = 'https://www.welcometothejungle.com/fr/companies/wefiit';
+const RDV = 'https://outlook.office.com/book/WeFiiT2@wefiit.com/?ismsaljsauthenabled';
+
+type Lien = { libelle: string; lien: string; externe?: boolean };
+type Entree = { libelle: string; lien?: string; sousMenu?: Lien[] };
+const menu: Entree[] = [
+  {
+    libelle: 'Expertises',
+    sousMenu: [
+      { libelle: 'Product Management', lien: '/product-management' },
+      { libelle: 'Product Data & IA', lien: '/product-ia-data-management' },
+      { libelle: 'Product Marketing', lien: '/product-marketing' },
+      { libelle: 'Product Quality', lien: '/product-quality' },
+      { libelle: 'Product Ops', lien: '/product-ops' },
+    ],
+  },
+  { libelle: 'Cas clients', lien: '/cas-clients' },
+  { libelle: 'Formation', lien: '/formation-product-management' },
+  {
+    libelle: 'Médias',
+    sousMenu: [
+      { libelle: 'We.Talk', lien: '/we-talk' },
+      { libelle: 'Ressources', lien: '/product-management-ressources' },
+      { libelle: 'Vidéos', lien: '/videos' },
+      { libelle: 'Blog', lien: '/blog' },
+    ],
+  },
+  {
+    libelle: 'À propos',
+    sousMenu: [
+      { libelle: 'Être WeFiiTer', lien: '/equipe' },
+      { libelle: 'Mission', lien: '/acteur-de-ta-mission' },
+      { libelle: 'Engagement RSE', lien: '/notre-engagement-rse' },
+      { libelle: 'Nous rejoindre', lien: WTTJ, externe: true },
+    ],
+  },
+];
+const externe = (l: Lien) => (l.externe ? { target: '_blank', rel: 'noopener' } : {});
+const courant = (lien?: string) => (lien && lien === pageCourante ? { 'aria-current': 'page' } : {});
+---
+
+<header class="wt-entete" aria-label="Navigation principale">
+  <div class="wt-barre">
+    <a class="wt-logo" href="/">
+      <img src={`${CDN}6710c9a846e54f6b5265ccd1_logo-wefiit-header.avif`} alt="WeFiiT - Cabinet Conseil Product Management" width="107" height="24" />
+    </a>
+
+    <button type="button" class="wt-burger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+    </button>
+
+    <div class="wt-menu">
+      <ul class="wt-nav">
+        {
+          menu.map((e) =>
+            e.sousMenu ? (
+              <li class="wt-dd">
+                <button type="button" class="wt-lien wt-toggle" aria-expanded="false">{e.libelle}</button>
+                <ul class="wt-liste">
+                  {e.sousMenu.map((l) => (
+                    <li><a href={l.lien} {...externe(l)} {...courant(l.lien)}>{l.libelle}</a></li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li><a class="wt-lien" href={e.lien} {...courant(e.lien)}>{e.libelle}</a></li>
+            ),
+          )
+        }
+      </ul>
+      <div class="wt-ctas">
+        <a class="wt-cta wt-cta-orange" href={WTTJ} target="_blank" rel="noopener">Deviens&nbsp;WeFiiTer</a>
+        <a class="wt-cta wt-cta-bleu" href={RDV} target="_blank" rel="noopener">Prendre&nbsp;RDV</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .wt-entete {
+    font-family: "Work Sans v2", Arial, sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #fff;
+    padding: 10px 2vw;
+    box-sizing: border-box;
+  }
+  .wt-entete :global(*), .wt-entete :global(*::before), .wt-entete :global(*::after) { box-sizing: border-box; }
+  .wt-barre { max-width: 71.25rem; margin: 0 auto; display: flex; align-items: center; gap: 2rem; min-height: 46px; }
+  .wt-logo img { display: block; width: 107px; height: auto; }
+
+  .wt-menu { display: flex; align-items: center; flex: 1 1 auto; gap: 1.5rem; }
+  .wt-nav { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; }
+  .wt-lien {
+    appearance: none; background: none; border: 0; cursor: pointer;
+    font: inherit; font-size: 1rem; font-weight: 500; line-height: 1.5rem; letter-spacing: -0.01em;
+    color: var(--wf-blue-900); text-decoration: none;
+    padding: 5px 10px; margin: 0 5px;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  /* Survol : texte en dégradé orange 290deg (design-system.md §1). */
+  .wt-lien:hover {
+    background: linear-gradient(290deg, var(--wf-orange-600), var(--wf-orange-500));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .wt-toggle::after { content: ""; width: 0.45rem; height: 0.45rem; border-right: 2px solid var(--wf-orange-500); border-bottom: 2px solid var(--wf-orange-500); transform: rotate(45deg) translateY(-2px); }
+  .wt-dd { position: relative; }
+  .wt-liste {
+    display: none; position: absolute; top: 100%; left: 0; min-width: 200px; z-index: 10;
+    background: #fff; border-radius: 12px; padding: 0.5rem 0; margin: 0; list-style: none;
+    box-shadow: 0 8px 24px rgba(20, 20, 43, 0.12);
+  }
+  .wt-liste a { display: block; padding: 5px 20px; font-size: 0.875rem; font-weight: 500; line-height: 1.5rem; color: var(--wf-blue-900); text-decoration: none; white-space: nowrap; }
+  .wt-liste a:hover, .wt-liste a[aria-current='page'] { color: var(--wf-blue-600); }
+  .wt-dd.is-open .wt-liste { display: block; }
+  @media screen and (min-width: 992px) {
+    .wt-dd:hover .wt-liste, .wt-dd:focus-within .wt-liste { display: block; }
+  }
+
+  .wt-ctas { display: flex; gap: 1rem; margin-left: auto; }
+  .wt-cta {
+    display: inline-block; padding: 0.9rem 1.7rem; border-radius: 500px;
+    font-size: 0.9rem; font-weight: 600; line-height: 1.25rem; text-transform: uppercase;
+    text-decoration: none; color: #fff; white-space: nowrap; transition: 0.3s;
+  }
+  .wt-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+  .wt-cta-orange { background: linear-gradient(270deg, var(--wf-orange-600), var(--wf-orange-500)); }
+  .wt-cta-bleu { background: linear-gradient(270deg, var(--wf-blue-900), var(--wf-blue-600)); }
+
+  .wt-burger { display: none; appearance: none; border: 0; background: none; cursor: pointer; margin-left: auto; padding: 0.5rem; color: var(--wf-blue-900); }
+  .wt-burger svg { display: block; }
+
+  @media screen and (max-width: 991px) {
+    .wt-burger { display: block; }
+    .wt-menu {
+      display: none; position: absolute; left: 0; right: 0; top: 100%;
+      flex-direction: column; align-items: stretch; gap: 1rem;
+      background: #fff; padding: 1rem 5vw 1.5rem; box-shadow: 0 12px 24px rgba(20, 20, 43, 0.12);
+    }
+    .wt-entete.is-menu-open .wt-menu { display: flex; }
+    .wt-nav { flex-direction: column; align-items: stretch; }
+    .wt-liste { position: static; box-shadow: none; padding: 0 0 0.5rem 1rem; }
+    .wt-ctas { flex-direction: column; margin-left: 0; }
+    .wt-cta { display: block; text-align: center; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.wt-entete').forEach((root) => {
+    if (root.getAttribute('data-wt-init') === '1') return;
+    root.setAttribute('data-wt-init', '1');
+    const burger = root.querySelector<HTMLElement>('.wt-burger')!;
+    burger.addEventListener('click', () => {
+      const ouvert = root.classList.toggle('is-menu-open');
+      burger.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
+    });
+    // Menus déroulants : clic (mobile, clavier) ; au survol sur ordinateur, le CSS suffit.
+    const menus = root.querySelectorAll<HTMLElement>('.wt-dd');
+    const fermerTout = () =>
+      menus.forEach((m) => {
+        m.classList.remove('is-open');
+        m.querySelector('.wt-toggle')?.setAttribute('aria-expanded', 'false');
+      });
+    menus.forEach((dd) => {
+      const bouton = dd.querySelector<HTMLElement>('.wt-toggle')!;
+      bouton.addEventListener('click', () => {
+        const ouvrir = !dd.classList.contains('is-open');
+        fermerTout();
+        dd.classList.toggle('is-open', ouvrir);
+        bouton.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!root.contains(e.target as Node)) fermerTout();
+    });
+  });
+</script>

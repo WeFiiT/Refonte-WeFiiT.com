@@ -1,10 +1,15 @@
 ---
 import '../styles/tokens.css';
+import EnTete from '../components/EnTete.astro';
+import PiedDePage from '../components/PiedDePage.astro';
 
+// Toutes les pages ont le menu et le pied de page du site (navbar et footer natifs de
+// Webflow, reproduits) : ils vivent ici, une seule fois, et non dans les blocs.
 interface Props {
   titre: string;
+  pageCourante?: string; // adresse de la page sur wefiit.com, marquée dans le menu
 }
-const { titre } = Astro.props;
+const { titre, pageCourante } = Astro.props;
 
 // Polices du site : mêmes fichiers que Webflow (même CDN que librairie/template.html).
 // Sans elles, les titres s'afficheraient en Arial.
@@ -27,6 +32,8 @@ body{margin:0;background:#fff;font-family:"Work Sans v2",Arial,sans-serif}
     <style is:inline set:html={polices}></style>
   </head>
   <body>
+    <EnTete pageCourante={pageCourante} />
     <slot />
+    <PiedDePage />
   </body>
 </html>

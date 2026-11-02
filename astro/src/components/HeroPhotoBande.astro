@@ -2,20 +2,38 @@
 // Hero de page : titre H1 + intro + photo qui déborde sur une bande dégradée.
 // Version composant du bloc pages/equipe/blocs/01-hero.html (même rendu, mêmes valeurs,
 // couleurs lues dans les tokens --wf-*).
+// Optionnels (ajoutés pour la page RSE, sans effet sur Équipe qui ne les passe pas) :
+// un surtitre gris au-dessus du H1 et une rangée de chiffres clés sous l'intro.
+interface Chiffre {
+  valeur: string; // ex. "54"
+  libelle: string; // ex. "e-NPS collaborateur"
+}
 interface Props {
   titre: string; // sans le point final : il est ajouté en orange
-  intro: string; // HTML autorisé (passages en <span> mis en avant)
+  intro: string; // HTML autorisé (passages en <span> mis en avant, <br>)
   photo: string;
   alt: string;
+  surtitre?: string;
+  chiffres?: Chiffre[];
   id?: string;
 }
-const { titre, intro, photo, alt, id = 'wt-hero' } = Astro.props;
+const { titre, intro, photo, alt, surtitre, chiffres = [], id = 'wt-hero' } = Astro.props;
 ---
 
 <section class="wt-hero" id={id} aria-labelledby={`${id}-title`}>
   <div class="wt-inner">
+    {surtitre && <p class="wt-hero-surtitre">{surtitre}</p>}
     <h1 class="wt-hero-title" id={`${id}-title`}>{titre}<span class="wt-hero-dot">.</span></h1>
     <p class="wt-hero-intro" set:html={intro} />
+    {
+      chiffres.length > 0 && (
+        <ul class="wt-hero-chiffres">
+          {chiffres.map((c) => (
+            <li><span class="wt-hero-chiffre">{c.valeur}</span> {c.libelle}</li>
+          ))}
+        </ul>
+      )
+    }
     <div class="wt-hero-photo-frame">
       <div class="wt-hero-band"></div>
       <div class="wt-hero-photo">
@@ -71,6 +89,16 @@ const { titre, intro, photo, alt, id = 'wt-hero' } = Astro.props;
      même couleur que le reste, comme sur le site. Le HTML de l'intro vient de `set:html` :
      d'où `:global`, les <span> n'ont pas l'attribut de portée d'Astro. */
   .wt-hero-intro :global(span) { font-weight: 500; color: var(--wf-blue-900); }
+
+  /* Surtitre (.h1lp du site : 14px, #a0a3bd) et chiffres clés (chiffre Work Sans 600 24px,
+     libellé 14px, #002882), mesurés sur /notre-engagement-rse. */
+  .wt-hero-surtitre { margin: 0 0 0.25rem; font-size: 0.875rem; line-height: 1.25rem; color: #a0a3bd; text-align: center; }
+  .wt-hero-chiffres { list-style: none; margin: 2rem 0 0; padding: 0; display: flex; justify-content: center; gap: 3rem; }
+  .wt-hero-chiffres li { font-size: 0.875rem; line-height: 1.25rem; color: var(--wf-blue-800); }
+  .wt-hero-chiffre { font-size: 1.5rem; font-weight: 600; line-height: 1.5rem; margin-right: 0.25rem; }
+  @media screen and (max-width: 767px) {
+    .wt-hero-chiffres { flex-direction: column; align-items: center; gap: 0.75rem; }
+  }
 
   @media screen and (max-width: 767px) {
     .wt-hero { margin-top: 0; } /* premier bloc de la page sur mobile : pas d'espace avant, demande explicite de Paul */

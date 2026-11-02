@@ -15,7 +15,7 @@ npm run build    # génère dist/ (site statique)
 
 ## Structure
 
-- `src/layouts/Page.astro` : `<head>`, polices du site (même CDN que Webflow), `body` à 0 de marge.
+- `src/layouts/Page.astro` : `<head>`, polices du site (même CDN que Webflow), `body` à 0 de marge, **menu (`EnTete`) et pied de page (`PiedDePage`) du site, communs à toutes les pages**.
 - `src/pages/[page].astro` : page générique, assemble les blocs de la page dans l'ordre des numéros (`01-`, `02-`, ...).
 - `src/pages/index.astro` : liste des pages.
 - `src/pages-publiees.ts` : pages buildées. Seule `equipe` pour l'instant (Culture reste privée).
@@ -42,6 +42,21 @@ Les 10 blocs de la page Équipe sont maintenant des composants : plus aucun HTML
 
 1. Créer `../pages/<page>/blocs/01-...html`.
 2. Ajouter `{ slug: '<page>', nom: '...' }` dans `src/pages-publiees.ts`.
+
+Une page peut aussi être construite **directement en composants**, sans bloc HTML : il suffit de `src/contenu/<page>.ts` (clés `00-`, `01-`, ... pour l'ordre) et de l'entrée dans `src/pages-publiees.ts`. C'est le cas de la page RSE (POC) : `src/contenu/rse.ts`.
+
+## Composants de la page RSE (POC)
+
+| Bloc | Composant |
+|---|---|
+| Hero avec surtitre et chiffres clés | `HeroPhotoBande.astro` (props optionnelles `surtitre` et `chiffres`, sans effet sur Équipe) |
+| « Prendre soin » (onglets en pilule, carte texte + photo) | `TribesOnglets.astro`, le composant des Tribes rendu générique par des props optionnelles : `etiquette` (vide = aucune), `titreListe`, `alt`, `aideDefilement`, ids préfixés par `id` (plusieurs instances possibles). Sans ces props, rendu Tribes inchangé. |
+| Bilan carbone (bande bleue + bouton) | `BandeCta.astro` |
+| « Agir et s'engager » (actions en zigzag) | `ActionsZigzag.astro` |
+
+Pas de version HTML à coller dans Webflow pour ces blocs.
+
+Le menu (`EnTete.astro`) et le pied de page (`PiedDePage.astro`) sont dans le layout, pas dans les pages : toutes les pages les ont. Le menu marque la page courante grâce au champ `chemin` de `src/pages-publiees.ts` (adresse de la page sur wefiit.com).
 
 ## Étape suivante possible
 
