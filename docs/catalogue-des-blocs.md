@@ -40,7 +40,7 @@ Un bloc qui relève de plusieurs typologies apparaît dans chacune dans la libra
 |---|---|---|---|
 | 01 | Faire partie de l'équipe WeFiiT (titre H1 et grande photo) | [01-hero.html](../pages/equipe/blocs/01-hero.html) | Sur `/equipe-copy` |
 | 02 | WeFiiT en 2025 c'était ça (titre et vidéo) | [02-wefiit-2025.html](../pages/equipe/blocs/02-wefiit-2025.html) | Sur `/equipe-copy` |
-| 03 | Un cadre pour t'engager, évoluer et durer (texte, photo, principes) | [03-cadre.html](../pages/equipe/blocs/03-cadre.html) | Sur `/equipe-copy` |
+| 03 | Un cadre pour t'engager, évoluer et impacter (texte, photo, principes) | [03-cadre.html](../pages/equipe/blocs/03-cadre.html) | Sur `/equipe-copy` |
 | 04 | Témoignage de Yamila (prolonge le bloc 03) | [04-temoignage-yamila.html](../pages/equipe/blocs/04-temoignage-yamila.html) | Sur `/equipe-copy` |
 | 05 | Paroles de WeFiiTers (vidéos et bouton) | [05-paroles.html](../pages/equipe/blocs/05-paroles.html) | Sur `/equipe-copy` |
 | 06 | S'épanouir grâce au collectif (onglets et vidéos) | [06-collectif.html](../pages/equipe/blocs/06-collectif.html) | Validé |

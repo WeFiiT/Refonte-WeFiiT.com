@@ -36,7 +36,7 @@ export const composants = {
   '03-cadre': {
     Composant: CadrePrincipes,
     props: {
-      titre: 'Un cadre pour t’engager, évoluer et durer',
+      titre: 'Un cadre pour t’engager, évoluer et impacter',
       // Photo de démo (déjà communiquée par Paul pour la tribe « Expérience collaborateurs »),
       // en attendant le choix définitif pour ce bloc.
       photo: `${CDN}65830dbb97aa2a27f503a401_Equipe%20-%20Tribe%20RH.webp`,
@@ -85,7 +85,7 @@ export const composants = {
         {
           src: 'https://tube.rvere.com/embed?v=g9pShBUcTDI',
           titre: 'Rencontrez Alice - Product Owner',
-          legende: 'Recontrez Alice - Product Owner', // faute d'origine conservée (title de l'iframe correct)
+          legende: 'Rencontrez Alice - Product Owner',
         },
       ],
       ctaTexte: "REJOINS L'AVENTURE WEFIIT",
@@ -164,10 +164,10 @@ export const composants = {
           objectif: "Devenir la référence du conseil Product en faisant de l'expérience collaborateur l'un des moteurs de sa réussite et sa différenciation.",
           initiatives: [
             { texte: "Mise en place d'un programme d'engagement solidaire avec Komeet" },
-            { texte: 'Déploiement de notre nouveau parcours de carrière : WeHorizon' },
+            { texte: 'Déploiement de notre nouveau parcours de carrière : WeHorizon' },
             { texte: 'Une de tes brillantes idées', invitation: true },
           ],
-          photo: `${CDN}6ae9dbfbf7891468783498fd_tribe-expe-collaborateur.jpg`,
+          photo: `${CDN}6aea62a1fabbe39cfe1ded9d_image-tribe-exp%C3%A9rience-collab.jpg`,
         },
         {
           cle: 'excellence',
