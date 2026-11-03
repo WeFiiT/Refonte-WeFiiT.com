@@ -60,7 +60,7 @@ export const composants = {
       nom: 'Yamila',
       role: 'Lead People Experience',
       texte:
-        'L’université WeFiiT, c’est un programme de formation qu’on déploie tout au long de l’année (…) ce qui est assez différenciant des autres, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours, et on le fait évoluer tous les ans.',
+        'L’université WeFiiT, c’est un programme de formation qu’on déploie tout au long de l’année, ce qui est assez différenciant des autres, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours, et on le fait évoluer tous les ans.',
       photo: `${CDN}6a8c35a519d54491c9ab5e1d_yamila.webp`,
       bande: { padding: '1rem 0 6rem' }, // haut : 3.5rem d'origine moins les 2.5rem de marge basse du bloc cadre
     },
@@ -167,7 +167,7 @@ export const composants = {
             { texte: 'Déploiement de notre nouveau parcours de carrière : WeHorizon' },
             { texte: 'Une de tes brillantes idées', invitation: true },
           ],
-          photo: `${CDN}65830dbb97aa2a27f503a401_Equipe%20-%20Tribe%20RH.webp`,
+          photo: `${CDN}6ae9dbfbf7891468783498fd_tribe-expe-collaborateur.jpg`,
         },
         {
           cle: 'excellence',
@@ -178,7 +178,7 @@ export const composants = {
             { texte: "Mettre l'IA au service de nos clients & des WeFiiTers" },
             { texte: 'Et toi, tu ferais quoi ?', invitation: true },
           ],
-          photo: `${CDN}63ef9682a3c580c78d8a6490_Equipe%20-%20Tribe%20recrutement.webp`,
+          photo: `${CDN}6adcf8a9043cf26c1377f818_tribe-expertise.jpg`,
         },
         {
           cle: 'expertises',
@@ -189,7 +189,7 @@ export const composants = {
             { texte: "Création d'offres d'expertise premium, prêtes à vendre et à délivrer" },
             { texte: 'Ton initiative pourrait être ici', invitation: true },
           ],
-          photo: `${CDN}6adcf8a9043cf26c1377f818_tribe-expertise.jpg`,
+          photo: `${CDN}6ae9da9798aa5830fa77b9fe_tribe-expertise.jpg`,
         },
         {
           cle: 'business',
@@ -223,8 +223,8 @@ export const composants = {
       nom: 'Guillaume',
       role: 'Consultant Product Leader',
       texte:
-        "J'ai tout de suite accroché à la vision des co-fondateurs pour WeFiiT, à savoir la construction d'un collectif d'experts bienveillants (...) où chacun peut apporter sa pierre à l'édifice pour construire un WeFiiT qui nous ressemble",
-      photo: `${CDN}64118ccd9e750a2969c2eb5b_Mission%20-%20T%C3%A9moignages%20WeFiiTers%20-%20Consultant%20Product%20Guillaume.webp`,
+        "J'ai tout de suite accroché à la vision du CEO pour WeFiiT, à savoir la construction d'un collectif d'experts bienveillants où chacun peut apporter sa pierre à l'édifice pour construire un WeFiiT qui nous ressemble",
+      photo: `${CDN}6ae9d7c7f41d4a586d31e592_guillaume.webp`,
     },
   },
   '10-photo-pleine-largeur': {
