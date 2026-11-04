@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
+import react from '@astrojs/react';
+
 // Les blocs vivent dans ../pages/<page>/blocs/ (source de vérité, collée telle quelle
 // dans Webflow) : Astro les lit directement, sans copie. Le serveur de dev doit donc
 // être autorisé à lire le dossier parent.
@@ -12,4 +14,6 @@ export default defineConfig({
   vite: {
     server: { fs: { allow: [racineSite] } },
   },
+
+  integrations: [react()],
 });

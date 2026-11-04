@@ -1,0 +1,149 @@
+/* Styles du composant ParolesVideos (ParolesVideos.tsx). CSS global : chaque règle est
+   préfixée par .wt-paroles, sinon .wt-title, .wt-intro... toucheraient aussi les autres
+   composants. */
+.wt-paroles {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  max-width: 71.25rem;
+  margin: 0 auto 5rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.wt-paroles, .wt-paroles *, .wt-paroles *::before, .wt-paroles *::after { box-sizing: border-box; }
+
+/* Titre + intro : même traitement que les autres blocs (dégradé bleu + point
+   orange). C'est d'ailleurs le titre de référence sur lequel ce dégradé a été
+   mesuré au départ. Tous les textes du bloc sont centrés, desktop et mobile,
+   à la demande explicite de Paul (le site réel aligne l'intro à gauche sur
+   mobile, mais ce n'est pas ce qui est voulu ici). */
+.wt-paroles .wt-title {
+  font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3.2rem;
+  line-height: 3.84rem;
+  font-weight: 500;
+  letter-spacing: -0.128rem;
+  text-align: center;
+  margin: 0;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-paroles .wt-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-paroles .wt-intro {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.3rem;
+  color: var(--wf-blue-900);
+  text-align: center;
+  max-width: 50rem;
+  margin: 1.125rem auto 3rem;
+}
+/* Le HTML de l'intro est injecté (dangerouslySetInnerHTML) : règle sur <em>. */
+.wt-paroles .wt-intro em { font-style: italic; }
+
+@media screen and (max-width: 767px) {
+  .wt-paroles .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
+}
+
+/* Grille desktop : reprise telle quelle du bloc natif du site (3 colonnes,
+   vidéo en ratio padding-top:60% — pas le 16:9 utilisé ailleurs, c'est le vrai
+   ratio du bloc d'origine — légende en dessous, alignée à gauche). Inchangée
+   à la demande de Paul : seul le mobile est retravaillé. */
+.wt-paroles .wt-grid {
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+.wt-paroles .wt-video-frame { position: relative; width: 100%; padding-top: 60%; overflow: hidden; }
+.wt-paroles .wt-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.wt-paroles .wt-caption {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--wf-blue-800);
+  text-align: center;
+}
+@media screen and (min-width: 768px) {
+  .wt-paroles .wt-grid { display: grid; }
+  .wt-paroles .wt-carousel { display: none; }
+}
+
+/* Carrousel mobile : une seule vidéo pleine largeur et centrée par vue (pas
+   d'amorce de la suivante), défilement infini (boucle) au doigt ou via les
+   petits carrés de pagination en dessous — demande explicite de Paul, pattern
+   différent du reste du bloc (qui reste identique au site). */
+.wt-paroles .wt-carousel { margin-bottom: 3rem; }
+.wt-paroles .wt-carousel-wrap { position: relative; }
+.wt-paroles .wt-carousel-viewport { overflow: hidden; width: 100%; touch-action: pan-y; }
+.wt-paroles .wt-carousel-track { display: flex; }
+.wt-paroles .wt-slide { flex: 0 0 100%; width: 100%; min-width: 0; }
+
+/* Flèches : mêmes icônes/pastille que le reste du site (voir bloc collectif).
+   Boucle infinie oblige, elles restent toujours visibles (jamais de "bout de
+   course" à masquer). */
+.wt-paroles .wt-arrow {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 2.8125rem;
+  height: 2.8125rem;
+  border-radius: 99px;
+  background: var(--wf-blue-800);
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 0;
+}
+.wt-paroles .wt-arrow img { width: 1rem; height: 1rem; }
+.wt-paroles .wt-arrow-left { left: -0.5rem; }
+.wt-paroles .wt-arrow-right { right: -0.5rem; }
+
+.wt-paroles .wt-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.25rem; }
+.wt-paroles .wt-dot {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 0;
+  background: var(--wf-grey-100);
+  cursor: pointer;
+}
+.wt-paroles .wt-dot.is-active { background: var(--wf-blue-600); }
+
+/* CTA : pilule dégradée orange, identique au bouton "REJOINS L'AVENTURE
+   WEFIIT" du site réel. */
+.wt-paroles .wt-cta {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  background: linear-gradient(to right, var(--wf-orange-500), var(--wf-orange-600));
+  color: #fff;
+  font-family: inherit;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.25rem;
+  font-size: 1rem;
+  text-decoration: none;
+  text-align: center;
+  padding: 1.0625rem 2.5rem;
+  border-radius: 500px;
+}
+/* Mobile : bouton pleine largeur et texte centré, comme le bouton du site (design-system.md §6). */
+@media screen and (max-width: 767px) {
+  .wt-paroles .wt-cta { width: 100%; }
+}
+@media screen and (max-width: 479px) {
+  .wt-paroles .wt-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+}

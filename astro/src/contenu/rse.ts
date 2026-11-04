@@ -1,10 +1,10 @@
 // Page « Notre engagement RSE » (/notre-engagement-rse), construite directement en
 // composants Astro : pas de blocs HTML dans ../pages/rse/blocs/. Clé = position dans la
 // page (ordre alphabétique). Le menu et le pied de page viennent du layout (Page.astro). Textes repris à l'identique du site en ligne.
-import HeroPhotoBande from '../components/HeroPhotoBande.astro';
-import TribesOnglets from '../components/TribesOnglets.astro';
-import BandeCta from '../components/BandeCta.astro';
-import ActionsZigzag from '../components/ActionsZigzag.astro';
+import HeroPhotoBande from '../components/HeroPhotoBande';
+import TribesOnglets from '../components/TribesOnglets';
+import BandeCta from '../components/BandeCta';
+import ActionsZigzag from '../components/ActionsZigzag';
 
 const CDN = 'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/';
 

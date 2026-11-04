@@ -4,4 +4,5 @@
 export const PAGES = [
   { slug: 'equipe', nom: 'Équipe', chemin: '/equipe' },
   { slug: 'rse', nom: 'Notre engagement RSE (POC, construite en composants)', chemin: '/notre-engagement-rse' },
+  { slug: 'product-management', nom: 'Conseil Product Management (construite en composants)', chemin: '/product-management' },
 ];

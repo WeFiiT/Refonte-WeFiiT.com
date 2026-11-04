@@ -1,0 +1,142 @@
+/* Styles du composant HeroPhotoBande (HeroPhotoBande.tsx). CSS global : chaque règle est
+   préfixée par .wt-hero, sinon .wt-inner toucherait aussi les autres composants. */
+.wt-hero {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  margin: 3rem 0 5rem;
+  box-sizing: border-box;
+}
+.wt-hero, .wt-hero *, .wt-hero *::before, .wt-hero *::after { box-sizing: border-box; }
+.wt-hero .wt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+
+/* Titre H1 (pas H2 comme les autres blocs : c'est le titre principal de la page) :
+   dégradé bleu horizontal + point orange, `color` orange en repli si le dégradé
+   ne s'affiche pas. */
+.wt-hero .wt-hero-title {
+  font-family: Allroundgothic, Arial, sans-serif;
+  font-size: 4rem;
+  line-height: 4rem;
+  font-weight: 400;
+  letter-spacing: -0.08rem;
+  text-align: center;
+  margin: 0;
+  color: var(--wf-orange-600); /* repli si le dégradé ne s'affiche pas */
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.wt-hero .wt-hero-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-hero .wt-hero-intro {
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.38rem;
+  color: var(--wf-blue-800);
+  text-align: center;
+  max-width: 46rem;
+  margin: 1.25rem auto 0;
+}
+/* Les passages mis en avant ne sont qu'en poids 500 (pas un vrai gras) et quasiment la
+   même couleur que le reste, comme sur le site. Le HTML de l'intro est injecté
+   (dangerouslySetInnerHTML) : ses <span> sont stylés par ce sélecteur descendant. */
+.wt-hero .wt-hero-intro span { font-weight: 500; color: var(--wf-blue-900); }
+
+/* Surtitre (.h1lp du site : 14px, #a0a3bd) et chiffres clés (chiffre Work Sans 600 24px,
+   libellé 14px, #002882), mesurés sur /notre-engagement-rse. */
+.wt-hero .wt-hero-surtitre { margin: 0 0 0.25rem; font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; color: #a0a3bd; text-align: center; } /* font-weight explicite : peut être un H1 (gras par défaut) */
+.wt-hero .wt-hero-chiffres { list-style: none; margin: 2rem 0 0; padding: 0; display: flex; justify-content: center; gap: 3rem; }
+.wt-hero .wt-hero-chiffres li { font-size: 0.875rem; line-height: 1.25rem; color: var(--wf-blue-800); }
+.wt-hero .wt-hero-chiffre { font-size: 1.5rem; font-weight: 600; line-height: 1.5rem; margin-right: 0.25rem; }
+@media screen and (max-width: 767px) {
+  .wt-hero .wt-hero-chiffres { flex-direction: column; align-items: center; gap: 0.75rem; }
+}
+
+/* Boutons : écart 32px entre les deux (mesuré). */
+.wt-hero .wt-hero-ctas { display: flex; justify-content: center; gap: 2rem; margin: 2rem 0 1rem; }
+@media screen and (max-width: 767px) {
+  .wt-hero .wt-hero-ctas { flex-direction: column; gap: 0.75rem; }
+}
+
+/* Bandeau de logos clients : pleine largeur, défilement continu (logo-carousel du site :
+   logos ~60px de haut, 16px de padding, 16px d'écart). Arrêté si l'utilisateur réduit les
+   animations. */
+.wt-hero .wt-hero-logos {
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  width: 100vw;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+.wt-hero .wt-hero-logos-piste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: wt-hero-defile 45s linear infinite;
+}
+.wt-hero .wt-hero-logos:hover .wt-hero-logos-piste { animation-play-state: paused; }
+.wt-hero .wt-hero-logos-piste li { flex: none; padding: 1rem; display: flex; align-items: center; }
+.wt-hero .wt-hero-logos-piste img { display: block; height: 3.8rem; width: auto; max-width: 8rem; object-fit: contain; }
+@keyframes wt-hero-defile { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .wt-hero .wt-hero-logos-piste { animation: none; }
+}
+@media screen and (max-width: 767px) {
+  .wt-hero .wt-hero-logos-piste img { height: 2.8rem; }
+}
+
+@media screen and (max-width: 767px) {
+  .wt-hero { margin-top: 0; } /* premier bloc de la page sur mobile : pas d'espace avant, demande explicite de Paul */
+  .wt-hero .wt-hero-title { font-size: 2.5rem; line-height: 2.5rem; letter-spacing: -0.05rem; } /* design-system.md §2 : H1 2.5rem jusqu'à 767px, 2.8125rem sous 480px */
+  .wt-hero .wt-hero-intro { font-size: 1.125rem; line-height: 1.35rem; }
+}
+/* Desktop : l'écart avec le bloc suivant est remonté à 7rem (demande de Paul), mobile inchangé. */
+@media screen and (min-width: 768px) {
+  .wt-hero { margin-bottom: 7rem; }
+}
+
+/* Photo qui déborde sur une bande dégradée : la bande est positionnée par rapport à la
+   photo elle-même (25% de sa hauteur, jusqu'à 3rem sous elle), pas par rapport à la page. */
+.wt-hero .wt-hero-photo-frame {
+  position: relative;
+  margin: 1.5rem 0 3rem;
+}
+.wt-hero .wt-hero-band {
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  top: 25%;
+  bottom: -3rem;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+}
+.wt-hero .wt-hero-photo {
+  position: relative;
+  width: 100%;
+  height: 25rem; /* hauteur fixe par palier plutôt qu'un ratio, comme le site */
+  overflow: hidden;
+  background: var(--wf-blue-50);
+}
+/* Débord de 4px de chaque côté, masqué par le cadre : certaines photos du site ont des colonnes
+   transparentes sur un bord (hero-offre.avif : 3 colonnes et demie à droite), qui laissaient
+   voir un liseré clair. */
+.wt-hero .wt-hero-photo img { position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); object-fit: cover; }
+@media screen and (max-width: 767px) {
+  .wt-hero .wt-hero-photo-frame { margin: 1.25rem 0 2rem; }
+  .wt-hero .wt-hero-photo { height: 11.25rem; }
+  /* Sur mobile, la bande est alignée exactement sur la photo (pas de débord). */
+  .wt-hero .wt-hero-band { top: 0; bottom: 0; }
+}
+@media screen and (max-width: 479px) {
+  .wt-hero .wt-hero-title { font-size: 2.8125rem; line-height: 2.8125rem; }
+}

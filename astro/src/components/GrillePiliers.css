@@ -1,0 +1,63 @@
+/* Styles du composant GrillePiliers (GrillePiliers.tsx). CSS global : chaque règle est
+   préfixée par .wt-piliers, sinon .wt-titre, .wt-bande... toucheraient les autres composants. */
+.wt-piliers { font-family: "Work Sans v2", Arial, sans-serif; margin: 0 0 5rem; box-sizing: border-box; }
+.wt-piliers, .wt-piliers *, .wt-piliers *::before, .wt-piliers *::after { box-sizing: border-box; }
+.wt-piliers .wt-bande {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  background: var(--wf-blue-50);
+  padding: 4rem 0;
+}
+/* Même conteneur que les sections natives du site (.main-section). */
+.wt-piliers .wt-inner { width: 90%; max-width: 71.25rem; margin: 0 auto; padding: 0 5vw; }
+@media screen and (min-width: 1440px) {
+  .wt-piliers .wt-inner { padding: 0 4vw; }
+}
+.wt-piliers .wt-titre {
+  font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3rem;
+  line-height: 3.6rem;
+  font-weight: 500;
+  letter-spacing: -0.12rem;
+  text-align: left;
+  margin: 0;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-piliers .wt-point {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-piliers .wt-sous-titre { display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 1rem 0 2.5rem; font-size: 1.5rem; font-weight: 500; line-height: 1.5rem; color: var(--wf-blue-900); text-align: center; }
+.wt-piliers .wt-sous-titre img { width: 120px; height: auto; }
+.wt-piliers .wt-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem 3rem; }
+.wt-piliers .wt-liste > li { flex: 0 1 calc((100% - 6rem) / 3); }
+.wt-piliers .wt-pilier-titre { margin: 0 0 1rem; font-size: 1.3rem; font-weight: 600; line-height: 1.95rem; letter-spacing: -0.02em; color: var(--wf-blue-800); text-align: center; }
+.wt-piliers .wt-pilier-texte { margin: 0; font-size: 0.9rem; font-weight: 500; line-height: 1.53rem; letter-spacing: -0.02em; color: var(--wf-blue-800); text-align: justify; }
+.wt-piliers .wt-pilier-texte strong { font-weight: 700; }
+.wt-piliers .wt-pilier-texte a { color: var(--wf-blue-600); }
+
+@media screen and (max-width: 991px) {
+  .wt-piliers .wt-liste > li { flex-basis: calc((100% - 3rem) / 2); }
+}
+@media screen and (max-width: 767px) {
+  .wt-piliers .wt-titre { line-height: 1; }
+  .wt-piliers .wt-inner { width: 100%; padding: 0 1rem; }
+  .wt-piliers .wt-bande { padding: 3rem 0; }
+  .wt-piliers .wt-sous-titre { flex-direction: column; gap: 0.5rem; font-size: 1.25rem; }
+  .wt-piliers .wt-liste > li { flex-basis: 100%; }
+  .wt-piliers .wt-pilier-texte { text-align: left; }
+}
+@media screen and (max-width: 479px) {
+  .wt-piliers .wt-titre { font-size: 2.6rem; }
+}

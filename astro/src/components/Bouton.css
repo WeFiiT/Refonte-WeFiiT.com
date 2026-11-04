@@ -1,0 +1,23 @@
+/* Styles du composant Bouton (Bouton.tsx). CSS global : toutes les classes commencent par
+   .wt-bouton pour ne rien toucher d'autre. */
+.wt-bouton {
+  display: inline-block;
+  padding: 1.0625rem 2.5rem;
+  border-radius: 500px;
+  font-family: "Work Sans v2", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  transition: 0.3s;
+}
+.wt-bouton:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 29, 132, 0.2); }
+.wt-bouton:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 3px; }
+.wt-bouton-orange { background: linear-gradient(270deg, var(--wf-orange-600), var(--wf-orange-500)); color: #fff; }
+.wt-bouton-bleu { background: linear-gradient(270deg, var(--wf-blue-900), var(--wf-blue-600)); color: #fff; }
+.wt-bouton-clair { background: var(--wf-blue-75); color: var(--wf-blue-900); }
+@media screen and (max-width: 767px) {
+  .wt-bouton { display: block; width: 100%; }
+}
