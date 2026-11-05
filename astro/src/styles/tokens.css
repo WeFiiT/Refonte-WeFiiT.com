@@ -12,4 +12,8 @@
   --wf-orange-600: #e95400; /* --e95400 : dégradés */
   --wf-grey-100: #eff0f6;
   --wf-ink: #0e0f11;
+
+  /* Police des H2 : Geomanist Medium sur wefiit.com depuis novembre 2026 (relevé le
+     2026-11-04, .h2-heading). Le H1, les chiffres et les titres de bande (.push-b2b) restent en Allroundgothic. */
+  --wf-font-h2: Geomanist, Arial, sans-serif;
 }

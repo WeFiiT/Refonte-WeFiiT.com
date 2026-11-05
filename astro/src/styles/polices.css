@@ -1,0 +1,8 @@
+/* Polices du site : mêmes fichiers que Webflow (même CDN que librairie/template.html).
+   Sans elles, les titres s'afficheraient en Arial. Source unique : injectée en ligne par le
+   layout (Page.astro) et embarquée dans le design system Claude Design (src/design-system/). */
+@font-face{font-family:"Work Sans v2";src:url("https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6685217fc3c9b3f73730a6c2_WorkSans-VariableFont_wght.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:Allroundgothic;src:url("https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63e424eda0e0796b48e27cd6_AllRoundGothic-Demi.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Allroundgothic;src:url("https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/63e424e4a2e78bdb2b99bba7_AllRoundGothic-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:Geomanist;src:url("https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6ae898279f6d9acefcbc8285_Geomanist-Medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Geomanist;src:url("https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6ae898279851d30848580129_Geomanist-Regular.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}

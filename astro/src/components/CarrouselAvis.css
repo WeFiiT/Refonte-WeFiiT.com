@@ -1,0 +1,89 @@
+/* Styles du composant CarrouselAvis (CarrouselAvis.tsx). CSS global : chaque règle est
+   préfixée par .wt-avis, sinon .wt-titre, .wt-carte, .wt-pied... toucheraient les autres
+   composants (PiedDePage a aussi une racine .wt-pied). */
+
+/* Même conteneur que les sections natives du site (.main-section) : 90 %, max 71.25rem,
+   marge intérieure 5vw (4vw à partir de 1440px). */
+.wt-avis {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  width: 90%;
+  max-width: 71.25rem;
+  margin: 0 auto 5rem;
+  padding: 0 5vw;
+  box-sizing: border-box;
+}
+.wt-avis, .wt-avis *, .wt-avis *::before, .wt-avis *::after { box-sizing: border-box; }
+.wt-avis .wt-titre {
+  font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3rem;
+  line-height: 3.6rem;
+  font-weight: 500;
+  letter-spacing: -0.12rem;
+  text-align: left;
+  margin: 0 0 1rem;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-avis .wt-point {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Piste défilante : 3 cartes visibles, écart 2.5rem. Padding pour ne pas couper les
+   guillemets qui débordent des cartes. */
+.wt-avis .wt-piste {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 5rem) / 3);
+  gap: 2.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 1.5rem 1rem 1.5rem;
+  margin: 0 -1rem;
+}
+.wt-avis .wt-piste::-webkit-scrollbar { display: none; }
+.wt-avis .wt-piste:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 2px; }
+.wt-avis .wt-carte {
+  position: relative;
+  scroll-snap-align: start;
+  margin: 0;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 5px -3px var(--wf-blue-900);
+}
+.wt-avis .wt-guillemet { position: absolute; width: 30px; height: auto; }
+.wt-avis .wt-guillemet-haut { top: -0.5rem; left: -1rem; }
+.wt-avis .wt-guillemet-bas { bottom: -0.5rem; right: -1rem; }
+.wt-avis .wt-texte { margin: 1.5rem 0 1rem; font-size: 1rem; line-height: 1.25rem; font-style: italic; color: var(--wf-blue-900); text-align: left; }
+.wt-avis .wt-pied { margin-top: auto; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+.wt-avis .wt-tag { padding: 5px 20px; border-radius: 999px; background: var(--wf-blue-50); font-size: 0.75rem; font-weight: 500; line-height: 1.25rem; color: var(--wf-blue-900); }
+.wt-avis .wt-logo { display: block; height: 3.1rem; width: auto; max-width: 6rem; object-fit: contain; }
+
+.wt-avis .wt-points { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; }
+.wt-avis .wt-points button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%; background: var(--wf-blue-75); cursor: pointer; transition: background 0.2s; }
+.wt-avis .wt-points button[aria-selected='true'] { background: var(--wf-blue-600); }
+
+@media screen and (min-width: 1440px) {
+  .wt-avis { padding: 0 4vw; }
+}
+@media screen and (max-width: 991px) {
+  .wt-avis .wt-piste { grid-auto-columns: calc((100% - 2.5rem) / 2); }
+}
+@media screen and (max-width: 767px) {
+  .wt-avis .wt-titre { line-height: 1; }
+  .wt-avis { width: 100%; padding: 0 1rem; }
+  .wt-avis .wt-piste { grid-auto-columns: 85%; gap: 1.5rem; }
+}
+@media screen and (max-width: 479px) {
+  .wt-avis .wt-titre { font-size: 2.6rem; }
+}

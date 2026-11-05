@@ -1,0 +1,35 @@
+/* Styles du composant Temoignage (Temoignage.tsx). CSS global : toutes les classes internes
+   commencent par .wtt- (préfixe propre à ce composant, utilisé nulle part ailleurs), elles
+   ne sont donc pas préfixées par la racine. */
+.wt-temoignage {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  box-sizing: border-box;
+}
+.wt-temoignage, .wt-temoignage *, .wt-temoignage *::before, .wt-temoignage *::after { box-sizing: border-box; }
+
+/* Bloc avec bande de fond pleine largeur : margin-bottom seul. */
+.wtt-avec-bande { margin: 0 0 3rem; }
+/* Bloc sur fond blanc : le bloc est lui-même le conteneur centré, margin-bottom seul. */
+.wtt-sans-bande { max-width: 71.25rem; margin: 0 auto 5rem; padding: 0 1rem; }
+.wtt-sans-bande .wtt-testimonial { padding-bottom: 1rem; }
+
+/* Bande pleine largeur (technique des marges négatives, jamais clip-path ni box-shadow
+   géant). Le padding vient de la prop `bande` : elle prolonge la bande du bloc qui précède,
+   ce bloc doit suivre directement celui dont il a été séparé. */
+.wtt-band { position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw; background: var(--wf-blue-50); }
+.wtt-inner { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+
+/* Carte de témoignage : photo qui déborde en haut (cadre transparent aux proportions de la
+   photo, centré sur le bord de la carte), guillemets en icônes SVG du site, texte et
+   signature centrés (nom en gras, fonction en poids normal). */
+.wtt-testimonial { position: relative; margin: 0 auto; max-width: 40rem; padding-top: 4.21875rem; }
+.wtt-card { position: relative; background: #fff; border: 1px solid var(--wf-grey-100); border-radius: 0; padding: 5rem 1.75rem 2rem; text-align: center; box-shadow: rgba(4,17,112,0.1) 0px 0px 30px 10px; }
+.wtt-photo { position: absolute; top: -4.21875rem; left: 50%; transform: translateX(-50%); width: 7.5rem; height: 8.4375rem; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 1; }
+.wtt-photo img { width: 100%; height: 100%; object-fit: fill; display: block; }
+.wtt-quote-icon { position: absolute; width: 2.5rem; }
+.wtt-quote-icon-tl { top: -1.25rem; left: -0.75rem; }
+.wtt-quote-icon-br { bottom: -1.25rem; right: -0.625rem; }
+.wtt-text { color: var(--wf-blue-800); font-size: 1rem; font-weight: 500; line-height: 1.7; text-align: center; margin: 0 0 1rem; }
+.wtt-author { color: var(--wf-blue-600); font-size: 1rem; font-weight: 400; text-align: center; margin: 0; }
+.wtt-name { font-weight: 600; }
+@media screen and (max-width: 767px) { .wtt-card { padding: var(--wtt-carte-mobile-haut) 1.25rem 1.5rem; } }

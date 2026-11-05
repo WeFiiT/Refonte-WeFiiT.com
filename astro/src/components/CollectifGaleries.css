@@ -1,0 +1,274 @@
+/* Styles du composant CollectifGaleries (CollectifGaleries.tsx). CSS global : chaque règle
+   est préfixée par .wt-collectif (les classes .wtc-* sont propres au composant, le préfixe
+   reproduit en plus la spécificité qu'ajoutait la portée Astro). */
+.wt-collectif {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  margin: 0; /* le bas de la bande est porté par le bloc témoignage qui suit */
+  box-sizing: border-box;
+}
+.wt-collectif, .wt-collectif *, .wt-collectif *::before, .wt-collectif *::after { box-sizing: border-box; }
+/* Bande de fond pleine largeur (comme la section d'origine), alors que le
+   contenu (.wtc-inner, max-width) reste centré. Technique par marges négatives
+   (pas de clip-path/transform) : ces propriétés créent un référentiel de
+   positionnement pour les éléments position:fixed de la page — un lightbox ou
+   une image plein écran plus bas sur la page se retrouverait alors contenu
+   dans ce bloc au lieu de couvrir tout l'écran. */
+.wt-collectif .wtc-band {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  background: var(--wf-blue-50);
+  padding: 3rem 0 0; /* pas de padding bas : la bande se prolonge dans le bloc témoignage qui suit (07-temoignage-anne-claire), qui porte le bas de la bande */
+}
+.wt-collectif .wtc-inner {
+  max-width: 71.25rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.wt-collectif .wtc-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* Titre + texte d'intro : repris à l'identique du bloc natif (h2.h2-heading-12 +
+   p.subh2 de la page équipe), désormais inclus dans l'embed. */
+/* Même traitement que les autres titres de rubrique du site (ex. "Paroles de
+   WeFiiTers.") : dégradé bleu horizontal sur le texte, point final en dégradé
+   orange vertical séparé — vérifié directement sur ce titre de référence. */
+.wt-collectif .wtc-title {
+  font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3.2rem;
+  line-height: 3.84rem;
+  font-weight: 500;
+  letter-spacing: -0.128rem;
+  text-align: center;
+  margin: 0;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent; /* nécessaire sur certains moteurs pour que le dégradé s'affiche au lieu du texte */
+}
+.wt-collectif .wtc-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-collectif .wtc-intro {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.3rem;
+  color: var(--wf-blue-900);
+  text-align: center;
+  max-width: 46rem;
+  margin: 1.125rem auto 3rem;
+}
+/* Le HTML de l'intro vient de `dangerouslySetInnerHTML` (ex-`set:html`) : <span> injectés. */
+.wt-collectif .wtc-intro .wtc-highlight { color: var(--wf-blue-600); font-weight: 600; font-style: normal; }
+
+/* Onglets soulignés : remplace les 3 blocs empilés pour alléger la hauteur.
+   Volontairement différent de la pilule dégradée du bloc Tribes (simple trait
+   de couleur, pas de fond plein) pour ne pas reproduire le même motif. */
+.wt-collectif .wtc-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  border-bottom: 1px solid var(--wf-grey-100);
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.wt-collectif .wtc-tabs::-webkit-scrollbar { display: none; }
+.wt-collectif .wtc-tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--wf-blue-300);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0 0 0.9rem;
+  margin: 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+.wt-collectif .wtc-tab.is-active { color: var(--wf-blue-600); }
+.wt-collectif .wtc-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--wf-blue-600);
+}
+.wt-collectif .wtc-panel { display: none; }
+.wt-collectif .wtc-panel.is-active { display: block; animation: wtc-fade 0.2s ease; }
+@keyframes wtc-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* min-height calé sur la description la plus longue des 3 catégories : sans
+   ça, le passage d'un onglet à l'autre fait quand même sauter la hauteur du
+   bloc (texte de description plus ou moins long selon la catégorie), même
+   une fois les cartes vidéo elles-mêmes uniformisées. */
+.wt-collectif .wtc-desc {
+  color: var(--wf-blue-800);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 42rem;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+  min-height: 4.5rem;
+}
+
+/* Galerie : défilement horizontal avec accroche (scroll-snap) + flèches reprises
+   du slider de témoignages de la page "Acteur de ta mission" (mêmes icônes,
+   même pastille bleu foncé), pour indiquer clairement qu'on peut faire défiler.
+   Remplace le slider natif Webflow (une carte à la fois, points de pagination). */
+.wt-collectif .wtc-scroller-wrap { position: relative; }
+.wt-collectif .wtc-scroller {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.wt-collectif .wtc-scroller::-webkit-scrollbar { display: none; }
+.wt-collectif .wtc-track { display: flex; gap: 1.25rem; }
+
+.wt-collectif .wtc-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(78vw, 16rem);
+  scroll-snap-align: start;
+  border-radius: 0; /* design system du site : pas de coins arrondis */
+  overflow: hidden !important; /* second rempart : même si le titre débordait malgré tout, la carte elle-même ne doit jamais laisser rien dépasser */
+  background: #fff; /* blanc pour ressortir sur le fond bleu clair du bloc, qui utilise la même couleur que l'ancien fond des cartes */
+  box-shadow: 1px 0 3px rgba(0,0,0,0.08); /* ombre de repos des cartes du site (design-system.md §5) */
+}
+/* Desktop : 3 cartes pleinement visibles + amorce de la 4ème (3 cartes + 3
+   écarts + ~30% d'une 4ème carte doivent tenir dans la largeur du track). */
+@media screen and (min-width: 992px) {
+  .wt-collectif .wtc-card { width: calc((100% - 3 * 1.25rem) / 3.3); }
+}
+/* Vignette + bouton lecture (chargement différé), pas d'iframe YouTube
+   directe : constaté (2026-09-29) que le lecteur YouTube choisit lui-même
+   une miniature basse résolution en fonction de la taille CSS réelle du
+   conteneur au chargement (~330px de large ici), même quand le vrai
+   maxresdefault.jpg (1280x720) existe pour la vidéo — vérifié pour les 12
+   vidéos de ce bloc, l'image haute résolution existe bien à chaque fois.
+   Vimeo/tube.rvere (bloc "Paroles de WeFiiTers") n'ont pas ce comportement
+   de dégradation, d'où l'écart de netteté remonté par Paul entre les deux
+   blocs. On charge donc nous-mêmes le vrai maxresdefault.jpg en <img>, et
+   on ne crée l'iframe YouTube (avec autoplay) qu'au clic sur le bouton. */
+.wt-collectif .wtc-media { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+/* `*` : vise aussi l'iframe créée par le script au clic (ex-`:global(*)` sous Astro). */
+.wt-collectif .wtc-media > * { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.wt-collectif .wtc-poster { object-fit: cover; display: block; }
+.wt-collectif .wtc-play {
+  width: 3rem;
+  height: 3rem;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  border-radius: 99px;
+  background: rgba(0, 29, 132, 0.85);
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.wt-collectif .wtc-play:hover { background: var(--wf-blue-800); transform: translate(-50%, -50%) scale(1.06); }
+.wt-collectif .wtc-play svg { width: 1.375rem; height: 1.375rem; margin-left: 0.15rem; }
+/* Hauteur fixée à 2 lignes (titre tronqué avec "…" au-delà), sur demande
+   de Paul (retour à 2 lignes partout, l'exception 3 lignes de l'onglet
+   We.Talk créait un espace vide trop grand sous les titres courts des
+   autres onglets, surtout visible sur mobile).
+   ⚠️ Avec ça, le titre le plus long de l'onglet We.Talk ("We.Talk
+   d'Anne-Claire Baschet, Chief Data & AI Officer chez Mirakl", 66
+   caractères) repasse au-dessus du seuil de fiabilité de
+   -webkit-line-clamp observé sur ce bloc (~60-62 caractères à cette
+   largeur de carte) — vérifié en direct sur la page, ce titre précis peut
+   à nouveau déborder (3e ligne visible) malgré ce CSS. Assumé comme
+   compromis (2 lignes partout > éviter un bug sur un seul titre) plutôt
+   que résolu — à garder en tête si Paul le remonte à nouveau. */
+.wt-collectif .wtc-card-title {
+  padding: 0.85rem 1rem 1rem;
+  color: var(--wf-blue-800);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  background: #fff; /* zone blanche distincte sous la vidéo */
+  height: 4.2rem !important;
+  max-height: 4.2rem !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Flèches : mêmes assets (icônes) et même pastille ronde bleu foncé que le
+   slider de témoignages de la page "Acteur de ta mission". Décalées vers
+   l'extérieur (dans la marge du bloc) pour ne plus chevaucher la vidéo. */
+.wt-collectif .wtc-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.8125rem;
+  height: 2.8125rem;
+  border-radius: 99px;
+  background: var(--wf-blue-800);
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+/* Visible seulement quand il y a effectivement de quoi défiler dans cette
+   direction (calculé en JS) : pas de flèche gauche tant qu'on n'a pas
+   commencé à glisser, pas de flèche droite une fois arrivé au bout. */
+.wt-collectif .wtc-arrow.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
+.wt-collectif .wtc-arrow img { width: 1rem; height: 1rem; }
+.wt-collectif .wtc-arrow-left { left: -0.75rem; }
+.wt-collectif .wtc-arrow-right { right: -0.75rem; }
+
+.wt-collectif .wtc-rituals {
+  text-align: center;
+  color: var(--wf-blue-800);
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 2.5rem auto 0;
+}
+/* Le HTML de la conclusion vient de `dangerouslySetInnerHTML` (ex-`set:html`). */
+.wt-collectif .wtc-rituals strong { color: var(--wf-blue-600); }
+
+@media screen and (max-width: 767px) {
+  .wt-collectif .wtc-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
+  .wt-collectif .wtc-tabs { gap: 1.25rem; justify-content: flex-start; }
+}
+@media screen and (max-width: 479px) {
+  .wt-collectif .wtc-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+}

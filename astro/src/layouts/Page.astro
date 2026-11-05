@@ -1,7 +1,7 @@
 ---
 import '../styles/tokens.css';
-import EnTete from '../components/EnTete.astro';
-import PiedDePage from '../components/PiedDePage.astro';
+import EnTete from '../components/EnTete';
+import PiedDePage from '../components/PiedDePage';
 
 // Toutes les pages ont le menu et le pied de page du site (navbar et footer natifs de
 // Webflow, reproduits) : ils vivent ici, une seule fois, et non dans les blocs.
@@ -11,13 +11,10 @@ interface Props {
 }
 const { titre, pageCourante } = Astro.props;
 
-// Polices du site : mêmes fichiers que Webflow (même CDN que librairie/template.html).
-// Sans elles, les titres s'afficheraient en Arial.
-const CDN = 'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/';
-const polices = `
-@font-face{font-family:"Work Sans v2";src:url("${CDN}6685217fc3c9b3f73730a6c2_WorkSans-VariableFont_wght.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap}
-@font-face{font-family:Allroundgothic;src:url("${CDN}63e424eda0e0796b48e27cd6_AllRoundGothic-Demi.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:Allroundgothic;src:url("${CDN}63e424e4a2e78bdb2b99bba7_AllRoundGothic-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
+// Polices du site (src/styles/polices.css, partagé avec le design system Claude Design),
+// injectées en ligne dans le <head> pour qu'elles se chargent avant le reste.
+import policesCss from '../styles/polices.css?raw';
+const polices = `${policesCss}
 body{margin:0;background:#fff;font-family:"Work Sans v2",Arial,sans-serif}
 `;
 ---
@@ -35,5 +32,8 @@ body{margin:0;background:#fff;font-family:"Work Sans v2",Arial,sans-serif}
     <EnTete pageCourante={pageCourante} />
     <slot />
     <PiedDePage />
+    <script>
+      import '../comportements';
+    </script>
   </body>
 </html>

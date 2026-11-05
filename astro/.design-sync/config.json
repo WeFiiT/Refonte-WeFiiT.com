@@ -1,0 +1,99 @@
+{
+  "projectId": "48ac127e-756c-4882-b1e8-68fbb6bff717",
+  "pkg": "wefiit-com",
+  "globalName": "WefiitDS",
+  "shape": "package",
+  "buildCmd": "node .design-sync/generer-types.mjs",
+  "entry": "./src/design-system/index.ts",
+  "tsconfig": "./tsconfig.json",
+  "readmeHeader": ".design-sync/conventions.md",
+  "docsDir": ".design-sync/docs",
+  "componentSrcMap": {
+    "EnTete": "src/components/EnTete.tsx",
+    "PiedDePage": "src/components/PiedDePage.tsx",
+    "Bouton": "src/components/Bouton.tsx",
+    "HeroPhotoBande": "src/components/HeroPhotoBande.tsx",
+    "BandeCta": "src/components/BandeCta.tsx",
+    "GrilleCartes": "src/components/GrilleCartes.tsx",
+    "GrillePiliers": "src/components/GrillePiliers.tsx",
+    "ActionsZigzag": "src/components/ActionsZigzag.tsx",
+    "CadrePrincipes": "src/components/CadrePrincipes.tsx",
+    "TribesOnglets": "src/components/TribesOnglets.tsx",
+    "FaqAccordeon": "src/components/FaqAccordeon.tsx",
+    "Temoignage": "src/components/Temoignage.tsx",
+    "CarrouselAvis": "src/components/CarrouselAvis.tsx",
+    "TitreVideo": "src/components/TitreVideo.tsx",
+    "ParolesVideos": "src/components/ParolesVideos.tsx",
+    "CollectifGaleries": "src/components/CollectifGaleries.tsx",
+    "PhotoPleineLargeur": "src/components/PhotoPleineLargeur.tsx"
+  },
+  "overrides": {
+    "EnTete": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "PiedDePage": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "HeroPhotoBande": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "BandeCta": {
+      "cardMode": "column",
+      "viewport": "1280x520"
+    },
+    "GrilleCartes": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "GrillePiliers": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "ActionsZigzag": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "CadrePrincipes": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "TribesOnglets": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "FaqAccordeon": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "Temoignage": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "CarrouselAvis": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "TitreVideo": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "ParolesVideos": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "CollectifGaleries": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    },
+    "PhotoPleineLargeur": {
+      "cardMode": "column",
+      "viewport": "1280x900"
+    }
+  },
+  "libOverrides": {
+    "dts.mjs": "ajoute en prelude les types imbriqués du repo (Tribe, Cta...) référencés par les props"
+  }
+}

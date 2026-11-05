@@ -33,11 +33,12 @@ Les autres neutres du footer, des labels et du FAQ (`#dadde7`, `#b6bcce`, `#a0a3
 ## 2. Typographie
 
 **Familles**
-- Display : `Allroundgothic` (Demi), avec `Arial, sans-serif` en repli. **Toujours en poids 400.**
+- Display : `Allroundgothic` (Demi), avec `Arial, sans-serif` en repli. **Toujours en poids 400.** Sert au H1, aux chiffres clés, aux titres de bande CTA (`.push-b2b`, qui ne suivent pas les H2) et à certains titres de cartes.
+- **H2 : `Geomanist` Medium (500)**, avec `Arial, sans-serif` en repli, depuis novembre 2026 (relevé le 2026-11-04 sur `.h2-heading`). Mêmes tailles, interlettrage et dégradé qu'avant. Fichiers : `Geomanist-Medium.ttf` (500) et `Geomanist-Regular.otf` (400) sur le CDN Webflow. Côté Astro : token `--wf-font-h2`.
 - Corps et UI : `"Work Sans v2"` (variable), avec `sans-serif` en repli.
 - Icônes utilitaires : `Material Icons Outlined`.
 
-**Titres (Allroundgothic)**
+**Titres (Allroundgothic pour le H1, Geomanist 500 pour les H2)**
 
 | Rôle | Classe | Desktop | ≤767 | ≤479 |
 |---|---|---|---|---|
