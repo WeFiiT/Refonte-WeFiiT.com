@@ -23,14 +23,20 @@ export function getStaticPaths() {
 }
 
 const { page } = Astro.params;
+const chemin = PAGES.find((p) => p.slug === page)?.chemin;
 const composants = contenus[`../contenu/${page}.ts`]?.composants ?? {};
-const fichiers = Object.keys(blocs)
+const fichiersHtml = Object.keys(blocs)
   .filter((chemin) => chemin.includes(`/pages/${page}/blocs/`))
-  .sort() // ordre alphabétique = ordre des numéros 01-, 02-, ...
   .map((chemin) => ({ chemin, nom: chemin.split('/').pop()!.replace(/\.html$/, '') }));
+// Une page peut aussi être construite directement en composants, sans fichier HTML (ex. rse) :
+// on ajoute les composants de src/contenu/<page>.ts qui n'ont pas de bloc HTML du même nom.
+const sansFichier = Object.keys(composants)
+  .filter((nom) => !fichiersHtml.some((f) => f.nom === nom))
+  .map((nom) => ({ chemin: '', nom }));
+const fichiers = [...fichiersHtml, ...sansFichier].sort((a, b) => a.nom.localeCompare(b.nom)); // ordre des numéros 00-, 01-, ...
 ---
 
-<Page titre={`WeFiiT.com, page ${page}`}>
+<Page titre={`WeFiiT.com, page ${page}`} pageCourante={chemin}>
   {
     fichiers.map(({ chemin, nom }) => {
       const c = composants[nom];

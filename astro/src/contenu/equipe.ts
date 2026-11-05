@@ -1,14 +1,14 @@
 // Blocs de la page Équipe déjà convertis en composants Astro, avec leur contenu.
 // Clé = nom du fichier du bloc dans pages/equipe/blocs/ (sans .html). Les blocs absents
 // d'ici sont rendus tels quels depuis leur fichier HTML.
-import HeroPhotoBande from '../components/HeroPhotoBande.astro';
-import TitreVideo from '../components/TitreVideo.astro';
-import Temoignage from '../components/Temoignage.astro';
-import PhotoPleineLargeur from '../components/PhotoPleineLargeur.astro';
-import CadrePrincipes from '../components/CadrePrincipes.astro';
-import ParolesVideos from '../components/ParolesVideos.astro';
-import TribesOnglets from '../components/TribesOnglets.astro';
-import CollectifGaleries from '../components/CollectifGaleries.astro';
+import HeroPhotoBande from '../components/HeroPhotoBande';
+import TitreVideo from '../components/TitreVideo';
+import Temoignage from '../components/Temoignage';
+import PhotoPleineLargeur from '../components/PhotoPleineLargeur';
+import CadrePrincipes from '../components/CadrePrincipes';
+import ParolesVideos from '../components/ParolesVideos';
+import TribesOnglets from '../components/TribesOnglets';
+import CollectifGaleries from '../components/CollectifGaleries';
 
 const CDN = 'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/';
 const PHOTO_EQUIPE = `${CDN}659bfd283ed39bb587c3e1b0_%C3%A9quipe-wefiit%20(1)`;

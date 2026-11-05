@@ -1,0 +1,80 @@
+/* Styles du composant FaqAccordeon (FaqAccordeon.tsx). CSS global : les classes .wtq-… ne
+   servent qu'à ce composant, mais chaque règle reste préfixée par .wt-faq pour garder la
+   spécificité qu'avait le CSS isolé d'Astro face aux styles globaux du site. */
+.wt-faq {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  max-width: 45rem;
+  margin: 0 auto 5rem;
+  padding: 0;
+  box-sizing: border-box;
+  interpolate-size: allow-keywords; /* anime la hauteur depuis "auto" quand le navigateur le gère (Chrome) */
+}
+.wt-faq, .wt-faq *, .wt-faq *::before, .wt-faq *::after { box-sizing: border-box; }
+
+/* En-tête centré : eyebrow standard, H2 (dégradé bleu + point orange à part), intro. */
+.wt-faq .wtq-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; margin: 0 0 24px; }
+.wt-faq .wtq-eyebrow {
+  display: flex; align-items: center; gap: 0.625rem; margin: 0;
+  font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--wf-blue-600); text-align: center;
+}
+.wt-faq .wtq-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wf-blue-600); display: inline-block; flex: none; }
+.wt-faq .wtq-title {
+  margin: 0; font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -0.12rem; text-align: center;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-faq .wtq-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-faq .wtq-intro { margin: 0; font-size: 1rem; line-height: 1.5; color: var(--wf-blue-900); text-align: center; }
+
+/* Accordéon : <details name> partagé (un seul ouvert à la fois). Un filet bas par item. */
+.wt-faq .wtq-list { margin: 0; }
+.wt-faq .wtq-item { margin: 0; padding: 0; border-bottom: 1px solid var(--wf-grey-100); scroll-margin-top: 6rem; }
+.wt-faq .wtq-q {
+  list-style: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin: 0; padding: 16px 0; cursor: pointer;
+  font-size: 0.9375rem; line-height: 1.35; font-weight: 600; color: var(--wf-blue-800); text-align: left;
+  transition: color 0.2s ease;
+}
+.wt-faq .wtq-q::-webkit-details-marker { display: none; }
+.wt-faq .wtq-q::marker { content: ""; }
+.wt-faq .wtq-q:hover { color: var(--wf-blue-600); }
+.wt-faq .wtq-q:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 4px; }
+
+/* Icône + / − en image SVG (et non deux barres CSS) : identique à chaque ligne, même sur un
+   écran à échelle fractionnaire (voir le bloc neutre d'origine). Couleur #2a4cff. */
+.wt-faq .wtq-icon {
+  flex: none; width: 16px; height: 1.35em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8h12M8 2v12' fill='none' stroke='%232a4cff' stroke-width='2'/%3E%3C/svg%3E") no-repeat center / 16px 16px;
+}
+.wt-faq .wtq-item[open] .wtq-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8h12' fill='none' stroke='%232a4cff' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+/* Ouverture en hauteur (~200ms) via ::details-content, quand le navigateur le gère. */
+.wt-faq .wtq-item::details-content { block-size: 0; overflow: hidden; transition: block-size 0.2s ease, content-visibility 0.2s allow-discrete; }
+.wt-faq .wtq-item[open]::details-content { block-size: auto; }
+
+.wt-faq .wtq-a { padding: 0 0 20px; font-size: 0.9375rem; line-height: 1.6; color: var(--wf-blue-900); text-align: left; }
+.wt-faq .wtq-a p { margin: 0 0 0.75rem; font-size: inherit; line-height: inherit; color: inherit; text-align: left; }
+.wt-faq .wtq-a > :last-child { margin-bottom: 0; }
+.wt-faq .wtq-a strong { font-weight: 600; }
+.wt-faq .wtq-a a { color: var(--wf-blue-600); }
+
+@media screen and (max-width: 991px) {
+  .wt-faq { max-width: none; padding: 0 2rem; }
+  .wt-faq .wtq-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
+}
+@media screen and (max-width: 767px) {
+  .wt-faq { padding: 0 1.5rem; }
+  .wt-faq .wtq-q { padding: 14px 0; min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wt-faq .wtq-q, .wt-faq .wtq-item::details-content { transition: none !important; }
+}

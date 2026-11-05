@@ -1,0 +1,41 @@
+/* Styles du composant BandeCta (BandeCta.tsx). CSS global : chaque règle est préfixée par
+   .wt-bande-cta, sinon .wt-titre toucherait aussi les titres des autres composants. */
+.wt-bande-cta { font-family: "Work Sans v2", Arial, sans-serif; margin: 0; box-sizing: border-box; }
+.wt-bande-cta.wt-espace-apres { margin-bottom: 3rem; }
+.wt-bande-cta *, .wt-bande-cta *::before, .wt-bande-cta *::after { box-sizing: border-box; }
+
+/* Fond pleine largeur par marge négative (jamais clip-path ni box-shadow géant). */
+.wt-bande-cta .wt-bande {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  background: linear-gradient(110deg, var(--wf-blue-900), var(--wf-blue-600));
+  padding: 5rem 1rem 3.75rem;
+}
+.wt-bande-cta .wt-inner { max-width: 46.875rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; } /* colonne de 750px mesurée */
+/* Titre de bande (.push-b2b, design-system.md §2) : ce n'est pas le style des H2 de section.
+   Il reste en Allroundgothic 400, 40px / 44px, #f2f4ff, même taille sur mobile (relevé le
+   2026-11-04 sur /product-management et /notre-engagement-rse). */
+.wt-bande-cta .wt-titre {
+  font-family: Allroundgothic, Arial, sans-serif;
+  font-size: 2.5rem;
+  line-height: 2.75rem;
+  font-weight: 400;
+  text-align: center;
+  color: var(--wf-blue-50);
+  margin: 0;
+}
+.wt-bande-cta .wt-texte { margin: 2rem 0; font-size: 1rem; line-height: 1.5rem; color: #fff; text-align: center; }
+.wt-bande-cta .wt-ctas { display: flex; justify-content: center; gap: 2rem; }
+/* Avec deux boutons, le site laisse 54px de plus entre le texte et les boutons, et 16px
+   dessous (mesuré). */
+.wt-bande-cta .wt-ctas-double { margin: 3.375rem 0 1rem; }
+
+@media screen and (max-width: 767px) {
+  .wt-bande-cta .wt-bande { padding: 3rem 1rem; }
+  .wt-bande-cta .wt-ctas { flex-direction: column; align-self: stretch; gap: 0.75rem; }
+  .wt-bande-cta .wt-ctas-double { margin-top: 1rem; }
+}

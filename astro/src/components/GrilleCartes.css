@@ -1,0 +1,93 @@
+/* Styles du composant GrilleCartes (GrilleCartes.tsx). CSS global : chaque règle est
+   préfixée par .wt-grille, sinon .wt-titre toucherait aussi les titres des autres composants. */
+
+/* Même conteneur que les sections natives du site (.main-section, design-system.md §4) :
+   largeur 90 %, max 71.25rem, marge intérieure 5vw (4vw à partir de 1440px). */
+.wt-grille {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  width: 90%;
+  max-width: 71.25rem;
+  margin: 0 auto 5rem;
+  padding: 0 5vw;
+  box-sizing: border-box;
+}
+@media screen and (min-width: 1440px) {
+  .wt-grille { padding: 0 4vw; }
+}
+.wt-grille *, .wt-grille *::before, .wt-grille *::after { box-sizing: border-box; }
+
+/* Titre aligné à gauche (.h2-heading.left, 3rem) : dégradé bleu + point orange à part. */
+.wt-grille .wt-titre {
+  font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3rem;
+  line-height: 3.6rem;
+  font-weight: 500;
+  letter-spacing: -0.12rem;
+  text-align: left;
+  margin: 0 0 2rem;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-grille .wt-point {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-grille .wt-intro { margin: -1rem 0 2rem; font-size: 1rem; line-height: 1.5rem; color: var(--wf-blue-900); text-align: left; }
+
+/* Grille 3 colonnes, écart 40px puis 64px à partir de 1440px (mesuré). */
+.wt-grille .wt-cartes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+@media screen and (min-width: 1440px) {
+  .wt-grille .wt-cartes { gap: 4rem; }
+}
+.wt-grille .wt-cartes > li { display: flex; }
+.wt-grille .wt-carte {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  transition: box-shadow 0.3s;
+}
+.wt-grille .wt-carte:hover { box-shadow: -18px 18px 0 0 var(--wf-blue-900); }
+.wt-grille .wt-carte:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 3px; }
+.wt-grille .wt-image { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; } /* image au format 16:9, comme le site */
+.wt-grille .wt-contenu { padding: 1rem 1.25rem; display: flex; flex-direction: column; flex: 1 1 auto; }
+.wt-grille .wt-surtitre { margin: 0; font-size: 0.8rem; font-weight: 300; line-height: 1.2rem; color: var(--wf-blue-800); text-align: left; }
+.wt-grille .wt-carte-titre { margin: 0; padding-top: 0.625rem; font-size: 1rem; font-weight: 500; line-height: 1.2rem; color: var(--wf-blue-800); text-align: left; }
+.wt-grille .wt-texte { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.5rem; color: var(--wf-blue-900); text-align: left; }
+.wt-grille .wt-tags { list-style: none; margin: 0.75rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3125rem; }
+.wt-grille .wt-tags li { padding: 5px 20px; border-radius: 999px; background: var(--wf-blue-50); font-size: 0.75rem; font-weight: 500; line-height: 1.25rem; color: var(--wf-blue-900); }
+.wt-grille .wt-auteur { margin: auto 0 0; padding-top: 1rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--wf-blue-600); text-align: left; }
+/* Lien texte en bas de carte (.link__texte--small) : .8rem 700 majuscules, dégradé orange. */
+.wt-grille .wt-lire { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem; }
+.wt-grille .wt-lire { font-size: 0.8rem; font-weight: 700; line-height: 1.25rem; text-transform: uppercase; background: linear-gradient(90deg, var(--wf-orange-500), var(--wf-orange-600)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.wt-grille .wt-lire img { width: 1rem; height: auto; }
+
+/* Variante « offre » (Découvrir nos autres offres) : image plus haute, titre en Allroundgothic. */
+.wt-grille-offre .wt-image { aspect-ratio: 3 / 2; } /* 315x210 mesuré */
+.wt-grille-offre .wt-carte-titre { padding-top: 0; margin: 0.5rem 0; font-family: Allroundgothic, Arial, sans-serif; font-size: 1.2rem; font-weight: 400; line-height: 1.875rem; color: var(--wf-blue-900); }
+.wt-grille-offre .wt-texte { margin: 0; font-size: 0.9rem; }
+/* Variante « blog » : titre plus grand. */
+.wt-grille-blog .wt-carte-titre { padding-top: 0; font-size: 1.2rem; line-height: 1.3rem; }
+
+.wt-grille .wt-cta { display: flex; justify-content: center; margin-top: 2.5rem; }
+
+@media screen and (max-width: 991px) {
+  .wt-grille .wt-cartes { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+}
+@media screen and (max-width: 767px) {
+  .wt-grille .wt-titre { line-height: 1; }
+  .wt-grille { width: 100%; padding: 0 1rem; }
+  .wt-grille .wt-cartes { grid-template-columns: 1fr; }
+}
+@media screen and (max-width: 479px) {
+  .wt-grille .wt-titre { font-size: 2.6rem; }
+  .wt-grille .wt-carte:hover { box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08); } /* pas d'ombre de survol sous 479px (design-system.md §5) */
+}

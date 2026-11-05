@@ -1,0 +1,39 @@
+/* Styles du composant PiedDePage (PiedDePage.tsx). CSS global : chaque règle est préfixée par
+   .wt-pied, sinon .wt-bande, .wt-texte... toucheraient les autres composants.
+   Attention : CarrouselAvis a aussi des éléments .wt-pied (légende des cartes) ; seules la
+   règle racine et le box-sizing les atteignent, et ses propres règles (.wt-avis .wt-pied,
+   plus spécifiques) l'emportent : aucun effet visible. */
+.wt-pied { font-family: "Work Sans v2", Arial, sans-serif; margin: 0; box-sizing: border-box; }
+.wt-pied *, .wt-pied *::before, .wt-pied *::after { box-sizing: border-box; }
+.wt-pied .wt-bande {
+  position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw;
+  background: var(--wf-blue-800);
+  padding: 2.5rem 0 0.9375rem;
+}
+.wt-pied .wt-inner { max-width: 70rem; margin: 0 auto; padding: 0 1rem 1.25rem; display: grid; grid-template-columns: 1fr 1.25fr; gap: 3.75rem 2.625rem; }
+
+.wt-pied .wt-texte { margin: 1rem 0 0; font-size: 1rem; line-height: 1.2rem; color: #dadde7; text-align: left; }
+.wt-pied .wt-rdv { display: inline-flex; align-items: center; gap: 0.625rem; margin-top: 1.25rem; text-decoration: none; }
+/* Lien texte (.link__texte) : .8rem, 700, majuscules, dégradé orange 90deg. */
+.wt-pied .wt-rdv span {
+  font-size: 0.8rem; font-weight: 700; line-height: 1.25rem; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--wf-orange-500), var(--wf-orange-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+}
+.wt-pied .wt-rdv img { width: 1rem; height: auto; }
+
+.wt-pied .wt-liens { display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 0.3125rem; }
+.wt-pied .wt-rangee { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.625rem 1.3rem; }
+.wt-pied .wt-rangee a { font-size: 0.8rem; font-weight: 300; line-height: 1.5rem; letter-spacing: -0.0125rem; color: #fff; text-decoration: none; }
+.wt-pied .wt-rangee a:hover { text-decoration: underline; }
+
+/* Trois traits blancs de 2px pleine largeur, 20px d'écart (mesuré). */
+.wt-pied .wt-traits { margin-top: 0.625rem; }
+.wt-pied .wt-traits span { display: block; height: 2px; background: #fff; }
+.wt-pied .wt-traits span + span { margin-top: 1.25rem; }
+
+@media screen and (max-width: 767px) {
+  .wt-pied .wt-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .wt-pied .wt-liens { align-items: flex-start; }
+  .wt-pied .wt-rangee { justify-content: flex-start; }
+}

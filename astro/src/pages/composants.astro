@@ -1,0 +1,204 @@
+---
+// Librairie des composants Astro : chaque composant est rendu en vrai, avec le contenu d'une
+// page où il sert, précédé d'une fiche (auteur, rôle, options, pages qui l'utilisent).
+// « Utilisé dans » est calculé à partir de src/contenu/*.ts : la liste ne se périme pas.
+// Pour ajouter un composant : une entrée dans CATALOGUE ci-dessous.
+import Page from '../layouts/Page.astro';
+import { PAGES } from '../pages-publiees';
+
+import HeroPhotoBande from '../components/HeroPhotoBande';
+import TitreVideo from '../components/TitreVideo';
+import CadrePrincipes from '../components/CadrePrincipes';
+import Temoignage from '../components/Temoignage';
+import ParolesVideos from '../components/ParolesVideos';
+import CollectifGaleries from '../components/CollectifGaleries';
+import TribesOnglets from '../components/TribesOnglets';
+import PhotoPleineLargeur from '../components/PhotoPleineLargeur';
+import BandeCta from '../components/BandeCta';
+import ActionsZigzag from '../components/ActionsZigzag';
+import GrilleCartes from '../components/GrilleCartes';
+import GrillePiliers from '../components/GrillePiliers';
+import CarrouselAvis from '../components/CarrouselAvis';
+import FaqAccordeon from '../components/FaqAccordeon';
+import Bouton from '../components/Bouton';
+import EnTete from '../components/EnTete';
+import PiedDePage from '../components/PiedDePage';
+
+import { composants as equipe } from '../contenu/equipe';
+import { composants as rse } from '../contenu/rse';
+import { composants as pm } from '../contenu/product-management';
+
+type Bloc = { Composant: any; props: Record<string, unknown> };
+const contenus = import.meta.glob<{ composants: Record<string, Bloc> }>('../contenu/*.ts', { eager: true });
+
+// Pages qui utilisent un composant (nom affiché, depuis pages-publiees.ts).
+const utilisations = (Composant: any): string[] =>
+  Object.entries(contenus)
+    .filter(([, m]) => Object.values(m.composants).some((b) => b.Composant === Composant))
+    .map(([chemin]) => {
+      const slug = chemin.split('/').pop()!.replace(/\.ts$/, '');
+      return PAGES.find((p) => p.slug === slug)?.nom.replace(/ \(.*\)$/, '') ?? slug;
+    });
+
+type Entree = {
+  nom: string;
+  auteur: 'Paul' | 'Antoine' | 'Paul + Antoine';
+  role: string;
+  options?: string;
+  exemple?: Bloc; // rendu en direct ; absent = composant affiché ailleurs (layout)
+  exempleDe?: string; // page d'où vient l'exemple
+  remarque?: string;
+};
+
+const CATALOGUE: { groupe: string; entrees: Entree[] }[] = [
+  {
+    groupe: 'Structure du site',
+    entrees: [
+      { nom: 'EnTete', auteur: 'Antoine', role: 'Menu du site : logo, menus déroulants, boutons « Deviens WeFiiTer » et « Prendre RDV », hamburger sous 992px. Fixé en haut au défilement.', options: '`pageCourante` (marquée dans le menu).', remarque: 'Dans le layout : visible en haut de cette page.' },
+      { nom: 'PiedDePage', auteur: 'Antoine', role: 'Footer du site : appel au rendez-vous, liens, trois traits blancs.', remarque: 'Dans le layout : visible en bas de cette page.' },
+      { nom: 'Bouton', auteur: 'Antoine', role: 'Pilule du site, en majuscules. Utilisé par le hero, la bande bleue et les grilles de cartes.', options: '`variante` : orange, bleu, clair ; `nouvelOnglet`.' },
+    ],
+  },
+  {
+    groupe: 'En-têtes de page',
+    entrees: [
+      { nom: 'HeroPhotoBande', auteur: 'Paul + Antoine', role: 'Titre principal, intro, grande photo qui déborde sur une bande dégradée.', options: '`surtitre`, `h1Surtitre` (H1 sur le surtitre, choix SEO), `chiffres`, `ctas`, `logos` (bandeau qui défile).', exemple: pm['01-hero'], exempleDe: 'Product Management' },
+    ],
+  },
+  {
+    groupe: 'Texte, photo et onglets',
+    entrees: [
+      { nom: 'TribesOnglets', auteur: 'Paul + Antoine', role: 'Onglets en pilule orange ; chaque onglet affiche une carte texte (accroche, liste à coches) et une photo. Composant d’onglets générique du site.', options: '`etiquette`, `titreListe`, `lien`, `alt` par onglet ; `formatPhoto` (paysage ou carre) ; `aideDefilement`.', exemple: pm['02-partenaire-360'], exempleDe: 'Product Management' },
+      { nom: 'CadrePrincipes', auteur: 'Paul', role: 'Photo et texte côte à côte, puis quatre principes numérotés qui apparaissent au défilement, sur une bande pâle.', exemple: equipe['03-cadre'], exempleDe: 'Équipe' },
+      { nom: 'ActionsZigzag', auteur: 'Antoine', role: 'Liste d’actions texte + photo, la photo alterne à droite puis à gauche, sur une bande gris clair.', exemple: rse['04-actions'], exempleDe: 'Notre engagement RSE' },
+      { nom: 'GrillePiliers', auteur: 'Antoine', role: 'Bande pâle, sous-titre avec étoiles, piliers (titre + texte) en grille de 3.', options: '`point` (ponctuation finale en orange), `etoiles`.', exemple: pm['07-prend-soin'], exempleDe: 'Product Management' },
+    ],
+  },
+  {
+    groupe: 'Cartes et listes',
+    entrees: [
+      { nom: 'GrilleCartes', auteur: 'Antoine', role: 'Toutes les grilles de cartes : cas clients, formations, autres offres, articles. Les cas clients, formations et articles viennent du module CMS (src/cms/).', options: '`variante` : standard, offre, blog ; `cta` sous la grille.', exemple: pm['03-cas-clients'], exempleDe: 'Product Management' },
+      { nom: 'CarrouselAvis', auteur: 'Antoine', role: 'Avis clients défilants (guillemets, tag d’offre, logo), pagination par points.', exemple: pm['08-avis'], exempleDe: 'Product Management' },
+      { nom: 'FaqAccordeon', auteur: 'Paul + Antoine', role: 'Questions en accordéon, une seule ouverte à la fois, avec les données structurées FAQ (SEO, GEO). Conversion du bloc neutre de Paul.', exemple: pm['09-faq'], exempleDe: 'Product Management' },
+    ],
+  },
+  {
+    groupe: 'Bandes et appels à l’action',
+    entrees: [
+      { nom: 'BandeCta', auteur: 'Antoine', role: 'Bande bleue dégradée : titre de bande (Allroundgothic, pas un H2 de section), texte, un ou deux boutons.', options: '`ctaSecondaire`, `espaceApres`.', exemple: pm['04-embarquer'], exempleDe: 'Product Management' },
+      { nom: 'Temoignage', auteur: 'Paul', role: 'Carte de témoignage avec photo qui déborde en haut, sur fond blanc ou sur une bande pâle.', options: '`bande` (fond pâle), `carteMobileHaut`.', exemple: equipe['09-temoignage-guillaume'], exempleDe: 'Équipe' },
+    ],
+  },
+  {
+    groupe: 'Vidéo et photo',
+    entrees: [
+      { nom: 'TitreVideo', auteur: 'Paul', role: 'Un titre et une vidéo YouTube, rien d’autre.', exemple: equipe['02-wefiit-2025'], exempleDe: 'Équipe' },
+      { nom: 'ParolesVideos', auteur: 'Paul', role: 'Trois vidéos en grille sur ordinateur, carrousel glissable sur mobile, bouton.', exemple: equipe['05-paroles'], exempleDe: 'Équipe' },
+      { nom: 'CollectifGaleries', auteur: 'Paul', role: 'Onglets soulignés, galeries de vidéos qui défilent avec flèches, vignettes YouTube lues au clic.', exemple: equipe['06-collectif'], exempleDe: 'Équipe' },
+      { nom: 'PhotoPleineLargeur', auteur: 'Paul', role: 'Une photo sur toute la largeur, typiquement juste avant le pied de page.', exemple: equipe['10-photo-pleine-largeur'], exempleDe: 'Équipe' },
+    ],
+  },
+];
+
+const PAR_NOM: Record<string, any> = {
+  EnTete, PiedDePage, Bouton, HeroPhotoBande, TribesOnglets, CadrePrincipes, ActionsZigzag, GrillePiliers,
+  GrilleCartes, CarrouselAvis, FaqAccordeon, BandeCta, Temoignage, TitreVideo, ParolesVideos, CollectifGaleries, PhotoPleineLargeur,
+};
+const total = CATALOGUE.reduce((n, g) => n + g.entrees.length, 0);
+const ancre = (nom: string) => `c-${nom.toLowerCase()}`;
+const code = (s?: string) => (s ?? '').replace(/`([^`]+)`/g, '<code>$1</code>');
+---
+
+<Page titre="WeFiiT.com, composants">
+  <div class="lib">
+    <header class="lib-tete">
+      <p class="lib-surtitre">Refonte WeFiiT.com · Astro</p>
+      <h1 class="lib-titre">Composants<span>.</span></h1>
+      <p class="lib-intro">
+        Les {total} composants du site, rendus en vrai avec le contenu d’une page où ils servent. Les pages qui les
+        utilisent sont calculées à partir de <code>src/contenu/</code>.
+      </p>
+      <nav class="lib-sommaire" aria-label="Sommaire">
+        {
+          CATALOGUE.map((g) => (
+            <div class="lib-groupe-nav">
+              <p>{g.groupe}</p>
+              <ul>{g.entrees.map((e) => <li><a href={`#${ancre(e.nom)}`}>{e.nom}</a></li>)}</ul>
+            </div>
+          ))
+        }
+      </nav>
+    </header>
+  </div>
+
+  {
+    CATALOGUE.map((g) => (
+      <>
+        <div class="lib"><h2 class="lib-groupe">{g.groupe}</h2></div>
+        {g.entrees.map((e) => {
+          const pages = utilisations(PAR_NOM[e.nom]);
+          const Exemple = e.exemple?.Composant;
+          return (
+            <section class="lib-entree" id={ancre(e.nom)}>
+              <div class="lib">
+                <div class="lib-fiche">
+                  <div class="lib-fiche-tete">
+                    <h3>{e.nom}</h3>
+                    <span class:list={['lib-auteur', { 'lib-auteur-paul': e.auteur === 'Paul' }]}>{e.auteur}</span>
+                  </div>
+                  <p class="lib-role">{e.role}</p>
+                  {e.options && <p class="lib-ligne"><strong>Options :</strong> <span set:html={code(e.options)} /></p>}
+                  <p class="lib-ligne">
+                    <strong>Utilisé dans :</strong>{' '}
+                    {pages.length > 0 ? pages.join(', ') : e.nom === 'EnTete' || e.nom === 'PiedDePage' ? 'toutes les pages (layout)' : e.nom === 'Bouton' ? 'HeroPhotoBande, BandeCta, GrilleCartes' : '—'}
+                  </p>
+                  <p class="lib-ligne lib-fichier"><code>src/components/{e.nom}.astro</code>{e.exempleDe && <> · exemple tiré de la page {e.exempleDe}</>}</p>
+                  {e.remarque && <p class="lib-ligne lib-remarque">{e.remarque}</p>}
+                </div>
+              </div>
+              {e.nom === 'Bouton' && (
+                <div class="lib lib-boutons">
+                  <Bouton libelle="Orange" lien="#c-bouton" variante="orange" />
+                  <Bouton libelle="Bleu" lien="#c-bouton" variante="bleu" />
+                  <Bouton libelle="Clair" lien="#c-bouton" variante="clair" />
+                </div>
+              )}
+              {Exemple && <div class="lib-rendu"><Exemple {...e.exemple!.props} /></div>}
+            </section>
+          );
+        })}
+      </>
+    ))
+  }
+</Page>
+
+<style>
+  /* Habillage de la librairie (pas un composant du site) : fiches sobres pour que les
+     composants rendus restent ce qu'on regarde. */
+  .lib { max-width: 71.25rem; margin: 0 auto; padding: 0 1rem; font-family: "Work Sans v2", Arial, sans-serif; color: var(--wf-blue-900); }
+  .lib-tete { padding: 3rem 0 2rem; }
+  .lib-surtitre { margin: 0; font-size: 0.875rem; color: #a0a3bd; }
+  .lib-titre { margin: 0.25rem 0 0; font-family: var(--wf-font-h2); font-weight: 500; font-size: 3.2rem; letter-spacing: -0.04em; color: var(--wf-blue-800); }
+  .lib-titre span { color: var(--wf-orange-500); }
+  .lib-intro { margin: 0.75rem 0 2rem; max-width: 46rem; font-size: 1rem; line-height: 1.5rem; }
+  .lib-intro code, .lib-ligne :global(code) { font-size: 0.85em; background: var(--wf-blue-50); padding: 0.1em 0.35em; border-radius: 4px; }
+  .lib-sommaire { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 1.5rem; padding: 1.5rem; background: var(--wf-blue-50); border-radius: 16px; }
+  .lib-groupe-nav p { margin: 0 0 0.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--wf-blue-300); }
+  .lib-groupe-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .lib-groupe-nav a { font-size: 0.95rem; font-weight: 500; color: var(--wf-blue-600); text-decoration: none; }
+  .lib-groupe-nav a:hover { text-decoration: underline; }
+
+  .lib-groupe { margin: 3rem 0 1rem; padding-top: 2rem; border-top: 2px solid var(--wf-grey-100); font-family: var(--wf-font-h2); font-weight: 500; font-size: 2rem; color: var(--wf-blue-800); }
+  .lib-entree { scroll-margin-top: 5rem; margin-bottom: 2rem; }
+  .lib-fiche { margin: 1.5rem 0 2rem; padding: 1.25rem 1.5rem; border: 1px solid var(--wf-grey-100); border-left: 4px solid var(--wf-orange-500); border-radius: 16px; background: #fff; box-shadow: 0 2px 10px #14142b0f; }
+  .lib-fiche-tete { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .lib-fiche-tete h3 { margin: 0; font-size: 1.25rem; font-weight: 600; color: var(--wf-blue-800); }
+  .lib-auteur { padding: 0.2rem 0.75rem; border-radius: 999px; background: #fff1de; color: var(--wf-orange-600); font-size: 0.75rem; font-weight: 600; }
+  .lib-auteur-paul { background: var(--wf-blue-75); color: var(--wf-blue-600); }
+  .lib-role { margin: 0.6rem 0 0.4rem; font-size: 0.95rem; line-height: 1.45; }
+  .lib-ligne { margin: 0.25rem 0 0; font-size: 0.85rem; line-height: 1.45; color: var(--wf-blue-800); }
+  .lib-fichier { color: #636b75; }
+  .lib-remarque { font-style: italic; color: #636b75; }
+  .lib-boutons { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
+  .lib-rendu { border-bottom: 1px dashed var(--wf-grey-100); padding-bottom: 1rem; }
+</style>

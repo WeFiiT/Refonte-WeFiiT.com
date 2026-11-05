@@ -1,0 +1,27 @@
+/* Styles du composant PhotoPleineLargeur (PhotoPleineLargeur.tsx). CSS global : chaque règle
+   est préfixée par .wt-photo-bloc. */
+.wt-photo-bloc { margin: 0; box-sizing: border-box; }
+.wt-photo-bloc, .wt-photo-bloc *, .wt-photo-bloc *::before, .wt-photo-bloc *::after { box-sizing: border-box; }
+
+/* Photo plein écran juste avant le footer. Technique de bande pleine largeur déjà validée
+   sur les autres blocs (marge négative, PAS clip-path ni box-shadow géant : ces deux
+   propriétés ont déjà cassé un élément position:fixed ailleurs sur la page, voir
+   design-system.md). Le ratio est réservé à l'avance (prop `ratio`) : l'image d'origine
+   n'a ni width ni height, donc une hauteur de 0 tant qu'elle n'est pas chargée. */
+.wt-photo-bloc .wt-full-photo {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  overflow: hidden;
+}
+.wt-photo-bloc .wt-full-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
