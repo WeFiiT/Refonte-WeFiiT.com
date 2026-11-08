@@ -42,7 +42,7 @@ Blocs, dans l'ordre de la page :
 | N° | Bloc | Fichier |
 |---|---|---|
 | 01 | Faire partie de l'équipe WeFiiT (titre et photo) | `pages/equipe/blocs/01-hero.html` |
-| 02 | WeFiiT en 2025 c'était ça (vidéo) | `pages/equipe/blocs/02-wefiit-2025.html` |
+| 02 | WeFiiT, c'est aussi ça (vidéo) | `pages/equipe/blocs/02-wefiit-2025.html` |
 | 03 | Un cadre pour t'engager, évoluer et impacter | `pages/equipe/blocs/03-cadre.html` |
 | 04 | Témoignage de Yamila | `pages/equipe/blocs/04-temoignage-yamila.html` |
 | 05 | Paroles de WeFiiTers (vidéos) | `pages/equipe/blocs/05-paroles.html` |

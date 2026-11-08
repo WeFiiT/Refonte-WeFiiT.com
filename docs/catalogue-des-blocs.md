@@ -39,7 +39,7 @@ Un bloc qui relève de plusieurs typologies apparaît dans chacune dans la libra
 | N° | Bloc | Fichier | Statut |
 |---|---|---|---|
 | 01 | Faire partie de l'équipe WeFiiT (titre H1 et grande photo) | [01-hero.html](../pages/equipe/blocs/01-hero.html) | Sur `/equipe-copy` |
-| 02 | WeFiiT en 2025 c'était ça (titre et vidéo) | [02-wefiit-2025.html](../pages/equipe/blocs/02-wefiit-2025.html) | Sur `/equipe-copy` |
+| 02 | WeFiiT, c'est aussi ça (titre et vidéo) | [02-wefiit-2025.html](../pages/equipe/blocs/02-wefiit-2025.html) | Sur `/equipe-copy` |
 | 03 | Un cadre pour t'engager, évoluer et impacter (texte, photo, principes) | [03-cadre.html](../pages/equipe/blocs/03-cadre.html) | Sur `/equipe-copy` |
 | 04 | Témoignage de Yamila (prolonge le bloc 03) | [04-temoignage-yamila.html](../pages/equipe/blocs/04-temoignage-yamila.html) | Sur `/equipe-copy` |
 | 05 | Paroles de WeFiiTers (vidéos et bouton) | [05-paroles.html](../pages/equipe/blocs/05-paroles.html) | Sur `/equipe-copy` |
@@ -71,10 +71,11 @@ La page assemblée se génère avec `bash outils/assembler-page.sh <page>`, la l
 
 ## Équipe 03 · Cadre (`pages/equipe/blocs/03-cadre.html`)
 
-**Ce que c'est :** photo et texte d'introduction côte à côte, quatre principes numérotés qui apparaissent au défilement, le tout sur une bande pâle pleine largeur. Le fichier s'appelait historiquement « cadre-sans-photos » alors qu'il contient une photo. Le témoignage qui suit est un bloc à part (04-temoignage-yamila.html).
+**Ce que c'est :** photo et texte d'introduction côte à côte, quatre cartes carrées numérotées (1 à 4, avec titre et description : les motivations d'un candidat) qui apparaissent au défilement, le tout sur une bande pâle pleine largeur. Le fichier s'appelait historiquement « cadre-sans-photos » alors qu'il contient une photo. Le témoignage qui suit est un bloc à part (04-temoignage-yamila.html).
 
 **À retenir :**
 - Bande de fond pleine largeur en marge négative (`left:50%; margin-left:-50vw; width:100vw`), jamais en `clip-path` ni en `box-shadow` géant.
+- **Cartes numérotées carrées** (`.wt-item`) : carte blanche sans coins arrondis, ombre de repos du site (`1px 0 3px rgba(0,0,0,.08)`), ombre plate décalée bleu nuit au survol (`-18px 18px 0 0`, comme les cartes `GrilleCartes`, sans survol sous 479px), numéro en dégradé orange sans zéro initial, titre en Allroundgothic puis description. Grille 4 colonnes dès 992px, 2 x 2 en tablette, 1 colonne en mobile (texte centré).
 - Carte de témoignage avec photo qui déborde : voir la recette détaillée dans la section « Équipe 04, 07 et 09 · Témoignage ».
 
 ## Équipe 04, 07 et 09 · Témoignage (`pages/equipe/blocs/04-temoignage-yamila.html`, `07-temoignage-anne-claire.html`, `09-temoignage-guillaume.html`)
@@ -121,7 +122,7 @@ La page assemblée se génère avec `bash outils/assembler-page.sh <page>`, la l
 **Ce que c'est :** sélecteur à onglets (pilule dégradée orange) entre 5 Tribes, chaque onglet affichant un texte (label + objectif + Key Initiatives) à côté d'une photo qui déborde légèrement derrière une carte blanche.
 
 **Patterns à réutiliser depuis ce bloc :**
-- **Onglets en pilule dégradée** (`.wt-tabs`, fond `linear-gradient(--wt-orange, --wt-orange-2)`, onglet actif = fond blanc) — *pattern signature de ce bloc précis*, ne pas le redupliquer ailleurs sur la même page sous peine de faire "doublon visuel" (vécu avec le bloc collectif, voir plus bas). Réservé à un vrai sélecteur de catégories mis en avant.
+- **Onglets en pilule dégradée** (`.wt-tabs`, fond `linear-gradient(--wt-orange, --wt-orange-2)`, onglet actif = fond blanc, onglets inactifs en surbrillance (blanc translucide 18 %, 32 % au survol) pour se lire comme des boutons) — *pattern signature de ce bloc précis*, ne pas le redupliquer ailleurs sur la même page sous peine de faire "doublon visuel" (vécu avec le bloc collectif, voir plus bas). Réservé à un vrai sélecteur de catégories mis en avant.
 - **Carte + photo qui déborde** : photo positionnée derrière une carte blanche via un décalage de fond (`::before` avec `background` translaté), photo elle-même en `position:relative` par-dessus.
 - **Placeholder photo à venir** : boîte avec fond `--wt-ghost`, emoji 📷 + texte, et un commentaire CSS en clair indiquant où coller l'URL de la vraie image une fois disponible (`background-image: url('')`).
 

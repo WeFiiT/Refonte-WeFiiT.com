@@ -1,5 +1,5 @@
 // Bande de fond pleine largeur : titre H2, photo + texte d'intro/suite côte à côte (empilés
-// sur mobile), puis une accroche et une liste de points numérotés qui apparaissent en fondu
+// sur mobile), puis une accroche et quatre cartes carrées numérotées qui apparaissent en fondu
 // au défilement. Version composant du bloc pages/equipe/blocs/03-cadre.html (même rendu,
 // même comportement, couleurs lues dans les tokens --wf-*).
 // Composant React rendu en HTML statique par Astro ; l'apparition des points est gérée par
@@ -9,24 +9,24 @@ import { init } from './CadrePrincipes.comportement';
 import './CadrePrincipes.css';
 
 export interface Point {
-  accent: string; // partie mise en avant
-  reste: string; // suite de la phrase
+  titre: string; // motivation du candidat (infinitif : « Apprendre »)
+  texte: string; // une ou deux phrases
 }
 export interface CadrePrincipesProps {
   titre: string; // sans le point final : il est ajouté en dégradé orange
   photo: string;
   alt?: string;
   intro: string; // HTML autorisé (<br>)
-  suite: string; // HTML autorisé (<br>, <span>, <strong>)
+  suite: string; // HTML autorisé (<br>, <strong>, <span>)
   accroche: string; // phrase au-dessus de la liste
-  points: Point[]; // accent = partie mise en avant, reste = suite de la phrase
+  points: Point[]; // une carte par entrée : numéro (1, 2…), titre, description
   id?: string;
 }
 
 /**
  * Bande bleu clair pleine largeur : titre H2 centré, photo et texte côte à côte (empilés et
- * centrés sur mobile), puis une liste de points numérotés en 2 colonnes qui apparaissent en
- * fondu au défilement.
+ * centrés sur mobile), puis quatre cartes carrées numérotées (4 colonnes, 2 en tablette, 1 en mobile) qui
+ * apparaissent en fondu au défilement.
  */
 export default function CadrePrincipes({ titre, photo, alt = '', intro, suite, accroche, points, id = 'wt-cadrec' }: CadrePrincipesProps) {
   const ref = useRef<HTMLElement>(null);
@@ -57,7 +57,8 @@ export default function CadrePrincipes({ titre, photo, alt = '', intro, suite, a
                 {points.map((point, i) => (
                   <div className="wt-item" key={i}>
                     <span className="wt-item-index">{i + 1}</span>
-                    <p className="wt-item-text"><span>{point.accent}</span>{point.reste}</p>
+                    <h3 className="wt-item-title">{point.titre}</h3>
+                    <p className="wt-item-text">{point.texte}</p>
                   </div>
                 ))}
               </div>

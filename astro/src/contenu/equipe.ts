@@ -21,14 +21,14 @@ export const composants = {
       intro:
         'WeFiiT, c’est d’abord et avant tout une histoire de FiiT entre <span>passionné·e·s de Product</span>, ayant <span>envie de grandir ensemble</span> tout en participant à la création du WeFiiT de demain !',
       photo:
-        'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6adca7a1c9d07078437f2c1c_hero-equipe.jpg',
+        'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6af0b9f27f41c583e7d9274e_hero-equipe-mathilde-v3.png',
       alt: 'L’équipe WeFiiT réunie',
     },
   },
   '02-wefiit-2025': {
     Composant: TitreVideo,
     props: {
-      titre: "WeFiiT en 2025 c'était ça",
+      titre: 'WeFiiT, c’est aussi ça',
       video: 'https://www.youtube.com/embed/PqlMplRXqpo?rel=0&controls=1&autoplay=0&mute=0&start=0',
       titreVideo: 'Nos rituels chez WeFiiT - Retour sur 2025 et cap sur 2026 ! ⛷️',
     },
@@ -41,15 +41,15 @@ export const composants = {
       // en attendant le choix définitif pour ce bloc.
       photo: `${CDN}65830dbb97aa2a27f503a401_Equipe%20-%20Tribe%20RH.webp`,
       intro:
-        'Avoir un rôle actif dans ta mission est un point de départ, pas une finalité.<br><br>Chez WeFiiT, nous avons surtout à cœur de créer un cadre dans lequel tu peux t’inscrire dans la durée, progresser et t’impliquer selon ce qui te motive.',
+        'Avoir un rôle actif dans ta mission est le point initial de ton parcours, pas une finalité.<br><br>Chez WeFiiT, nous avons surtout à cœur de créer un cadre dans lequel tu peux t’inscrire dans la durée, progresser et t’impliquer selon ce qui te motive.',
       suite:
-        'Ton évolution chez WeFiiT se construit avec toi : en fonction de tes envies, de tes forces et des opportunités que tu choisis de saisir.<br><br>Il ne s’agit pas de suivre une trajectoire toute tracée ou de gravir une échelle hiérarchique, mais de faire grandir progressivement ton <span>impact</span>, tes <strong>compétences</strong> et ton <strong>rôle au sein du collectif</strong>, à ton rythme.<br><br>Cette évolution s’appuie sur trois dimensions complémentaires : développer ton expertise, t’impliquer dans la vie de l’équipe et créer de l’impact, en mission comme en interne.',
+        'Ton évolution chez WeFiiT se construit avec toi : en fonction de tes envies, de tes forces et des opportunités que tu choisis de saisir.<br><br>Il ne s’agit pas de suivre une trajectoire toute tracée dans un cadre imposé, mais de construire ta propre trajectoire dans un environnement sain, où tu as des perspectives et de l’horizon pour faire grandir, à ton rythme, ton <strong>impact</strong>, tes <strong>compétences</strong> et ton <strong>rôle au sein du collectif</strong>.<br><br>Cette évolution s’appuie sur ce qui te motive : devenir spécialiste Produit, apprendre, faire partie d’une équipe et co-construire, en mission comme en interne.',
       accroche: 'En rejoignant WeFiiT, tu intègres un environnement qui te permet de :',
       points: [
-        { accent: 'T’investir pleinement en mission', reste: ', tout en bénéficiant d’un cadre de soutien, d’échange et de feedback' },
-        { accent: 'Co-construire', reste: ' le WeFiiT de demain en t’investissant sur des initiatives clés' },
-        { accent: 'Faire évoluer ton rôle et tes responsabilités', reste: ' au fil des expériences, sans parcours figé ni trajectoire imposée' },
-        { accent: 'Développer tes compétences', reste: ', affiner tes expertises et faire reconnaître ton impact, auprès des clients comme en interne' },
+        { titre: 'Devenir spécialiste Produit', texte: 'T’investir pleinement en mission, affiner ton expertise et faire reconnaître ton impact, auprès des clients comme en interne.' },
+        { titre: 'Apprendre', texte: 'Développer tes compétences au fil des expériences, avec un cadre de soutien, d’échange et de feedback.' },
+        { titre: 'Faire partie d’une équipe', texte: 'T’impliquer dans la vie de l’équipe et faire grandir ton rôle au sein d’un collectif, en mission comme en interne.' },
+        { titre: 'Co-construire', texte: 'Participer à la construction du WeFiiT de demain en t’investissant sur des initiatives clés.' },
       ],
     },
   },
@@ -60,7 +60,7 @@ export const composants = {
       nom: 'Yamila',
       role: 'Lead People Experience',
       texte:
-        'L’université WeFiiT, c’est un programme de formation qu’on déploie tout au long de l’année, ce qui est assez différenciant des autres, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours, et on le fait évoluer tous les ans.',
+        'L’université WeFiiT, c’est un programme de formation renouvelé chaque année en fonction des prérequis du marché. Sa singularité, c’est que ce sont les WeFiiTers qui choisissent les formations qu’ils veulent voir dans ce parcours.',
       photo: `${CDN}6a8c35a519d54491c9ab5e1d_yamila.webp`,
       bande: { padding: '1rem 0 6rem' }, // haut : 3.5rem d'origine moins les 2.5rem de marge basse du bloc cadre
     },
@@ -73,9 +73,9 @@ export const composants = {
         '<em>« Diriger, c’est avant tout savoir bien s’entourer »</em> : une conviction que les WeFiiTers incarnent au quotidien. À travers ces vidéos, il·elle·s partagent leur rôle, leur manière de travailler et ce qui les a amenés à rejoindre l’aventure WeFiiT.',
       videos: [
         {
-          src: 'https://player.vimeo.com/video/1014693029',
-          titre: 'Rencontrez Anne-Pauline - Product Manager',
-          legende: 'Rencontrez Anne-Pauline - Product Manager',
+          src: 'https://tube.rvere.com/embed?v=RANZEBlYi8A',
+          titre: 'Rencontrez Guillaume - Lead Product Manager',
+          legende: 'Rencontrez Guillaume - Lead Product Manager',
         },
         {
           src: 'https://tube.rvere.com/embed?v=ueLmj4Ws03k',
@@ -84,8 +84,8 @@ export const composants = {
         },
         {
           src: 'https://tube.rvere.com/embed?v=g9pShBUcTDI',
-          titre: 'Rencontrez Alice - Product Owner',
-          legende: 'Rencontrez Alice - Product Owner',
+          titre: 'Rencontrez Alice - Product Manager',
+          legende: 'Rencontrez Alice - Product Manager',
         },
       ],
       ctaTexte: "REJOINS L'AVENTURE WEFIIT",
@@ -104,10 +104,10 @@ export const composants = {
           nom: 'We.Talk',
           description: 'Une personne influente de la sphère Produit nous livre son expertise et ses best-practices.',
           videos: [
+            { id: 'sdvMZicR1JI', titre: 'We.Talk de Matt LeMay', legende: 'We.Talk - Matt LeMay, auteur d’Impact-First Product Teams' },
             { id: 'A8a5QrMxt4g', titre: 'We.Talk de Claire Rohaut', legende: 'We.Talk - Claire Rohaut, Lead Product Manager chez PlayPlay' },
             { id: 'Oa4EOYsvIRs', titre: 'We.Talk de Sylvain Grande', legende: 'We.Talk - Sylvain Grande, Chief Product Officer chez Payfit' },
             { id: '1PdKWaVdn-U', titre: 'We.Talk de Frédéric Bardolle', legende: 'We.Talk - Frédéric Bardolle, Head of Product chez Scaleway' },
-            { id: 'MEWktufBlg4', titre: "We.Talk d'Anne-Claire Baschet", legende: 'We.Talk - Anne-Claire Baschet, Chief Data & AI Officer chez Mirakl' },
           ],
         },
         {
@@ -164,7 +164,7 @@ export const composants = {
           objectif: "Devenir la référence du conseil Product en faisant de l'expérience collaborateur l'un des moteurs de sa réussite et sa différenciation.",
           initiatives: [
             { texte: "Mise en place d'un programme d'engagement solidaire avec Komeet" },
-            { texte: 'Déploiement de notre nouveau parcours de carrière : WeHorizon' },
+            { texte: 'Déploiement de notre nouveau parcours de carrière : We.Horizon' },
             { texte: 'Une de tes brillantes idées', invitation: true },
           ],
           photo: `${CDN}6aea62a1fabbe39cfe1ded9d_image-tribe-exp%C3%A9rience-collab.jpg`,
@@ -174,7 +174,7 @@ export const composants = {
           nom: 'Excellence',
           objectif: "Enrichir un écosystème d'Excellence de pointe où chaque WeFiiTer apprend, transmet et rayonne.",
           initiatives: [
-            { texte: 'Elaboration du nouveau catalogue de formation' },
+            { texte: 'Élaboration du nouveau catalogue de formation' },
             { texte: "Mettre l'IA au service de nos clients & des WeFiiTers" },
             { texte: 'Et toi, tu ferais quoi ?', invitation: true },
           ],
@@ -211,7 +211,7 @@ export const composants = {
             { texte: 'Organisation de nos prochains évènements We.Talk' },
             { texte: 'Refonte en vibe-coding de notre site WeFiiT.com' },
           ],
-          photo: `${CDN}65830d592f789caac7e57bdf_Equipe%20-%20Tribe%20Notori%C3%A9t%C3%A9.webp`,
+          photo: `${CDN}6af0cb80b7732a98e3449902_tribe-notori%C3%A9t%C3%A9.jpg`,
         },
       ],
     },

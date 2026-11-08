@@ -2,7 +2,7 @@
 category: Sections
 ---
 
-Section à onglets sur fond blanc, conteneur de 1140px. H2 centré en dégradé bleu avec point orange (ajouté par le composant) et intro, puis une barre d'onglets en pilule orange. Chaque onglet affiche une carte blanche (étiquette, objectif, titre de liste, liste à coches, lien optionnel) à côté d'une photo décalée sur un fond bleu. Conçue pour les 5 Tribes de la page Équipe, elle sert aussi d'onglets génériques (page RSE, pages d'expertise).
+Section à onglets sur fond blanc, conteneur de 1140px. H2 centré en dégradé bleu avec point orange (ajouté par le composant) et intro, puis une barre d'onglets en pilule orange (les onglets non sélectionnés restent en surbrillance, translucides, pour se lire comme des boutons ; ils s'éclaircissent au survol). Chaque onglet affiche une carte blanche (étiquette, objectif, titre de liste, liste à coches, lien optionnel) à côté d'une photo décalée sur un fond bleu. Conçue pour les 5 Tribes de la page Équipe, elle sert aussi d'onglets génériques (page RSE, pages d'expertise).
 
 - `titre` sans point final ; `intro` accepte `<strong>` et `<br>`.
 - `tribes` : un objet par onglet. `cle` unique et courte, `nom` = texte de l'onglet. `objectif` et les `initiatives` sont du texte simple.

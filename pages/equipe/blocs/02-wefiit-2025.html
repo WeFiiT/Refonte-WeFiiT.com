@@ -5,6 +5,7 @@
       --wt-blue-2: #002882;
       --wt-blue-3: #2a4cff;
       --wt-orange: #f98f03;
+      --wt-orange-2: #e95400;
       font-family: "Work Sans v2", Arial, sans-serif;
       max-width: 71.25rem;
       margin: 0 auto 5rem;
@@ -14,10 +15,10 @@
     #wt-2025 *, #wt-2025 *::before, #wt-2025 *::after { box-sizing: border-box; }
 
     /* Titre : même traitement que les autres titres du site (dégradé bleu
-       horizontal 270deg + point final). Ici le point est mesuré comme une
-       couleur pleine (--wt-orange), pas le dégradé bicolore orange vertical
-       utilisé sur d'autres titres du projet — vérifié directement sur le bloc
-       réel ("WeFiiT en 2025 c'était ça.", page équipe en prod). Centré à
+       horizontal 270deg + point final en dégradé orange vertical). Ancienne remarque : le point était mesuré comme une
+       couleur pleine (--wt-orange) sur le site en prod ; la charte prévoit le dégradé bicolore orange vertical
+       utilisé sur les autres titres du projet, adopté ici — vérifié sur le bloc
+       réel ("WeFiiT en 2025 c'était ça.", page équipe en prod, remplacé par « WeFiiT, c’est aussi ça. »). Centré à
        toutes les tailles (demande explicite de Paul) : le site réel aligne ce
        titre à gauche sur mobile, mais ce n'est pas ce qui est voulu ici. */
     #wt-2025 .wt-title {
@@ -34,7 +35,15 @@
       color: transparent;
       -webkit-text-fill-color: transparent;
     }
-    #wt-2025 .wt-title-dot { color: var(--wt-orange); }
+    /* Point final : dégradé orange vertical, dans son propre span (charte, comme les autres titres). Avec une simple
+       `color`, le point héritait du remplissage transparent du titre et prenait le dégradé bleu. */
+    #wt-2025 .wt-title-dot {
+      background: linear-gradient(var(--wt-orange-2), var(--wt-orange));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
     @media screen and (max-width: 767px) {
       #wt-2025 .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px (règle en bas de feuille) */
     }
@@ -57,7 +66,7 @@
     }
   </style>
 
-  <h2 class="wt-title" id="wt-2025-title">WeFiiT en 2025 c'était ça<span class="wt-title-dot">.</span></h2>
+  <h2 class="wt-title" id="wt-2025-title">WeFiiT, c’est aussi ça<span class="wt-title-dot">.</span></h2>
 
   <div class="wt-video-frame">
     <iframe src="https://www.youtube.com/embed/PqlMplRXqpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" title="Nos rituels chez WeFiiT - Retour sur 2025 et cap sur 2026 ! ⛷️" loading="lazy" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>

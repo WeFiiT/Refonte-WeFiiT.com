@@ -28,7 +28,13 @@
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
-.wt-titre-video .wt-title-dot { color: var(--wf-orange-500); }
+.wt-titre-video .wt-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 @media screen and (max-width: 767px) {
   .wt-titre-video .wt-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* design-system.md §2 : 3rem entre 480 et 767px, 2.5rem sous 480px */
 }
