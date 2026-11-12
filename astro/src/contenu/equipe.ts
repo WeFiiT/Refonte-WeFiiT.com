@@ -21,7 +21,7 @@ export const composants = {
       intro:
         'WeFiiT, c’est d’abord et avant tout une histoire de FiiT entre <span>passionné·e·s de Product</span>, ayant <span>envie de grandir ensemble</span> tout en participant à la création du WeFiiT de demain !',
       photo:
-        'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6af0b9f27f41c583e7d9274e_hero-equipe-mathilde-v3.png',
+        'https://cdn.prod.website-files.com/63d687e3cca00b36190024ea/6af5b5e7b86965d1ad0e15bc_equipe-wefiit-hero.jpg',
       alt: 'L’équipe WeFiiT réunie',
     },
   },
