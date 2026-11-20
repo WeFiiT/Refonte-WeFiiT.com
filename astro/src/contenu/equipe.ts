@@ -189,7 +189,7 @@ export const composants = {
             { texte: "Création d'offres d'expertise premium, prêtes à vendre et à délivrer" },
             { texte: 'Ton initiative pourrait être ici', invitation: true },
           ],
-          photo: `${CDN}6ae9da9798aa5830fa77b9fe_tribe-expertise.jpg`,
+          photo: `${CDN}6afcd07c1dffafcb41284425_tribe-expertises-vdef.jpg`,
         },
         {
           cle: 'business',
@@ -211,7 +211,7 @@ export const composants = {
             { texte: 'Organisation de nos prochains évènements We.Talk' },
             { texte: 'Refonte en vibe-coding de notre site WeFiiT.com' },
           ],
-          photo: `${CDN}6af0cb80b7732a98e3449902_tribe-notori%C3%A9t%C3%A9.jpg`,
+          photo: `${CDN}6afcd07c2c221f348412721e_tribe-noto-vdef.jpg`,
         },
       ],
     },
