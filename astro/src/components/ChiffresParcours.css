@@ -1,0 +1,135 @@
+/* Styles du composant ChiffresParcours (ChiffresParcours.tsx) : photo, chiffres clés, parité et secteurs. CSS global :
+   chaque règle est préfixée par .wt-notre-equipe, la racine du composant parent ParcoursEquipe. */
+/* PROPOSITION 2 : photo à gauche, chiffres à droite (2 x 2), face à face ; parité et secteurs côte à côte. */
+.wt-notre-equipe .wte-top { margin: 2rem 0 0; }
+.wt-notre-equipe .wte-stats-wrap { min-width: 0; }
+
+/* Photo d'équipe : colonne de gauche (desktop), pleine largeur en mobile. */
+.wt-notre-equipe .wte-photo {
+  position: relative; width: 100%; height: 15rem; margin: 0 0 2rem; overflow: hidden;
+  background: var(--wf-blue-50); display: flex; align-items: center; justify-content: center;
+}
+.wt-notre-equipe .wte-photo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.wt-notre-equipe .wte-photo-placeholder { color: var(--wf-blue-300); font-size: 0.875rem; font-weight: 600; text-align: center; padding: 1rem; }
+.wt-notre-equipe .wte-cam { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+/* Chiffres : 4 colonnes séparées par des filets verticaux de 1px, filet de 1px
+   au-dessus. Le chiffre vient en premier visuellement (order) alors que le
+   libellé (dt) précède dans le HTML, pour une lecture "Product Managers : 78". */
+.wt-notre-equipe .wte-stats-title { margin: 0 0 1.5rem; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; color: var(--wf-blue-800); text-align: center; text-transform: none; letter-spacing: 0; }
+.wt-notre-equipe .wte-stats { margin: 0; padding: 1.125rem 0 0; border-top: 1px solid var(--wf-grey-100); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.wt-notre-equipe .wte-stat { margin: 0; padding: 0 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; border-left: 1px solid var(--wf-grey-100); }
+.wt-notre-equipe .wte-stat:first-child { padding-left: 0; border-left: 0; }
+.wt-notre-equipe .wte-stat:last-child { padding-right: 0; }
+.wt-notre-equipe .wte-figure { order: 1; margin: 0; font-family: Allroundgothic, Arial, sans-serif; font-size: 2.25rem; line-height: 1; font-weight: 400; white-space: nowrap; color: var(--wf-blue-600); text-align: left; }
+.wt-notre-equipe .wte-stat-orange .wte-figure { color: var(--wf-orange-600); }
+.wt-notre-equipe .wte-label { order: 2; margin: 0; font-size: 0.875rem; line-height: 1.3; font-weight: 600; color: var(--wf-blue-800); text-align: left; }
+.wt-notre-equipe .wte-detail { order: 3; margin: 0; font-size: 0.75rem; line-height: 1.4; color: var(--wt-muted); text-align: left; }
+.wt-notre-equipe .wte-only-mobile { display: none; }
+
+/* Parité et secteurs : deux panneaux pâles, empilés en mobile et côte à côte dès 768px (voir plus bas). Un seul
+   HTML pour les deux. Le visuel de la parité est calé en bas de son panneau. */
+.wt-notre-equipe .wte-duo { margin: 2.5rem 0 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.wt-notre-equipe .wte-row { display: flex; flex-direction: column; gap: 1.25rem; padding: 1.25rem; background: var(--wf-blue-50); min-width: 0; }
+.wt-notre-equipe .wte-row-text { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.wt-notre-equipe .wte-duo-title { margin: 0; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; color: var(--wf-blue-800); text-align: left; text-transform: none; letter-spacing: 0; }
+.wt-notre-equipe .wte-duo-intro { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--wf-blue-900); text-align: left; text-wrap: pretty; }
+.wt-notre-equipe .wte-duo-intro strong { font-weight: 600; }
+.wt-notre-equipe .wte-eq-body { margin-top: auto; padding: 0; background: none; display: flex; flex-direction: column; gap: 0.75rem; }
+
+/* Parité en graphique : "46 % femmes" à gauche, "hommes 54 %" à droite (libellé avant le chiffre, pour que les deux
+   chiffres tombent aux extrémités de la barre), barre épaisse, puis la mention dessous. Tout ce visuel est aria-hidden :
+   le texte complet est dans l'aria-label du conteneur. */
+.wt-notre-equipe .wte-parity-figs { display: flex; justify-content: space-between; flex-wrap: nowrap; gap: 1rem; align-items: baseline; }
+.wt-notre-equipe .wte-par { display: flex; flex-direction: row; align-items: baseline; gap: 0.5rem; text-align: left; }
+.wt-notre-equipe .wte-par-m .wte-par-label { order: -1; }
+.wt-notre-equipe .wte-par-fig { font-family: Allroundgothic, Arial, sans-serif; font-size: 2.25rem; line-height: 1; white-space: nowrap; color: var(--wf-blue-600); }
+.wt-notre-equipe .wte-par-f .wte-par-fig { color: var(--wf-orange-600); }
+.wt-notre-equipe .wte-par-label { font-size: 0.875rem; line-height: 1.3; font-weight: 600; color: var(--wf-blue-800); }
+/* Valeur finale lue par les lecteurs d'écran pendant que le décompte s'anime (le compteur visible est aria-hidden). */
+.wt-notre-equipe .wte-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wt-notre-equipe .wte-eq-note { margin: 0; font-size: 0.9375rem; line-height: 1.4; color: var(--wf-blue-900); text-align: left; }
+.wt-notre-equipe .wte-bar { display: flex; gap: 2px; height: 0.75rem; margin-top: 0; }
+.wt-notre-equipe .wte-bar-f { flex: 0 0 50%; background: var(--wf-orange-600); } /* largeur réelle posée par le script d'après le pourcentage de la phrase */
+.wt-notre-equipe .wte-bar-m { flex: 1 1 auto; background: var(--wf-blue-600); }
+
+/* Secteurs : une seule rangée de tuiles blanches, à largeur fixe (la suivante dépasse du panneau). Sans JavaScript,
+   ou si l'utilisateur réduit les animations, la rangée se fait défiler à la main (barre fine, bleu du site) ; le
+   script la met en défilement automatique (voir plus bas). */
+.wt-notre-equipe .wte-sec-marquee { min-width: 0; }
+.wt-notre-equipe .wte-sec-list {
+  list-style: none; margin: 0; padding: 0 0 0.75rem; display: flex; flex-wrap: nowrap; gap: 0.5rem; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--wf-blue-600) #fff;
+}
+.wt-notre-equipe .wte-sec-list:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 2px; }
+.wt-notre-equipe .wte-sec-list::-webkit-scrollbar { height: 6px; }
+.wt-notre-equipe .wte-sec-list::-webkit-scrollbar-track { background: #fff; }
+.wt-notre-equipe .wte-sec-list::-webkit-scrollbar-thumb { background: var(--wf-blue-600); }
+.wt-notre-equipe .wte-sec-item {
+  flex: 0 0 12rem; scroll-snap-align: start; margin: 0; padding: 0.5rem 0.75rem; min-height: 3rem; display: flex; align-items: center; gap: 0.625rem;
+  background: #fff; font-size: 0.75rem; line-height: 1.35; font-weight: 500; color: var(--wf-blue-900); text-align: left;
+}
+/* Icône de secteur : même DA que les piliers de "Notre symbole" (carré 2rem, trait 1.6, bleu vif). */
+.wt-notre-equipe .wte-sec-icon { flex: none; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; background: var(--wf-blue-50); color: var(--wf-blue-600); }
+.wt-notre-equipe .wte-sec-icon svg { width: 1.25rem; height: 1.25rem; display: block; }
+
+@media screen and (min-width: 768px) {
+  /* Haut du bloc : photo à gauche, titre + chiffres (2 colonnes x 2 lignes) à droite. La photo prend toute la
+     hauteur de la colonne de droite. */
+  .wt-notre-equipe .wte-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; align-items: stretch; }
+  .wt-notre-equipe .wte-photo { height: auto; min-height: 18rem; margin: 0; }
+  .wt-notre-equipe .wte-stats-wrap { display: flex; flex-direction: column; justify-content: center; }
+  .wt-notre-equipe .wte-stats-title { margin: 0 0 1rem; text-align: left; font-size: 1.0625rem; }
+  .wt-notre-equipe .wte-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; padding: 0; border-top: 0; }
+  .wt-notre-equipe .wte-stat, .wt-notre-equipe .wte-stat:first-child, .wt-notre-equipe .wte-stat:last-child { padding: 1.125rem 0 1.25rem; border-left: 0; border-top: 1px solid var(--wf-grey-100); }
+
+  /* Parité et secteurs : deux panneaux côte à côte, de même hauteur. Le visuel de la parité est calé en bas du
+     panneau, au niveau du bas de la rangée de secteurs. */
+  .wt-notre-equipe .wte-duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; margin-top: 2.5rem; align-items: stretch; }
+  .wt-notre-equipe .wte-row { padding: 1.5rem; }
+  .wt-notre-equipe .wte-par-fig { font-size: 2.5rem; }
+  .wt-notre-equipe .wte-sec-item { flex-basis: 13.5rem; }
+}
+/* Défilement automatique (activé par le script, sauf si l'utilisateur réduit les animations) : le script fait avancer
+   lentement le défilement horizontal de la rangée, en boucle sans coupure (il duplique les 6 tuiles et revient en
+   arrière d'exactement un tour). La rangée reste un vrai conteneur défilant, sans barre visible, bords en fondu :
+   au doigt on la fait glisser (le défilement s'arrête tant que le doigt est posé, puis reprend), à la souris elle
+   se fige au survol et se fait glisser en cliquant-déplaçant, au clavier les flèches la font défiler. Chaque tuile
+   porte sa marge à droite (et non un gap) pour que la boucle tombe pile. */
+.wt-notre-equipe .wte-sec-marquee.is-marquee {
+  overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; cursor: grab; user-select: none; -webkit-user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
+.wt-notre-equipe .wte-sec-marquee.is-marquee::-webkit-scrollbar { display: none; }
+.wt-notre-equipe .wte-sec-marquee.is-marquee.is-dragging { cursor: grabbing; }
+.wt-notre-equipe .wte-sec-marquee.is-marquee:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 2px; }
+.wt-notre-equipe .is-marquee .wte-sec-list { width: max-content; padding: 0; gap: 0; overflow: visible; scroll-snap-type: none; }
+.wt-notre-equipe .is-marquee .wte-sec-item { margin-right: 0.5rem; }
+
+/* Tablette (768 à 991px) : mêmes deux colonnes, un peu plus serrées. */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .wt-notre-equipe .wte-top { gap: 1.5rem; }
+  .wt-notre-equipe .wte-duo { gap: 1rem; }
+  .wt-notre-equipe .wte-row { padding: 1.25rem; }
+}
+
+/* Mobile : photo à fleur des bords en 4:3, chiffres en 2x2, parité dans une carte,
+   secteurs en liste à une colonne. Les deux lignes Équité / Secteurs sont empilées : voir le style de base plus haut. */
+@media screen and (max-width: 767px) {
+  .wt-notre-equipe .wte-photo { width: auto; height: auto; aspect-ratio: 4 / 3; margin: 0 -1rem 2.5rem; }
+
+  .wt-notre-equipe .wte-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1.5rem; padding: 0; border-top: 0; }
+  .wt-notre-equipe .wte-stat, .wt-notre-equipe .wte-stat:first-child, .wt-notre-equipe .wte-stat:last-child { padding: 1rem 0 0; border-left: 0; border-top: 1px solid var(--wf-grey-100); }
+  .wt-notre-equipe .wte-stat, .wt-notre-equipe .wte-stat:first-child, .wt-notre-equipe .wte-stat:last-child { align-items: center; text-align: center; }
+  .wt-notre-equipe .wte-figure, .wt-notre-equipe .wte-label, .wt-notre-equipe .wte-detail { text-align: center; }
+  .wt-notre-equipe .wte-figure { font-size: 2.125rem; }
+  .wt-notre-equipe .wte-label { font-size: 0.8125rem; }
+  .wt-notre-equipe .wte-detail { font-size: 0.75rem; }
+  .wt-notre-equipe .wte-only-desktop { display: none; }
+  .wt-notre-equipe .wte-only-mobile { display: inline; }
+  .wt-notre-equipe .wte-stat-orange .wte-detail { display: none; }
+}
+@media screen and (max-width: 479px) {
+  .wt-notre-equipe .wte-figure { font-size: 2rem; }
+}

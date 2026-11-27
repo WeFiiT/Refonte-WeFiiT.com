@@ -1,0 +1,68 @@
+/* Styles du composant RaisonEtre (RaisonEtre.tsx). CSS global : chaque règle est préfixée par .wt-raison-etre. */
+.wt-raison-etre {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  margin: 0 0 3rem; /* bloc avec bande de fond pleine largeur : margin-bottom seul (la bande a sa propre respiration interne) */
+  box-sizing: border-box;
+}
+.wt-raison-etre *, .wt-raison-etre *::before, .wt-raison-etre *::after { box-sizing: border-box; }
+
+/* Bande pleine largeur standard (marge négative, jamais clip-path ni box-shadow géant : voir design-system.md).
+   Compacte : le message doit tenir d'un coup d'œil. */
+.wt-raison-etre .wtre-band {
+  position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
+  width: 100vw; background: var(--wf-blue-50); padding: 3rem 0;
+}
+.wt-raison-etre .wtre-inner {
+  max-width: 71.25rem; margin: 0 auto; padding: 0 1rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+}
+/* Eyebrow standard (16px, majuscules, trait de 1.5rem), en bleu. */
+.wt-raison-etre .wtre-eyebrow {
+  margin: 0; padding: 0; font-family: "Work Sans v2", Arial, sans-serif; text-align: left;
+  display: flex; align-items: center; gap: 0.625rem;
+  font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--wf-blue-600);
+}
+.wt-raison-etre .wtre-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wf-blue-600); display: inline-block; flex: none; }
+
+/* Énoncé centré, d'un seul bleu : une seule phrase, jamais découpée dans le HTML. */
+.wt-raison-etre .wtre-text {
+  margin: 0; max-width: 48rem; text-align: center; text-wrap: balance;
+  font-family: Allroundgothic, Arial, sans-serif; font-size: 1.5rem; line-height: 1.4; font-weight: 400;
+  color: var(--wf-blue-800);
+}
+/* Seul accent de couleur permanent : le point final en dégradé orange vertical, comme les titres du site. */
+.wt-raison-etre .wtre-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500)); -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+
+/* Effet « balayage » (inspiré de la section manifeste de bivouac-builders.com) : le script découpe la phrase en
+   lignes telles qu'elles s'affichent, puis une barre orange passe sur chaque ligne et révèle le texte derrière
+   elle, ligne après ligne. Joué une seule fois, à l'arrivée du bloc à l'écran. Sans JavaScript, ou si l'utilisateur
+   réduit les animations, la phrase est simplement affichée. */
+.wt-raison-etre .wtre-ligne {
+  position: relative; display: block; width: max-content; max-width: 100%; margin: -0.02em auto; padding: 0.02em 0.08em; overflow: hidden;
+}
+.wt-raison-etre .wtre-ligne-texte { display: block; }
+.wt-raison-etre .wtre-balai {
+  position: absolute; inset: 0; pointer-events: none; transform: translateX(-102%);
+  background: linear-gradient(270deg, var(--wf-orange-600), var(--wf-orange-500));
+}
+.wt-raison-etre.is-anim .wtre-ligne-texte { opacity: 0; }
+.wt-raison-etre.is-fini .wtre-ligne-texte { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .wt-raison-etre.is-joue .wtre-balai { animation: wtre-balai 900ms cubic-bezier(0.65, 0, 0.35, 1) both; animation-delay: calc(var(--i, 0) * 320ms + 150ms); }
+  .wt-raison-etre.is-joue .wtre-ligne-texte { animation: wtre-texte 900ms linear both; animation-delay: calc(var(--i, 0) * 320ms + 150ms); }
+  .wt-raison-etre.is-fini .wtre-balai, .wt-raison-etre.is-fini .wtre-ligne-texte { animation: none; }
+}
+@keyframes wtre-balai { 0% { transform: translateX(-102%); } 50% { transform: translateX(0); } 100% { transform: translateX(102%); } }
+@keyframes wtre-texte { 0%, 49.9% { opacity: 0; } 50%, 100% { opacity: 1; } }
+
+@media screen and (max-width: 767px) {
+  .wt-raison-etre .wtre-band { padding: 2.5rem 0; }
+  .wt-raison-etre .wtre-text { font-size: 1.25rem; }
+}
+@media screen and (max-width: 479px) {
+  .wt-raison-etre .wtre-text { font-size: 1.125rem; }
+}

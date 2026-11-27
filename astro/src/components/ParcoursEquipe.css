@@ -1,0 +1,42 @@
+/* Styles du composant ParcoursEquipe (ParcoursEquipe.tsx) : racine de la section, variable locale, réglages de
+   base, en-tête centré (surtitre, H2, chapô). Les parties internes ont leur propre fichier : ChiffresParcours.css
+   (photo, chiffres, parité, secteurs) et TexteVideo.css. CSS global : chaque règle est préfixée par la classe
+   racine .wt-notre-equipe, qui sert de portée aux trois fichiers. */
+.wt-notre-equipe {
+  --wt-muted: #4a5a99; /* texte secondaire (6,5:1 sur blanc) ; pas d’équivalent dans les tokens, gardé en variable locale */
+  font-family: "Work Sans v2", Arial, sans-serif;
+  max-width: 71.25rem;
+  margin: 0 auto 5rem; /* bloc plein, pas de bande colorée : marge de fin standard, pas de margin-top (voir design-system.md) */
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.wt-notre-equipe *, .wt-notre-equipe *::before, .wt-notre-equipe *::after { box-sizing: border-box; }
+.wt-notre-equipe [hidden] { display: none !important; }
+
+/* En-tête centré : eyebrow standard, H2 (dégradé bleu + point orange à part),
+   chapô de 600px max. Titre à 48px comme les H2 réels de /equipe. */
+.wt-notre-equipe .wte-head { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.wt-notre-equipe .wte-eyebrow {
+  display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem;
+  font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--wf-blue-600); text-align: left;
+}
+.wt-notre-equipe .wte-head .wte-eyebrow { text-align: center; }
+.wt-notre-equipe .wte-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wf-blue-600); display: inline-block; flex: none; }
+.wt-notre-equipe .wte-title {
+  margin: 0; font-family: var(--wf-font-h2); /* Geomanist, comme les H2 du site (écart voulu : le bloc d’origine est en Allroundgothic 400) */
+  font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -0.12rem; text-align: center; text-transform: none;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-notre-equipe .wte-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-notre-equipe .wte-lead { margin: 1rem 0 0; max-width: 37.5rem; font-size: 1rem; line-height: 1.5; color: var(--wf-blue-900); text-align: center; text-wrap: pretty; }
+
+@media screen and (max-width: 991px) {
+  .wt-notre-equipe .wte-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
+}

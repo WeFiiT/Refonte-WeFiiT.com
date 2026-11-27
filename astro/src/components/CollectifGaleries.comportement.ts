@@ -61,6 +61,7 @@ export function init(root: HTMLElement): void {
       iframe.setAttribute('allowfullscreen', '');
       media.innerHTML = '';
       media.appendChild(iframe);
+      iframe.focus(); // le bouton disparaît : le focus passe sur le lecteur
     });
   });
 

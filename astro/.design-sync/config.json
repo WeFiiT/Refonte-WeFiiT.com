@@ -25,7 +25,18 @@
     "TitreVideo": "src/components/TitreVideo.tsx",
     "ParolesVideos": "src/components/ParolesVideos.tsx",
     "CollectifGaleries": "src/components/CollectifGaleries.tsx",
-    "PhotoPleineLargeur": "src/components/PhotoPleineLargeur.tsx"
+    "PhotoPleineLargeur": "src/components/PhotoPleineLargeur.tsx",
+    "HeroPhotoCitation": "src/components/HeroPhotoCitation.tsx",
+    "RaisonEtre": "src/components/RaisonEtre.tsx",
+    "FriseChronologique": "src/components/FriseChronologique.tsx",
+    "TextePhotoPiliers": "src/components/TextePhotoPiliers.tsx",
+    "ManifesteCommandements": "src/components/ManifesteCommandements.tsx",
+    "ParcoursEquipe": "src/components/ParcoursEquipe.tsx",
+    "DonneesStructurees": "src/components/DonneesStructurees.tsx",
+    "CarteCarrouselInfos": "src/components/CarteCarrouselInfos.tsx",
+    "BandeCtaClaire": "src/components/BandeCtaClaire.tsx",
+    "WidgetPodcast": "src/components/WidgetPodcast.tsx",
+    "EncartLien": "src/components/EncartLien.tsx"
   },
   "overrides": {
     "EnTete": {
@@ -91,6 +102,50 @@
     "PhotoPleineLargeur": {
       "cardMode": "column",
       "viewport": "1280x900"
+    },
+    "HeroPhotoCitation": {
+      "cardMode": "column",
+      "viewport": "1280x720"
+    },
+    "RaisonEtre": {
+      "cardMode": "column",
+      "viewport": "1280x340"
+    },
+    "FriseChronologique": {
+      "cardMode": "column",
+      "viewport": "1280x820"
+    },
+    "TextePhotoPiliers": {
+      "cardMode": "column",
+      "viewport": "1280x760"
+    },
+    "ManifesteCommandements": {
+      "cardMode": "column",
+      "viewport": "1280x860"
+    },
+    "ParcoursEquipe": {
+      "cardMode": "column",
+      "viewport": "1280x1600"
+    },
+    "DonneesStructurees": {
+      "cardMode": "column",
+      "viewport": "1280x420"
+    },
+    "CarteCarrouselInfos": {
+      "cardMode": "column",
+      "viewport": "1280x660"
+    },
+    "BandeCtaClaire": {
+      "cardMode": "column",
+      "viewport": "1280x400"
+    },
+    "WidgetPodcast": {
+      "cardMode": "column",
+      "viewport": "1280x700"
+    },
+    "EncartLien": {
+      "cardMode": "column",
+      "viewport": "1280x190"
     }
   },
   "libOverrides": {

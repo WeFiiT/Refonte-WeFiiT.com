@@ -1,0 +1,120 @@
+/* Styles du composant ManifesteCommandements (ManifesteCommandements.tsx). CSS global : chaque
+   règle est préfixée par .wt-manifesto, sinon .wtm-title, .wtm-item... toucheraient les autres composants. */
+.wt-manifesto {
+  --wt-num-small: #c94800; /* orange plus foncé pour les numéros de 18px (mobile) : #e95400 sur blanc fait 3,7:1, il en faut 4,5:1 sous 24px ; #c94800 fait 4,8:1 */
+  font-family: "Work Sans v2", Arial, sans-serif;
+  max-width: 71.25rem;
+  margin: 0 auto 5rem; /* bloc plein, pas de bande colorée : marge de fin standard, pas de margin-top (voir design-system.md) */
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.wt-manifesto *, .wt-manifesto *::before, .wt-manifesto *::after { box-sizing: border-box; }
+.wt-manifesto [hidden] { display: none !important; }
+
+/* En-tête centré : eyebrow standard, H2 (dégradé bleu + point orange à part),
+   chapô. Taille du titre alignée sur les H2 réels de /equipe (48px, 40px sur
+   mobile), comme les autres blocs de la page Culture. */
+.wt-manifesto .wtm-head { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 0 0 1.5rem; }
+.wt-manifesto .wtm-eyebrow {
+  display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem;
+  font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--wf-blue-600); text-align: center;
+}
+.wt-manifesto .wtm-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wf-blue-600); display: inline-block; }
+.wt-manifesto .wtm-title {
+  margin: 0; font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -0.12rem; text-align: center; text-transform: none;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-manifesto .wtm-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-manifesto .wtm-lead { margin: 0.75rem 0 0; max-width: max(50%, 28rem); font-size: 1rem; line-height: 1.5; color: var(--wf-blue-900); text-align: center; text-wrap: pretty; }
+
+/* Liste des 10 commandements. Webflow applique des styles par défaut aux
+   listes et aux h3 : tout est réinitialisé ici. La numérotation native est
+   masquée (list-style: none), le numéro affiché est un élément visuel à part. */
+.wt-manifesto .wtm-list { list-style: none; margin: 0; padding: 0; }
+.wt-manifesto .wtm-item { margin: 0; padding: 0; }
+.wt-manifesto .wtm-h { margin: 0; font-size: inherit; line-height: inherit; font-weight: inherit; text-transform: none; letter-spacing: 0; text-align: left; }
+.wt-manifesto .wtm-btn {
+  appearance: none; -webkit-appearance: none; display: grid; width: 100%; margin: 0; padding: 0;
+  background: none; border: 0; border-radius: 0; font: inherit; color: inherit; text-align: left; cursor: default;
+}
+.wt-manifesto .wtm-num { font-family: Allroundgothic, Arial, sans-serif; font-weight: 400; color: var(--wf-orange-600); }
+.wt-manifesto .wtm-q { font-weight: 600; color: var(--wf-blue-800); }
+.wt-manifesto .wtm-icon { display: none; }
+.wt-manifesto .wtm-panel { display: grid; grid-template-rows: 1fr; }
+.wt-manifesto .wtm-panel-in { min-height: 0; overflow: hidden; }
+.wt-manifesto .wtm-text { margin: 0; color: var(--wf-blue-900); text-align: left; text-wrap: pretty; }
+
+/* Desktop (>= 768px) : grille ouverte de 2 colonnes, 5 lignes, lue en Z
+   (1 et 2 face à face, puis 3 et 4, etc.). Séparateurs de 1px : le gap
+   laisse voir le fond de la grille, les cellules sont blanches. Pas de
+   survol, pas d'interaction : tout est visible. */
+@media screen and (min-width: 768px) {
+  .wt-manifesto .wtm-list {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto;
+    gap: 1px; background: var(--wf-grey-100); border: 1px solid var(--wf-grey-100);
+  }
+  /* Le numéro sort du flux et se centre sur la hauteur de toute la cellule (titre + texte) : comme les cellules d'une
+     même ligne ont la même hauteur, les numéros des deux colonnes sont à la même hauteur, face à face. Il est centré
+     aussi à l'horizontale dans sa colonne de 44px (les numéros d une même colonne restent bien alignés). Titre et texte gardent
+     la même marge gauche (44px + 12px) pour rester alignés. Le contenu (titre + texte) est lui aussi centré
+     verticalement dans la cellule : numéro et texte partagent le même centre, et les deux cellules d une ligne restent face à face. Cellules plus compactes (moins de défilement). */
+  .wt-manifesto .wtm-item { --wtm-pad-x: 1.25rem; position: relative; padding: 0.875rem var(--wtm-pad-x); background: #fff; display: flex; flex-direction: column; justify-content: center; }
+  .wt-manifesto .wtm-btn { grid-template-columns: minmax(0, 1fr); padding-left: calc(44px + 0.75rem); align-items: baseline; }
+  .wt-manifesto .wtm-num { position: absolute; left: var(--wtm-pad-x); top: 50%; transform: translateY(-50%); width: 44px; text-align: center; font-size: 1.875rem; line-height: 1; }
+  .wt-manifesto .wtm-q { font-size: 0.9375rem; line-height: 1.35; }
+  .wt-manifesto .wtm-text { margin-top: 0.25rem; padding-left: calc(44px + 0.75rem); font-size: 0.9375rem; line-height: 1.5; }
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .wt-manifesto .wtm-item { --wtm-pad-x: 1rem; padding: 0.875rem var(--wtm-pad-x); }
+  .wt-manifesto .wtm-num { font-size: 1.625rem; }
+}
+
+/* Mobile (<= 767px) : 1 colonne. Sans JavaScript, tout reste ouvert et lisible ;
+   le script ajoute la classe .wtm-acc pour activer l'accordéon. */
+@media screen and (max-width: 767px) {
+  .wt-manifesto .wtm-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
+  .wt-manifesto .wtm-lead { max-width: none; }
+  .wt-manifesto .wtm-list { border-top: 1px solid var(--wf-grey-100); }
+  .wt-manifesto .wtm-item { border-bottom: 1px solid var(--wf-grey-100); }
+  .wt-manifesto .wtm-btn { grid-template-columns: 28px minmax(0, 1fr); gap: 0.5rem; align-items: center; min-height: 2.75rem; padding: 0.7rem 0; }
+  .wt-manifesto .wtm-num { font-size: 1.125rem; line-height: 1; color: var(--wt-num-small); }
+  .wt-manifesto .wtm-text { padding: 0 0 0.9rem 36px; font-size: 0.9375rem; line-height: 1.5; }
+
+  .wt-manifesto.wtm-acc .wtm-btn { grid-template-columns: 28px minmax(0, 1fr) 16px; cursor: pointer; }
+  .wt-manifesto.wtm-acc .wtm-btn:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 2px; }
+  /* Icône + / − dessinée en CSS : deux barres, la verticale disparaît à l'ouverture. */
+  .wt-manifesto.wtm-acc .wtm-icon { display: block; position: relative; width: 16px; height: 16px; }
+  .wt-manifesto.wtm-acc .wtm-icon::before,
+  .wt-manifesto.wtm-acc .wtm-icon::after { content: ""; position: absolute; left: 50%; top: 50%; background: var(--wf-blue-600); transform: translate(-50%, -50%); transition: opacity 0.2s ease; }
+  .wt-manifesto.wtm-acc .wtm-icon::before { width: 12px; height: 2px; }
+  .wt-manifesto.wtm-acc .wtm-icon::after { width: 2px; height: 12px; }
+  .wt-manifesto.wtm-acc .wtm-item.is-open .wtm-icon::after { opacity: 0; }
+  /* Ouverture courte (~200ms) de la hauteur du panneau. */
+  .wt-manifesto.wtm-acc .wtm-panel { grid-template-rows: 0fr; transition: grid-template-rows 0.2s ease; }
+  .wt-manifesto.wtm-acc .wtm-item.is-open .wtm-panel { grid-template-rows: 1fr; }
+}
+/* Eyebrow un peu plus petit sur petit écran : à 16px il passe sur 2 lignes et le
+   petit trait se retrouve à côté de la première seulement. */
+@media screen and (max-width: 479px) {
+  .wt-manifesto .wtm-eyebrow { font-size: 0.875rem; }
+}
+/* Apparition des numéros au défilement : chaque numéro « se dépose » quand sa cellule entre dans l'écran (il descend
+   de quelques pixels en fondu et se pose avec un très léger rebond). Les propriétés individuelles `translate` / `opacity` se cumulent avec le
+   `transform` de centrage du desktop. Le script n'ajoute .wtm-anim qu'en mouvement autorisé : sans JavaScript, ou en
+   mouvement réduit, les numéros restent affichés tels quels. */
+@media (prefers-reduced-motion: no-preference) {
+  .wt-manifesto.wtm-anim .wtm-num { transition: opacity 0.4s ease-out, translate 0.7s cubic-bezier(0.34, 1.45, 0.64, 1); transition-delay: var(--wtm-delay, 0ms); }
+  .wt-manifesto.wtm-anim .wtm-item:not(.is-vu) .wtm-num { opacity: 0; translate: 0 -0.7em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wt-manifesto .wtm-panel, .wt-manifesto .wtm-icon::before, .wt-manifesto .wtm-icon::after { transition: none !important; }
+}
+  

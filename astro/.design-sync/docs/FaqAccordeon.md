@@ -20,3 +20,7 @@ Section de questions fréquentes, en général vers la fin d'une page, avant le 
   ]}
 />
 ```
+
+## Mode rubriques (page Culture)
+
+Prop optionnelle `rubriques` (le mode `questions` ne change pas) : chaque rubrique est un volet `<details name>` numéroté (un seul ouvert à la fois dans toute la FAQ) qui montre à l'ouverture ses questions (H4 en semi-gras) et leurs réponses écrites en entier. `rubriques` : `{ id, titre, questions: { id, question, reponse, reponseTexte? }[] }[]` ; l'`id` d'une question sert d'ancre (le volet qui la contient s'ouvre) ; `reponseTexte` remplace le texte brut des données structurées quand la réponse contient un pictogramme SVG ; `schema` (`id`, `langue`, `pageId`) rattache le `FAQPage` à la page ; `groupe` donne le `name` des `<details>` ; `idTitre` l'id du H2.

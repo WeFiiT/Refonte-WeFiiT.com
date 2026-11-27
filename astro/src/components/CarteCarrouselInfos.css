@@ -1,0 +1,150 @@
+/* Styles du composant CarteCarrouselInfos (CarteCarrouselInfos.tsx). CSS global : chaque règle est
+   préfixée par .wt-nos-bureaux, sinon .wtb-title, .wtb-arrow... toucheraient les autres composants. */
+.wt-nos-bureaux {
+  --wt-card-border: #d9dcea;
+  font-family: "Work Sans v2", Arial, sans-serif;
+  max-width: 71.25rem;
+  margin: 0 auto 5rem; /* bloc plein, pas de bande colorée : marge de fin standard, pas de margin-top (voir design-system.md) */
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.wt-nos-bureaux *, .wt-nos-bureaux *::before, .wt-nos-bureaux *::after { box-sizing: border-box; }
+.wt-nos-bureaux [hidden] { display: none !important; }
+.wt-nos-bureaux .wtb-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Les styles par défaut de Webflow sur h2, dl/dd, p et figure sont réinitialisés explicitement
+   sur chaque classe du bloc (marges, retraits, alignement). */
+
+/* Carte desktop : en haut, le carrousel de photos (paysage) à gauche et le texte à droite ; en bas, les 4 infos
+   pratiques sur une seule ligne. Sur tablette et mobile : carrousel, texte, infos, empilés. */
+.wt-nos-bureaux .wtb-card {
+  display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  grid-template-areas: "media body" "infos infos";
+  background: #fff; border: 1px solid var(--wt-card-border);
+}
+
+/* Carrousel : les photos sont en position absolue (elles ne pèsent pas sur la hauteur) ; le carrousel suit la hauteur
+   du texte, avec un minimum de 20rem. Défilement natif par scroll-snap (glisser au doigt, molette horizontale,
+   flèches du clavier), flèches et pastilles ajoutées par le script. */
+.wt-nos-bureaux .wtb-carousel { grid-area: media; position: relative; min-height: 20rem; min-width: 0; overflow: hidden; background: var(--wf-blue-50); }
+.wt-nos-bureaux .wtb-slides {
+  position: absolute; inset: 0; margin: 0; padding: 0; display: flex; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+}
+.wt-nos-bureaux .wtb-slides::-webkit-scrollbar { display: none; }
+.wt-nos-bureaux .wtb-slides:focus-visible { outline: 3px solid var(--wf-blue-600); outline-offset: -3px; }
+.wt-nos-bureaux .wtb-slide { position: relative; flex: 0 0 100%; min-width: 0; margin: 0; padding: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+.wt-nos-bureaux .wtb-slide-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.wt-nos-bureaux .wtb-slide-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--wf-blue-300); font-size: 0.875rem; font-weight: 600; text-align: center; padding: 1rem; }
+.wt-nos-bureaux .wtb-cam { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+/* Flèches : même pastille bleue que celles du bloc « Nos rituels », visibles seulement quand on peut avancer
+   dans cette direction (calculé par le script). */
+.wt-nos-bureaux .wtb-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 2.8125rem; height: 2.8125rem; padding: 0; border: 0; border-radius: 99px; background: var(--wf-blue-800);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease;
+}
+.wt-nos-bureaux .wtb-arrow.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
+.wt-nos-bureaux .wtb-arrow img { width: 1rem; height: 1rem; }
+.wt-nos-bureaux .wtb-arrow:focus-visible { outline: 3px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 5px var(--wf-blue-600); }
+.wt-nos-bureaux .wtb-arrow-left { left: 0.75rem; }
+.wt-nos-bureaux .wtb-arrow-right { right: 0.75rem; }
+/* Indicateur de position, sans panneau : une rangée de points, le point de la photo affichée s'allonge en trait.
+   Blanc avec une ombre très légère pour rester lisible sur n'importe quelle photo ; chaque point est un bouton. */
+.wt-nos-bureaux .wtb-dots {
+  position: absolute; left: 50%; bottom: 0.875rem; transform: translateX(-50%); z-index: 2;
+  display: flex; align-items: center; gap: 0; filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.22));
+}
+.wt-nos-bureaux .wtb-dot { display: flex; align-items: center; justify-content: center; height: 1.5rem; padding: 0 0.1875rem; border: 0; background: none; cursor: pointer; }
+.wt-nos-bureaux .wtb-dot span { display: block; width: 0.5rem; height: 0.5rem; border-radius: 99px; background: rgba(255, 255, 255, 0.6); transition: width 0.3s ease, background 0.3s ease; }
+.wt-nos-bureaux .wtb-dot.is-current span { width: 1.75rem; background: #fff; }
+.wt-nos-bureaux .wtb-dot:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.wt-nos-bureaux .wtb-carousel.is-single .wtb-arrow, .wt-nos-bureaux .wtb-carousel.is-single .wtb-dots { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .wt-nos-bureaux .wtb-arrow, .wt-nos-bureaux .wtb-dot span { transition: none; }
+}
+
+.wt-nos-bureaux .wtb-body { grid-area: body; min-width: 0; padding: 36px 40px; display: flex; flex-direction: column; gap: 16px; }
+
+/* Eyebrow standard (16px, bleu vif, trait de 1.5rem), alignée à gauche comme le titre ; groupée avec lui
+   pour que l'écart du flex (16px) ne s'applique qu'entre l'en-tête et le texte. */
+.wt-nos-bureaux .wtb-eyebrow {
+  display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.5rem;
+  font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--wf-blue-600); text-align: left;
+}
+.wt-nos-bureaux .wtb-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wf-blue-600); display: inline-block; flex: none; }
+/* Titre identique à celui des autres blocs de la page Culture : 48px (40px sur
+   mobile, comme les H2 réels de /equipe), dégradé bleu 270deg sur le texte, point
+   final en dégradé orange vertical dans son propre span. */
+.wt-nos-bureaux .wtb-title {
+  margin: 0; font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -0.12rem; text-align: left; text-transform: none;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-nos-bureaux .wtb-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-nos-bureaux .wtb-text { margin: 0; font-size: 0.9375rem; line-height: 1.6; color: var(--wf-blue-900); text-align: left; text-wrap: pretty; }
+.wt-nos-bureaux .wtb-text strong { font-weight: 600; }
+.wt-nos-bureaux .wtb-text a { color: var(--wf-blue-600); text-decoration: underline; text-underline-offset: 0.15em; }
+.wt-nos-bureaux .wtb-text a:hover { color: var(--wf-blue-800); } /* semi-gras (600) du design system, comme les noms dans les témoignages */
+
+/* Infos pratiques : 4 cellules sur une ligne en bas de la carte (2 x 2 sur tablette et mobile), de même hauteur
+   (lignes de grille étirées). Chaque cellule affiche, dans l'ordre : intitulé, valeur, libellé ; dans le HTML,
+   l'intitulé (dt) vient en premier, puis la valeur et le libellé (dd), ce qui donne une lecture
+   "Ouverture : …" sans le style. */
+.wt-nos-bureaux .wtb-infos {
+  grid-area: infos; margin: 0; padding: 20px 40px 24px; border-top: 1px solid var(--wf-grey-100);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 8px;
+}
+.wt-nos-bureaux .wtb-info { margin: 0; padding: 12px 14px; min-width: 0; background: var(--wf-blue-50); display: flex; flex-direction: column; gap: 4px; }
+.wt-nos-bureaux .wtb-info-k { order: 1; margin: 0; font-size: 0.75rem; line-height: 1.3; font-weight: 600; color: var(--wf-blue-600); text-align: left; text-transform: none; letter-spacing: 0; }
+.wt-nos-bureaux .wtb-info-v { order: 2; margin: 0; font-family: Allroundgothic, Arial, sans-serif; font-size: 1.375rem; line-height: 1.1; font-weight: 400; white-space: nowrap; color: var(--wf-orange-600); text-align: left; }
+.wt-nos-bureaux .wtb-info-l { order: 3; margin: 0; font-size: 0.75rem; line-height: 1.35; color: var(--wf-blue-900); text-align: left; }
+
+/* Cellule « Accès » : « 1 min » et « du métro Gaîté » sur une même ligne (la valeur en grand, le libellé à sa droite,
+   calés sur la même ligne de base), puis la 2e station dessous : une ligne de moins, donc des cellules (et la rangée
+   du bas) moins hautes. Dès 768px ; sur mobile les cellules sont trop étroites, l'empilement d'origine est conservé. */
+@media screen and (min-width: 768px) {
+  .wt-nos-bureaux .wtb-info--acces { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.4rem; row-gap: 4px; align-items: baseline; align-content: start; }
+  .wt-nos-bureaux .wtb-info--acces .wtb-info-k { grid-column: 1 / -1; }
+  .wt-nos-bureaux .wtb-info--acces .wtb-info-v { grid-column: 1; }
+  .wt-nos-bureaux .wtb-info--acces .wtb-info-l { grid-column: 2; }
+  .wt-nos-bureaux .wtb-info--acces .wtb-info-l + .wtb-info-l { grid-column: 1 / -1; }
+}
+
+/* Tablette : carrousel pleine largeur en 16:9, puis texte, puis infos en 2 x 2. */
+@media screen and (max-width: 991px) {
+  .wt-nos-bureaux .wtb-card { grid-template-columns: minmax(0, 1fr); grid-template-areas: "media" "body" "infos"; }
+  .wt-nos-bureaux .wtb-carousel { min-height: 0; aspect-ratio: 16 / 9; }
+  .wt-nos-bureaux .wtb-body { padding: 32px 32px 24px; }
+  .wt-nos-bureaux .wtb-title { font-size: 2.5rem; letter-spacing: -0.1rem; } /* comme les autres blocs Culture (40px) */
+  .wt-nos-bureaux .wtb-infos { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 32px 32px; border-top: 0; }
+}
+
+/* Mobile : carrousel en 3:2 en tête, puis texte, puis infos. La grille d'infos reste en 2 x 2 (jamais en 1 colonne). */
+@media screen and (max-width: 767px) {
+  .wt-nos-bureaux .wtb-carousel { aspect-ratio: 3 / 2; }
+  .wt-nos-bureaux .wtb-arrow { width: 2.5rem; height: 2.5rem; }
+  .wt-nos-bureaux .wtb-arrow-left { left: 0.5rem; }
+  .wt-nos-bureaux .wtb-arrow-right { right: 0.5rem; }
+  .wt-nos-bureaux .wtb-body { padding: 28px 24px 20px; gap: 18px; }
+  .wt-nos-bureaux .wtb-infos { gap: 8px; padding: 0 24px 28px; }
+  .wt-nos-bureaux .wtb-info { padding: 12px; }
+  .wt-nos-bureaux .wtb-info-v { font-size: 1.125rem; }
+  .wt-nos-bureaux .wtb-info-l { font-size: 0.75rem; }
+}
+@media screen and (max-width: 479px) {
+  .wt-nos-bureaux .wtb-info-v { font-size: 1rem; }
+}
+  

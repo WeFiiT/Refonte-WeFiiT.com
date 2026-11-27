@@ -1,0 +1,56 @@
+/* Styles du composant TexteVideo (TexteVideo.tsx) : texte à gauche, vidéo YouTube en façade à droite. CSS global :
+   chaque règle est préfixée par .wt-notre-equipe, la racine du composant parent ParcoursEquipe (qui porte aussi le
+   style du surtitre .wte-eyebrow et la règle [hidden]). */
+.wt-notre-equipe .wte-women-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+/* Women in WeFiiT : texte à gauche (1/2), vidéo à droite (1/2). */
+.wt-notre-equipe .wte-women { margin: 2rem 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2.25rem; align-items: center; }
+.wt-notre-equipe .wte-women-text { min-width: 0; }
+.wt-notre-equipe .wte-women-title {
+  margin: 0 0 1rem; font-family: Allroundgothic, Arial, sans-serif; font-size: 2.25rem; line-height: 1.05; font-weight: 400; letter-spacing: -0.06rem;
+  text-align: left; text-transform: none;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-notre-equipe .wte-women-text p { margin: 0 0 0.85rem; font-size: 0.9375rem; line-height: 1.5; color: var(--wf-blue-900); text-align: left; text-wrap: pretty; }
+/* "Notre programme" : même eyebrow que celui de l'en-tête (16px, bleu vif), la règle sur les p du bloc le ramenait à 15px bleu foncé. */
+.wt-notre-equipe .wte-women-text p.wte-eyebrow { margin: 0 0 0.75rem; font-size: 1rem; line-height: 1.2rem; font-weight: 600; color: var(--wf-blue-600); }
+.wt-notre-equipe .wte-women-text p.wte-hook { font-size: 0.9375rem; font-weight: 500; color: var(--wf-blue-600); }
+.wt-notre-equipe .wte-women-text p:last-child { margin-bottom: 0; }
+/* Petit clin d'œil en picto (à la place du smiley de texte) : suit la taille et la couleur du texte. */
+.wt-notre-equipe .wte-wink { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: -0.28em; margin: 0 0.05em; }
+
+/* Vidéo : façade (vignette + bouton lecture), l'iframe n'est créée qu'au clic. */
+.wt-notre-equipe .wte-video { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: var(--wf-blue-800); }
+.wt-notre-equipe .wte-video-placeholder {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--wf-blue-800), var(--wf-blue-600));
+  color: rgba(255, 255, 255, 0.75); font-size: 0.875rem; font-weight: 600; text-align: center;
+}
+.wt-notre-equipe .wte-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.wt-notre-equipe .wte-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 3.5rem; height: 3.5rem;
+  display: flex; align-items: center; justify-content: center; padding: 0; border: 0; border-radius: 99px; cursor: pointer;
+  background: rgba(0, 29, 132, 0.85); transition: background 0.2s ease, transform 0.2s ease;
+}
+.wt-notre-equipe .wte-play:hover { background: var(--wf-blue-800); transform: translate(-50%, -50%) scale(1.06); }
+.wt-notre-equipe .wte-play:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.wt-notre-equipe .wte-play svg { width: 1.5rem; height: 1.5rem; margin-left: 0.15rem; display: block; }
+.wt-notre-equipe .wte-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+@media screen and (max-width: 991px) {
+  .wt-notre-equipe .wte-women { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+@media screen and (max-width: 767px) {
+  .wt-notre-equipe .wte-women { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3rem; }
+}
+@media screen and (max-width: 479px) {
+  .wt-notre-equipe .wte-women-title { font-size: 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wt-notre-equipe .wte-play { transition: none; }
+}

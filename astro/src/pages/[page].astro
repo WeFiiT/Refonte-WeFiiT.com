@@ -23,7 +23,8 @@ export function getStaticPaths() {
 }
 
 const { page } = Astro.params;
-const chemin = PAGES.find((p) => p.slug === page)?.chemin;
+const infoPage = PAGES.find((p) => p.slug === page);
+const chemin = infoPage?.chemin;
 const composants = contenus[`../contenu/${page}.ts`]?.composants ?? {};
 const fichiersHtml = Object.keys(blocs)
   .filter((chemin) => chemin.includes(`/pages/${page}/blocs/`))
@@ -36,7 +37,7 @@ const sansFichier = Object.keys(composants)
 const fichiers = [...fichiersHtml, ...sansFichier].sort((a, b) => a.nom.localeCompare(b.nom)); // ordre des numéros 00-, 01-, ...
 ---
 
-<Page titre={`WeFiiT.com, page ${page}`} pageCourante={chemin}>
+<Page titre={`WeFiiT.com, page ${page}`} pageCourante={chemin} prive={infoPage?.prive}>
   {
     fichiers.map(({ chemin, nom }) => {
       const c = composants[nom];

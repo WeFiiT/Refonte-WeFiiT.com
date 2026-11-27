@@ -8,8 +8,9 @@ import PiedDePage from '../components/PiedDePage';
 interface Props {
   titre: string;
   pageCourante?: string; // adresse de la page sur wefiit.com, marquée dans le menu
+  prive?: boolean; // page non publiée : balise noindex
 }
-const { titre, pageCourante } = Astro.props;
+const { titre, pageCourante, prive } = Astro.props;
 
 // Polices du site (src/styles/polices.css, partagé avec le design system Claude Design),
 // injectées en ligne dans le <head> pour qu'elles se chargent avant le reste.
@@ -25,6 +26,7 @@ body{margin:0;background:#fff;font-family:"Work Sans v2",Arial,sans-serif}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    {prive && <meta name="robots" content="noindex, nofollow" />}
     <title>{titre}</title>
     <style is:inline set:html={polices}></style>
   </head>

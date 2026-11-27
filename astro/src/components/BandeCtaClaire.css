@@ -1,0 +1,66 @@
+/* Styles du composant BandeCtaClaire (BandeCtaClaire.tsx). CSS global : chaque règle est préfixée par .wt-bienvenue. */
+.wt-bienvenue {
+  font-family: "Work Sans v2", Arial, sans-serif;
+  margin: 0 0 3rem; /* espace après le bloc uniquement : la bande de fond a sa propre respiration interne (padding), voir design-system.md */
+  box-sizing: border-box;
+}
+.wt-bienvenue *, .wt-bienvenue *::before, .wt-bienvenue *::after { box-sizing: border-box; }
+
+/* Bande CTA de fin de page (composant générique "Bande CTA" : .push-b2b du site, fond #f2f4ff).
+   Bande de fond pleine largeur par marges négatives (jamais clip-path ni transform : ils casseraient
+   les position:fixed plus bas sur la page, voir design-system.md), contenu centré dans .wtv-inner. */
+.wt-bienvenue .wtv-band {
+  position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw;
+  background: var(--wf-blue-50); padding: 3.5rem 0;
+}
+.wt-bienvenue .wtv-inner {
+  max-width: 71.25rem; margin: 0 auto; padding: 0 1rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.875rem; text-align: center;
+}
+.wt-bienvenue .wtv-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* H2 de la bande CTA : 2.5rem / 44px (design-system.md, ligne "Bande CTA"), dégradé bleu 270deg sur le
+   texte, point final en dégradé orange vertical dans son propre span (même traitement que les autres H2). */
+.wt-bienvenue .wtv-title {
+  margin: 0; font-family: Allroundgothic, Arial, sans-serif;
+  font-size: 2.5rem; line-height: 1.1; font-weight: 400; letter-spacing: -0.1rem; text-align: center; text-transform: none;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-bienvenue .wtv-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-bienvenue .wtv-text { margin: 0; max-width: 32.5rem; font-size: 1rem; line-height: 1.5; color: var(--wf-blue-900); text-align: center; text-wrap: pretty; }
+
+/* Boutons : la pilule du site (.maincta, design-system.md §6) : majuscules, Work Sans 600 1rem,
+   padding 1.0625rem 2.5rem. Principal = dégradé orange 270deg ; secondaire = dégradé bleu 290deg.
+   (Le style "contour" et le fond #3898EC du brief n'existent pas dans le design system : #3898EC est
+   le style par défaut de .w-button dans Webflow, remplacé par .maincta sur le site.) */
+.wt-bienvenue .wtv-actions { margin: 0.5rem 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.wt-bienvenue .wtv-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; margin: 0;
+  padding: 1.0625rem 2.5rem; border-radius: 500px;
+  font-family: inherit; font-size: 1rem; line-height: 1.25rem; font-weight: 600; letter-spacing: 0; text-transform: uppercase;
+  text-align: center; text-decoration: none; cursor: pointer;
+}
+.wt-bienvenue .wtv-btn-primary { background: linear-gradient(270deg, var(--wf-orange-600), var(--wf-orange-500)); color: #fff; }
+.wt-bienvenue .wtv-btn-secondary { background: linear-gradient(290deg, var(--wf-blue-900), var(--wf-blue-600)); color: #edf0ff; }
+.wt-bienvenue .wtv-btn:focus-visible { outline: 2px solid var(--wf-blue-600); outline-offset: 3px; }
+
+@media screen and (max-width: 991px) {
+  .wt-bienvenue .wtv-band { padding: 3rem 0; }
+}
+/* Mobile : boutons empilés en pleine largeur (le principal au-dessus), texte centré, 44px de haut minimum. */
+@media screen and (max-width: 767px) {
+  .wt-bienvenue .wtv-band { padding: 2.5rem 0; }
+  .wt-bienvenue .wtv-inner { padding: 0 1.5rem; }
+  .wt-bienvenue .wtv-title { font-size: 2rem; line-height: 1.2; letter-spacing: -0.08rem; }
+  .wt-bienvenue .wtv-actions { flex-direction: column; align-items: stretch; width: 100%; gap: 0.75rem; }
+  .wt-bienvenue .wtv-btn { width: 100%; padding: 1.0625rem 1.25rem; }
+}

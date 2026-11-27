@@ -24,3 +24,7 @@ Grande section sur une bande bleu pâle pleine largeur (100vw, contenu centré s
   conclusion="Et quand des WeFiiTers partagent une passion commune, de nouveaux rituels voient le jour pour faire vivre l'équipe : <strong>We.Swim, Nous.Lisons, We.Act</strong>, et bien d'autres encore."
 />
 ```
+
+## Variante « autonome » (page Culture, rituels)
+
+Props optionnelles, sans effet sur la page Équipe : `surtitre` (eyebrow), `variante: 'autonome'` (bande avec marge basse, H2 de 48px, légendes de 15px sur grand écran, dimensions et `decoding` sur les vignettes), `conclusion` facultative, et `<a class="wtc-highlight" href>` dans `intro` pour un nom de rituel cliquable (maillage interne). Ne pas créer de doublon pour un autre bloc d'onglets et de galeries de vidéos.

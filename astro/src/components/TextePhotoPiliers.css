@@ -1,0 +1,91 @@
+/* Styles du composant TextePhotoPiliers (TextePhotoPiliers.tsx). CSS global : chaque règle est
+   préfixée par .wt-symbole, sinon .wts-title, .wts-photo... toucheraient les autres composants. */
+.wt-symbole {
+  --wts-shadow: 12px; /* décalage bleu de la photo (8px sur mobile) */
+  font-family: "Work Sans v2", Arial, sans-serif;
+  max-width: 71.25rem;
+  margin: 0 auto 5rem; /* bloc plein, pas de bande colorée : marge de fin standard, pas de margin-top (voir design-system.md) */
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.wt-symbole *, .wt-symbole *::before, .wt-symbole *::after { box-sizing: border-box; }
+
+/* Intro : 2 colonnes 40 / 60 (photo plus étroite : elle fixe la hauteur de l'intro, et le bloc doit tenir dans un écran), centrées verticalement. */
+.wt-symbole .wts-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 3rem; align-items: center; }
+
+/* Photo 4:3 avec le décalage bleu standard du site. Le padding du cadre
+   réserve la place de l'ombre (décalage vers le bas et la droite) pour
+   qu'elle ne passe pas sous le contenu voisin. */
+.wt-symbole .wts-photo-frame { padding: 0 var(--wts-shadow) var(--wts-shadow) 0; }
+.wt-symbole .wts-photo {
+  position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden;
+  background: var(--wf-blue-50); box-shadow: var(--wts-shadow) var(--wts-shadow) 0 var(--wf-blue-800);
+  display: flex; align-items: center; justify-content: center;
+}
+.wt-symbole .wts-photo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.wt-symbole .wts-photo-placeholder { color: var(--wf-blue-300); font-size: 0.875rem; font-weight: 600; text-align: center; padding: 1rem; }
+.wt-symbole .wts-photo-placeholder .wts-cam { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+/* Eyebrow standard (16px, bleu vif, trait de 1.5rem), alignée à gauche comme le titre de ce bloc. */
+.wt-symbole .wts-eyebrow {
+  display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem;
+  font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--wf-blue-600); text-align: left;
+}
+.wt-symbole .wts-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wf-blue-600); display: inline-block; flex: none; }
+/* Titre : aligné à gauche (exception à la règle des titres centrés, car
+   2 colonnes). Dégradé bleu 270deg + point à part en dégradé orange
+   vertical. Taille alignée sur les H2 réels de /equipe (48px, 40px en
+   dessous de 991px, mesurés en direct) plutôt que sur le 3.2rem "standard"
+   de design-system.md, comme pour le titre de "Notre histoire". */
+.wt-symbole .wts-title {
+  margin: 0 0 1rem; font-family: var(--wf-font-h2); /* Geomanist Medium, comme les H2 du site */
+  font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -0.12rem; text-align: left; text-transform: none;
+  background: linear-gradient(270deg, var(--wf-blue-800), var(--wf-blue-600));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.wt-symbole .wts-title-dot {
+  background: linear-gradient(var(--wf-orange-600), var(--wf-orange-500));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+/* Webflow applique ses propres styles aux h3 et aux listes : tout est
+   réinitialisé explicitement. */
+.wt-symbole .wts-subtitle { margin: 0 0 0.5rem; font-size: 1rem; line-height: 1.4; font-weight: 600; color: var(--wf-blue-900); text-align: left; text-transform: none; letter-spacing: 0; }
+.wt-symbole .wts-text { margin: 0; font-size: 1rem; line-height: 1.5; font-weight: 400; color: var(--wf-blue-900); text-align: left; text-wrap: pretty; }
+
+/* 3 cartes piliers : lecture seule (pas cliquables, aucun état de survol). */
+.wt-symbole .wts-pillars { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: stretch; }
+/* Desktop et tablette : l'icône est à gauche du titre et le texte dessous, sur toute la largeur de la carte (gain de
+   hauteur). .wts-pillar-body passe en display: contents pour que titre et texte se placent dans la grille de la carte ;
+   en mobile, retour à la carte en ligne (icône à gauche, titre et texte à droite). */
+/* align-content: start : le contenu part du haut de la carte (et non centré), pour que icône et titre des 3 cartes soient exactement alignés entre eux même si leurs textes n'ont pas la même longueur. */
+.wt-symbole .wts-pillar {
+  margin: 0; padding: 1rem 1.25rem; display: grid; grid-template-columns: 2rem 1fr; column-gap: 0.625rem; row-gap: 0.5rem; align-items: center; align-content: start;
+  background: #fff; border: 1px solid var(--wf-grey-100); border-radius: 0; box-shadow: none;
+}
+.wt-symbole .wts-icon {
+  flex: none; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;
+  background: var(--wf-blue-50); color: var(--wf-blue-600);
+}
+.wt-symbole .wts-icon svg { width: 1.25rem; height: 1.25rem; display: block; }
+.wt-symbole .wts-pillar-body { display: contents; }
+.wt-symbole .wts-pillar-title { margin: 0; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; color: var(--wf-blue-800); text-align: left; text-transform: none; letter-spacing: 0; }
+.wt-symbole .wts-pillar-text { margin: 0; font-size: 0.9375rem; line-height: 1.5; font-weight: 400; color: var(--wf-blue-900); text-align: left; text-wrap: pretty; grid-column: 1 / -1; }
+
+@media screen and (max-width: 991px) {
+  .wt-symbole .wts-intro { gap: 2rem; }
+  .wt-symbole .wts-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
+}
+@media screen and (max-width: 767px) {
+  .wt-symbole { --wts-shadow: 8px; }
+  /* 1 colonne : la photo d'abord (elle est déjà première dans le HTML), puis titre et texte. */
+  .wt-symbole .wts-intro { grid-template-columns: 1fr; gap: 2rem; }
+  .wt-symbole .wts-pillars { grid-template-columns: 1fr; margin-top: 2rem; }
+  /* Carte en ligne : icône à gauche, titre et texte à droite. */
+  .wt-symbole .wts-pillar { display: grid; grid-template-columns: 2rem 1fr; gap: 0.875rem; padding: 1.125rem; align-items: start; }
+  .wt-symbole .wts-pillar-body { display: flex; flex-direction: column; gap: 0.5rem; }
+  .wt-symbole .wts-pillar-text { grid-column: auto; }
+}
+  

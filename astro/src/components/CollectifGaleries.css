@@ -34,6 +34,14 @@
   overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
+/* Eyebrow standard (16px, bleu vif, trait de 1.5rem), centrée comme le titre. Seulement si la prop `surtitre` est fournie. */
+.wt-collectif .wtc-eyebrow {
+  display: flex; justify-content: center; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem;
+  font-size: 1rem; line-height: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--wf-blue-600); text-align: center;
+}
+.wt-collectif .wtc-eyebrow-line { width: 1.5rem; height: 1px; background: var(--wf-blue-600); display: inline-block; flex: none; }
+
 /* Titre + texte d'intro : repris à l'identique du bloc natif (h2.h2-heading-12 +
    p.subh2 de la page équipe), désormais inclus dans l'embed. */
 /* Même traitement que les autres titres de rubrique du site (ex. "Paroles de
@@ -71,6 +79,8 @@
 }
 /* Le HTML de l'intro vient de `dangerouslySetInnerHTML` (ex-`set:html`) : <span> injectés. */
 .wt-collectif .wtc-intro .wtc-highlight { color: var(--wf-blue-600); font-weight: 600; font-style: normal; }
+/* Lien interne dans le texte d'intro (maillage, ex. vers la page We.Talk) : garde le style de mise en valeur, souligné pour se voir. */
+.wt-collectif .wtc-intro a.wtc-highlight { text-decoration: underline; text-underline-offset: 0.15em; }
 
 /* Onglets soulignés : remplace les 3 blocs empilés pour alléger la hauteur.
    Volontairement différent de la pilule dégradée du bloc Tribes (simple trait
@@ -271,4 +281,22 @@
 }
 @media screen and (max-width: 479px) {
   .wt-collectif .wtc-title { font-size: 2.5rem; line-height: 1; letter-spacing: -0.1rem; }
+}
+
+/* Variante 'autonome' (prop `variante`) : bande qui se suffit à elle-même, comme le bloc « Nos rituels » de la page
+   Culture. Chaque règle est plus spécifique que la règle de base qu'elle remplace (classe de variante en plus). */
+.wt-collectif.wt-collectif--autonome { margin: 0 0 3rem; } /* espace après le bloc uniquement : la bande a sa propre respiration interne (padding) */
+.wt-collectif.wt-collectif--autonome .wtc-band { padding: 3rem 0 4rem; } /* un peu plus de bleu pastel en bas pour aérer avec le bloc suivant */
+.wt-collectif.wt-collectif--autonome .wtc-title { font-size: 3rem; line-height: 1; letter-spacing: -0.12rem; } /* aligné sur les H2 des autres blocs de la page Culture (48px) */
+.wt-collectif.wt-collectif--autonome .wtc-intro { line-height: 1.5rem; }
+/* La hauteur de la description varie selon l'onglet (textes de longueurs très différentes) : réserver celle du plus long
+   laisserait un grand vide sous les phrases courtes. */
+.wt-collectif.wt-collectif--autonome .wtc-desc { min-height: 0; }
+/* Légendes : 15px sur grand écran (14px sur mobile, comme la règle de base : à 15px les titres longs des We.Talk passent
+   sur 3 lignes et sont tronqués dans la hauteur de 2 lignes voulue). */
+@media screen and (min-width: 768px) {
+  .wt-collectif.wt-collectif--autonome .wtc-card-title { font-size: 0.9375rem; height: 4.45rem !important; max-height: 4.45rem !important; }
+}
+@media screen and (max-width: 767px) {
+  .wt-collectif.wt-collectif--autonome .wtc-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
 }
